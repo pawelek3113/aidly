@@ -6,7 +6,7 @@ type LogoProps = {
   className?: SVGAttributes<SVGElement>["className"];
 } & VariantProps<typeof logoVariants>;
 
-const logoVariants = cva("", {
+const logoVariants = cva("shrink-0", {
   variants: {
     color: {
       brand:

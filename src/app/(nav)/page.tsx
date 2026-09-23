@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default async function Home() {
   return (
-    <main className="flex w-full flex-1 flex-col items-center justify-between">
+    <main className="flex w-full flex-1 flex-col items-center gap-4">
       <ClientGreeting />
       <LanguageToggleButton />
       <ThemeToggleButton />
@@ -20,6 +20,25 @@ export default async function Home() {
       <Logo size="default" color="brand" style="shadowed" />
       <Logo size="default" color="mono" />
       <Logo size="small" color="white" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
+      <Logo size="small" color="black" />
       <Logo size="small" color="black" />
     </main>
   );
