@@ -7,6 +7,10 @@
     "title": "Cześć {value}!",
     "loading": "Ładowanie"
   },
+  "sr": {
+    "theme": "Przełącz motyw",
+    "dialog": "Zamknij okno dialogowe"
+  },
   "AuthForm": {
     "email": "Email",
     "password": "Hasło",

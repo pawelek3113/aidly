@@ -7,6 +7,10 @@
     "title": "Hello {value}!",
     "loading": "Loading"
   },
+  "sr": {
+    "theme": "Toggle theme",
+    "dialog": "Close dialog"
+  },
   "AuthForm": {
     "email": "Email",
     "password": "Password",
