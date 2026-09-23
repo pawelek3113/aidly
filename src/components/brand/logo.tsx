@@ -21,6 +21,7 @@ const logoVariants = cva("shrink-0", {
     },
     size: {
       default: "h-6",
+      xlarge: "h-12",
       large: "h-8",
       small: "h-4",
     },

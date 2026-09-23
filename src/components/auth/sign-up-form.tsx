@@ -16,6 +16,7 @@ import z from "zod";
 import { ParagraphLink } from "../shared/para-with-link";
 import { PasswordInput } from "../ui/input-password";
 import { FORM_CLASSNAME } from "./auth-page";
+import { BrandHeading } from "../brand/brand-heading";
 
 type SignUpFormProps = {
   className?: HTMLFormElement["className"];
@@ -98,6 +99,7 @@ export const SignUpForm = ({ className }: SignUpFormProps) => {
       onSubmit={handleSubmit(onSubmit)}
       className={cn(FORM_CLASSNAME, className)}
     >
+      <BrandHeading text={t("create_account")} />
       <Controller
         name="username"
         control={control}

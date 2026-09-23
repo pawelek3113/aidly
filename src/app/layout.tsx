@@ -2,12 +2,17 @@ import { Providers } from "@/components/providers/providers";
 import { ThemeProvider } from "@wrksz/themes/next";
 import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
-import { Inter } from "next/font/google";
+import { Inter, Kanit } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+});
+
+const kanit = Kanit({
+  variable: "--font-kanit",
+  weight: "700",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +30,7 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      className={`${inter.variable} h-full antialiased`}
+      className={`${inter.variable} ${kanit.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="bg-chocolate flex min-h-full flex-col">

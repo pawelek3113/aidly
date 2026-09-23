@@ -6,6 +6,7 @@
 
 @theme {
   --font-inter: var(--font-inter);
+  --font-kanit: var(--font-kanit);
 }
 
 @theme inline {
@@ -210,5 +211,9 @@
 
   .chocolate {
     @apply bg-chocolate hover:bg-chocolate/10 border-chocolate-border;
+  }
+
+  .brand-text {
+    @apply font-kanit italic;
   }
 }

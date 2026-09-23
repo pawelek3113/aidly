@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import z from "zod";
+import { BrandHeading } from "../brand/brand-heading";
 import { Button } from "../ui/button";
 import { FORM_CLASSNAME } from "./auth-page";
 
@@ -57,17 +58,23 @@ export const ForgotPasswordForm = ({ className }: ForgotPasswordFormProps) => {
   return (
     <>
       {formState.isSubmitted ? (
-        <div className="flex flex-col gap-2.5">
-          <h1 className="text-5xl font-semibold tracking-tighter">
-            {t("forgot_password.heading")}
-          </h1>
-          <h2 className="text-2xl">{t("forgot_password.subheading")}</h2>
+        <div className="flex flex-col items-center gap-2.5">
+          <BrandHeading text={t("forgot_password.heading")} />
+          <BrandHeading
+            text={t("forgot_password.subheading")}
+            size="medium"
+            className="text-center"
+          />
         </div>
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}
           className={cn(FORM_CLASSNAME, className)}
         >
+          <div className="flex flex-col items-center">
+            <BrandHeading text={t("forgot_pswd_heading")} />
+            <BrandHeading text={t("forgot_pswd_subheading")} size="medium" />
+          </div>
           <Controller
             name="email"
             control={control}

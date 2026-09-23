@@ -1,7 +1,9 @@
 "use client";
 
 import Silk from "@/components/bgs/Silk";
+import Link from "next/link";
 import { ReactNode } from "react";
+import { Logo } from "../brand/logo";
 
 interface AuthPageComponentProps {
   form: ReactNode;
@@ -9,7 +11,7 @@ interface AuthPageComponentProps {
 }
 
 export const FORM_CLASSNAME =
-  "glass flex w-full max-w-xl min-w-3xs flex-col items-center gap-3 rounded-4xl md:rounded-none p-4 md:justify-center md:p-4 md:border-none";
+  "flex w-full flex-col items-center gap-3 md:justify-center";
 
 export const AuthPageComponent = ({
   form,
@@ -26,7 +28,12 @@ export const AuthPageComponent = ({
   return (
     <main className="relative min-h-screen">
       <div className="relative z-10 mx-2 flex min-h-screen items-center justify-center md:mx-0 md:items-stretch md:justify-start">
-        {form}
+        <div className="glass flex w-full max-w-xl min-w-3xs flex-col items-center gap-3 rounded-4xl p-4 md:justify-center md:rounded-none md:border-none">
+          <Link href="/">
+            <Logo size="xlarge" style="shadowed" />
+          </Link>
+          {form}
+        </div>
       </div>
       <div className="fixed inset-0 -z-10">{bg}</div>
     </main>

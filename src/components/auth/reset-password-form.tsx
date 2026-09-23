@@ -1,7 +1,6 @@
 "use client";
 
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 
@@ -14,8 +13,9 @@ import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import z from "zod";
 import { Button } from "../ui/button";
-import { FORM_CLASSNAME } from "./auth-page";
 import { PasswordInput } from "../ui/input-password";
+import { FORM_CLASSNAME } from "./auth-page";
+import { BrandHeading } from "../brand/brand-heading";
 
 type ResetPasswordFormProps = {
   token: string;
@@ -90,6 +90,7 @@ export const ResetPasswordForm = ({
       onSubmit={handleSubmit(onSubmit)}
       className={cn(FORM_CLASSNAME, className)}
     >
+      <BrandHeading text={t("reset_password_heading")} />
       <Controller
         name="password"
         control={control}
