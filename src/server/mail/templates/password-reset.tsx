@@ -70,7 +70,7 @@ const ResetPasswordMail = async ({
           <Container className="pt-6">
             <Text className="m-0 text-base text-[#8a8a8a]">{t("footer")}</Text>
             <Text className="m-0 text-xl font-extrabold text-[#8a8a8a]">
-              DailyLoadout
+              aidly
             </Text>
           </Container>
         </Body>

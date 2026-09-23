@@ -6,6 +6,7 @@
 
 @theme {
   --font-inter: var(--font-inter);
+  --font-kanit: var(--font-kanit);
 }
 
 @theme inline {
@@ -27,7 +28,10 @@
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
-  --color-chocolate: #271612;
+  --color-chocolate-v1: oklch(22.193% 0.02906 33.827);
+  --color-chocolate: var(--chocolate);
+  --color-chocolate-border: var(--chocolate-border);
+
   --color-success: var(--success);
   --color-success-muted: var(--success-muted);
   --color-success-muted-2: var(--success-muted-2);
@@ -52,6 +56,8 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-accent: var(--brand-accent);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -73,14 +79,22 @@
   --card-foreground: oklch(0.147 0.004 49.25);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.147 0.004 49.25);
-  --primary: oklch(0.555 0.163 48.998);
+
+  --primary: oklch(66.013% 0.1884 45.083);
   --primary-foreground: oklch(0.987 0.022 95.277);
+
+  --brand-secondary: oklch(67.43% 0.11555 206.675);
+  --brand-accent: oklch(44.676% 0.08921 53.638);
+
+  --chocolate: oklch(0.8936 0.0553 54.51);
+  --chocolate-border: oklch(0.5804 0.0575 54.71);
+
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.97 0.001 106.424);
-  --muted-foreground: oklch(0.553 0.013 58.071);
   --accent: oklch(0.97 0.001 106.424);
   --accent-foreground: oklch(0.216 0.006 56.043);
+  --muted: oklch(0.97 0.001 106.424);
+  --muted-foreground: oklch(0.553 0.013 58.071);
   --success: oklch(55% 0.16 145);
   --success-muted: oklch(95% 0.035 145);
   --success-muted-2: oklch(83% 0.1 145);
@@ -97,7 +111,7 @@
   --warning-muted: oklch(95% 0.045 85);
   --warning-muted-2: oklch(83% 0.12 80);
   --warning-subtle: oklch(42% 0.13 70);
-  --border: oklch(0.923 0.003 48.717);
+  --border: oklch(0.925 0.012 65);
   --input: oklch(0.923 0.003 48.717);
   --ring: oklch(0.709 0.01 56.259);
   --chart-1: oklch(0.869 0.005 56.366);
@@ -124,14 +138,21 @@
   --card-foreground: oklch(0.985 0.001 106.423);
   --popover: oklch(0.216 0.006 56.043);
   --popover-foreground: oklch(0.985 0.001 106.423);
-  --primary: rgb(151, 60, 0);
+
+  --primary: oklch(55.703% 0.15827 45.348);
   --primary-foreground: oklch(0.987 0.022 95.277);
+
+  --brand-secondary: oklch(67.43% 0.11555 206.675);
+  --brand-accent: oklch(44.676% 0.08921 53.638);
+  --chocolate: oklch(0.2592 0.0468 56.33);
+  --chocolate-border: oklch(0.1942 0.0468 56.33);
+
   --secondary: oklch(0.274 0.006 286.033);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.268 0.007 34.298);
-  --muted-foreground: oklch(0.709 0.01 56.259);
   --accent: oklch(0.268 0.007 34.298);
   --accent-foreground: oklch(0.985 0.001 106.423);
+  --muted: oklch(0.268 0.007 34.298);
+  --muted-foreground: oklch(0.709 0.01 56.259);
   --success: oklch(78% 0.17 150);
   --success-muted: oklch(27% 0.07 150);
   --success-muted-2: oklch(45% 0.1 150);
@@ -148,7 +169,7 @@
   --warning-muted: oklch(28% 0.07 80);
   --warning-muted-2: oklch(48% 0.11 80);
   --warning-subtle: oklch(72% 0.13 80);
-  --border: oklch(1 0 0 / 10%);
+  --border: oklch(0.98 0.015 65 / 12%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.553 0.013 58.071);
   --chart-1: oklch(0.869 0.005 56.366);
@@ -172,7 +193,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-chocolate text-foreground;
   }
   html {
     @apply font-inter;
@@ -182,5 +203,17 @@
 @layer utilities {
   .glass {
     @apply border-4 border-white/20 bg-white/10 backdrop-blur-md dark:border-black/20 dark:bg-black/10;
+  }
+
+  .glass-chocolate {
+    @apply border-chocolate-border/20 bg-chocolate/10 border-4 backdrop-blur-md;
+  }
+
+  .chocolate {
+    @apply bg-chocolate hover:bg-chocolate/10 border-chocolate-border;
+  }
+
+  .brand-text {
+    @apply font-kanit italic;
   }
 }

@@ -22,10 +22,10 @@ test.describe.serial("Auth", () => {
   test("user can sign up", async () => {
     await reusablePage.goto("http://localhost:3000/sign-up");
     await reusablePage
-      .getByRole("textbox", { name: "AmazingJoe" })
-      .fill("Example user");
+      .getByRole("textbox", { name: "Username" })
+      .fill(sampleUserName);
     await reusablePage
-      .getByRole("textbox", { name: "Name Email" })
+      .getByRole("textbox", { name: "Email" })
       .fill(sampleUserMail);
     await reusablePage.getByRole("textbox", { name: "Password" }).fill(oldPass);
     await reusablePage.getByRole("button", { name: "Sign up" }).click();

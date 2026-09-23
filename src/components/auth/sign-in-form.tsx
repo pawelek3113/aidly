@@ -17,6 +17,7 @@ import { ParagraphLink } from "../shared/para-with-link";
 import { Button } from "../ui/button";
 import { FORM_CLASSNAME } from "./auth-page";
 import { PasswordInput } from "../ui/input-password";
+import { BrandHeading } from "../brand/brand-heading";
 
 type SignInFormProps = {
   className?: HTMLFormElement["className"];
@@ -85,6 +86,7 @@ export const SignInForm = ({ className }: SignInFormProps) => {
       onSubmit={handleSubmit(onSubmit)}
       className={cn(FORM_CLASSNAME, className)}
     >
+      <BrandHeading text={t("login_heading")} />
       <Controller
         name="email"
         control={control}

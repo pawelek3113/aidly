@@ -10,7 +10,9 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/80",
         outline:
-          "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:bg-transparent dark:hover:bg-input/30",
+          "border-border bg-background/10 dark:bg-transparent hover:bg-muted/40 hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-input/30",
+        outline_fat:
+          "border-border border-4 bg-background/10 dark:bg-transparent hover:bg-muted/40 hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-input/30",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:
@@ -30,10 +32,15 @@ const buttonVariants = cva(
         "icon-sm": "size-8",
         "icon-lg": "size-10",
       },
+      chocolate: {
+        none: "",
+        enabled: "bg-chocolate border-chocolate-border/20 hover:bg-input/30",
+      },
     },
     defaultVariants: {
       variant: "default",
       size: "default",
+      chocolate: "none",
     },
   }
 );
@@ -42,12 +49,13 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  chocolate = "none",
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size, chocolate, className }))}
       {...props}
     />
   );

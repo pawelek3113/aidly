@@ -25,7 +25,7 @@ export const sendVerificationOTPMail = async ({
   locale,
 }: sendVerificationOTPMailProps) => {
   sendMail({
-    from: "DailyLoadout Verifications <verify@pawelkomendera.me>",
+    from: "aidly verifications <verify@pawelkomendera.me>",
     to: email,
     subject: title,
     react: VerificationOtpEmail({ otp, locale }),
@@ -40,7 +40,7 @@ export const sendResetPasswordMail = async ({
   token,
 }: sendResetPasswordMailProps) => {
   sendMail({
-    from: "DailyLoadout Password Reset <reset@pawelkomendera.me>",
+    from: "aidly password reset <reset@pawelkomendera.me>",
     to: email,
     subject: title,
     react: ResetPasswordMail({ locale, url, token }),

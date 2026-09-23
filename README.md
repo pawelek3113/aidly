@@ -1,4 +1,4 @@
-# dailyloadout project
+# aidly
 
 Created with web-template
 

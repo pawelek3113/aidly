@@ -12,13 +12,22 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import z from "zod";
+import { BrandHeading } from "../brand/brand-heading";
 import { useOtpCountdown } from "../hooks/use-otp-countdown";
 import { Button } from "../ui/button";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 
-type VerifyEmailFormProps = { email: string; code: string | null };
+type VerifyEmailFormProps = {
+  email: string;
+  code: string | null;
+  className?: string;
+};
 
-export const VerifyEmailForm = ({ email, code }: VerifyEmailFormProps) => {
+export const VerifyEmailForm = ({
+  email,
+  code,
+  className,
+}: VerifyEmailFormProps) => {
   const t = useTranslations("AuthForm");
 
   const { remaining, restart } = useOtpCountdown(300);
@@ -66,7 +75,17 @@ export const VerifyEmailForm = ({ email, code }: VerifyEmailFormProps) => {
       });
       router.push("/");
     }
-    if (error?.code) {
+    if (error?.code === "INVALID_OTP") {
+      setError(
+        "otp",
+        {
+          message: t("errors.otp"),
+        },
+        { shouldFocus: true }
+      );
+    }
+
+    if (error?.code && error?.code !== "INVALID_OTP") {
       setError(
         "otp",
         {
@@ -79,17 +98,17 @@ export const VerifyEmailForm = ({ email, code }: VerifyEmailFormProps) => {
 
   return (
     <>
-      <p
-        className={cn(
-          "font text-9xl font-thin tracking-tighter",
-          !remaining && "text-5xl"
-        )}
+      {remaining ? (
+        <p className={cn("font text-9xl font-thin tracking-tighter")}>
+          {Math.floor(remaining / 60)}:{String(remaining % 60).padStart(2, "0")}
+        </p>
+      ) : (
+        <BrandHeading text={t("code_expired")} />
+      )}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={cn("flex flex-col items-center gap-4", className)}
       >
-        {remaining
-          ? `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2, "0")}`
-          : t("code_expired")}
-      </p>
-      <form onSubmit={handleSubmit(onSubmit)}>
         <Controller
           name="otp"
           control={control}
@@ -115,12 +134,14 @@ export const VerifyEmailForm = ({ email, code }: VerifyEmailFormProps) => {
             </Field>
           )}
         />
-        <Button type="submit" disabled={formState.isSubmitting || isExpired}>
-          {t("verify")}
-        </Button>
-        <Button type="button" onClick={handleResend} disabled={!isExpired}>
-          {t("resend")}
-        </Button>
+        <div className="flex flex-row gap-2">
+          <Button type="submit" disabled={formState.isSubmitting || isExpired}>
+            {t("verify")}
+          </Button>
+          <Button type="button" onClick={handleResend} disabled={!isExpired}>
+            {t("resend")}
+          </Button>
+        </div>
       </form>
     </>
   );
