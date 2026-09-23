@@ -7,6 +7,9 @@
     "title": "Cześć {value}!",
     "loading": "Ładowanie"
   },
+  "navbar": {
+    "dashboard": "Panel"
+  },
   "sr": {
     "theme": "Przełącz motyw",
     "dialog": "Zamknij okno dialogowe"

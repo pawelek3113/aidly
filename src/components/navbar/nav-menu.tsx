@@ -1,6 +1,7 @@
 "use client";
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { XIcon } from "@phosphor-icons/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Logo } from "../brand/logo";
 import { LanguageToggleButton } from "../shared/language-toggle-button";
@@ -8,7 +9,7 @@ import { ThemeToggleButton } from "../shared/theme-toggle-button";
 import { Button } from "../ui/button";
 import { DialogOverlay, DialogPortal } from "../ui/dialog";
 import { NavAccountButton } from "./nav-account-button";
-import { useTranslations } from "next-intl";
+import { NavDashboardButton } from "./nav-dashboard-button";
 
 export const NavMenu = () => {
   const t = useTranslations();
@@ -49,6 +50,7 @@ export const NavMenu = () => {
         <div className="flex flex-col gap-2 px-2"></div>
         <div className="flex flex-row justify-between px-8">
           <ThemeToggleButton variant="outline_fat" chocolate="enabled" />
+          <NavDashboardButton expanded />
           <LanguageToggleButton variant="outline_fat" chocolate="enabled" />
         </div>
       </DialogPrimitive.Popup>

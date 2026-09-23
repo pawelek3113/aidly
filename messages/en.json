@@ -7,6 +7,9 @@
     "title": "Hello {value}!",
     "loading": "Loading"
   },
+  "navbar": {
+    "dashboard": "Dashboard"
+  },
   "sr": {
     "theme": "Toggle theme",
     "dialog": "Close dialog"
