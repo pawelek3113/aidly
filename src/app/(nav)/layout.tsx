@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/shared/nav-bar";
+import { Navbar } from "@/components/navbar/nav-bar";
 import { ReactNode } from "react";
 
 export default async function NavLayout({

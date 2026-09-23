@@ -7,8 +7,8 @@ import { NavDashboardButton } from "../navbar/nav-dashboard-button";
 import { NavMenu } from "../navbar/nav-menu";
 import { Button } from "../ui/button";
 import { Dialog, DialogTrigger } from "../ui/dialog";
-import { LanguageToggleButton } from "./language-toggle-button";
-import { ThemeToggleButton } from "./theme-toggle-button";
+import { ThemeToggleButton } from "../shared/theme-toggle-button";
+import { LanguageToggleButton } from "../shared/language-toggle-button";
 
 export const Navbar = () => {
   return (
