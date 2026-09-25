@@ -34,7 +34,7 @@ const buttonVariants = cva(
       },
       chocolate: {
         none: "",
-        enabled: "bg-chocolate border-chocolate-border/20 hover:bg-input/30",
+        enabled: "bg-chocolate border-chocolate-border hover:bg-input/30",
       },
     },
     defaultVariants: {

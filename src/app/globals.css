@@ -76,7 +76,7 @@
   --background: oklch(1 0 0);
   --foreground: oklch(0.147 0.004 49.25);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.147 0.004 49.25);
+  --card-foreground: oklch(0.21 0.004 49.25);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.147 0.004 49.25);
 
@@ -87,7 +87,7 @@
   --brand-accent: oklch(44.676% 0.08921 53.638);
 
   --chocolate: oklch(0.8936 0.0553 54.51);
-  --chocolate-border: oklch(0.5804 0.0575 54.71);
+  --chocolate-border: oklch(83.462% 0.05444 54.001);
 
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
@@ -135,7 +135,7 @@
   --background: oklch(0.147 0.004 49.25);
   --foreground: oklch(0.985 0.001 106.423);
   --card: oklch(0.216 0.006 56.043);
-  --card-foreground: oklch(0.985 0.001 106.423);
+  --card-foreground: oklch(0.88 0.001 106.423);
   --popover: oklch(0.216 0.006 56.043);
   --popover-foreground: oklch(0.985 0.001 106.423);
 
@@ -145,7 +145,7 @@
   --brand-secondary: oklch(67.43% 0.11555 206.675);
   --brand-accent: oklch(44.676% 0.08921 53.638);
   --chocolate: oklch(0.2592 0.0468 56.33);
-  --chocolate-border: oklch(0.1942 0.0468 56.33);
+  --chocolate-border: oklch(24.522% 0.04579 55.053);
 
   --secondary: oklch(0.274 0.006 286.033);
   --secondary-foreground: oklch(0.985 0 0);
@@ -206,7 +206,7 @@
   }
 
   .glass-chocolate {
-    @apply border-chocolate-border/20 bg-chocolate/10 border-4 backdrop-blur-md;
+    @apply border-chocolate-border bg-chocolate/10 border-4 backdrop-blur-md;
   }
 
   .chocolate {

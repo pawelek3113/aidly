@@ -38,22 +38,26 @@ export const ToolItem = ({
       tabIndex={0}
       onClick={handleClick}
       className={cn(
-        "border-chocolate-border/20 flex cursor-pointer flex-row gap-2 rounded-4xl border-4 px-4 py-3",
-        "transition duration-300 hover:translate-x-5 hover:opacity-70 sm:max-w-80",
-        "w-full shrink-0 grow basis-60 justify-between sm:w-auto",
+        "border-chocolate-border flex h-full cursor-pointer flex-col overflow-hidden rounded-4xl border-4 sm:max-w-80",
+        "transition duration-300 hover:translate-x-3 hover:opacity-70",
+        "w-full shrink-0 grow basis-40",
         comingSoon &&
-          "opacity-40 transition-none hover:translate-none hover:opacity-40",
+          "opacity-40 transition-none hover:translate-x-0 hover:opacity-40",
         className
       )}
     >
-      <div className="flex flex-col gap-2">
-        <BrandHeading text={name} />
-        {comingSoon && <BrandHeading text="Coming soon" size="small" />}
-        <p className="line-clamp-3 truncate tracking-tight text-pretty">
+      <div className="bg-chocolate-border/50 dark:bg-chocolate-border border-chocolate-border flex flex-row items-center justify-between gap-2 px-4 py-3">
+        <div className="flex flex-col">
+          <BrandHeading text={name} className="text-nowrap" />
+          {comingSoon && <BrandHeading text="Coming soon" size="small" />}
+        </div>
+        {icon}
+      </div>
+      <div className="px-3 py-2">
+        <p className="text-card-foreground line-clamp-4 tracking-tight text-pretty">
           {description}
         </p>
       </div>
-      {icon}
     </div>
   );
 };

@@ -5,5 +5,7 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  return <div className="px-4">{children}</div>;
+  return (
+    <div className="mx-auto w-full max-w-400 px-8 sm:px-4">{children}</div>
+  );
 }

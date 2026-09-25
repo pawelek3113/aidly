@@ -14,7 +14,7 @@ const DashBoardPage = () => {
       description: "Helps you track your current job applications.",
       icon: <LinkedinLogoIcon weight="bold" size={40} className="shrink-0" />,
       href: "/job-tracker",
-      comingSoon: true,
+      // comingSoon: true,
     },
     {
       name: "Todo Lists",
@@ -49,7 +49,7 @@ const DashBoardPage = () => {
   ];
 
   return (
-    <div className="flex flex-col flex-wrap items-center gap-4 sm:flex-row sm:items-stretch sm:justify-center">
+    <div className="flex flex-col items-start gap-4 sm:grid sm:grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]">
       {tools.map((tool) => (
         <ToolItem {...tool} key={tool.name} />
       ))}
