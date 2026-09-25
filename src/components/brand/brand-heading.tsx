@@ -16,6 +16,7 @@ const brandTextVariants = cva("", {
     size: {
       large: "text-2xl",
       medium: "text-lg",
+      small: "text-sm",
     },
   },
   defaultVariants: {
