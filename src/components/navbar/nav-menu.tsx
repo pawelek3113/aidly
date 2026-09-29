@@ -52,10 +52,8 @@ export const NavMenu = () => {
           <div className="flex flex-row items-center justify-end gap-2">
             <DialogPrimitive.Close
               nativeButton={false}
-              render={<Link href={"/account-center"} />}
-            >
-              <NavAccountButton />
-            </DialogPrimitive.Close>
+              render={<NavAccountButton />}
+            />
           </div>
         </div>
         <div className="flex flex-col gap-2 px-2"></div>
@@ -63,10 +61,9 @@ export const NavMenu = () => {
           <ThemeToggleButton variant="outline_fat" chocolate="enabled" />
           <DialogPrimitive.Close
             nativeButton={false}
-            render={<Link href={"/dashboard"} />}
-          >
-            <NavDashboardButton expanded />
-          </DialogPrimitive.Close>
+            render={<NavDashboardButton expanded />}
+          />
+
           <LanguageToggleButton variant="outline_fat" chocolate="enabled" />
         </div>
       </DialogPrimitive.Popup>
