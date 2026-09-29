@@ -37,20 +37,36 @@ export const NavMenu = () => {
               <span className="sr-only">{t("sr.dialog")}</span>
             </DialogPrimitive.Close>
           </div>
-          <Link
-            href="/"
-            className="flex flex-row items-center justify-center gap-2"
+          <DialogPrimitive.Close
+            nativeButton={false}
+            render={
+              <Link
+                href="/"
+                className="flex flex-row items-center justify-center gap-2"
+              />
+            }
           >
             <Logo style="shadowed" />
-          </Link>
+          </DialogPrimitive.Close>
+
           <div className="flex flex-row items-center justify-end gap-2">
-            <NavAccountButton />
+            <DialogPrimitive.Close
+              nativeButton={false}
+              render={<Link href={"/account-center"} />}
+            >
+              <NavAccountButton />
+            </DialogPrimitive.Close>
           </div>
         </div>
         <div className="flex flex-col gap-2 px-2"></div>
         <div className="flex flex-row justify-between px-8">
           <ThemeToggleButton variant="outline_fat" chocolate="enabled" />
-          <NavDashboardButton expanded />
+          <DialogPrimitive.Close
+            nativeButton={false}
+            render={<Link href={"/dashboard"} />}
+          >
+            <NavDashboardButton expanded />
+          </DialogPrimitive.Close>
           <LanguageToggleButton variant="outline_fat" chocolate="enabled" />
         </div>
       </DialogPrimitive.Popup>

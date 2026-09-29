@@ -42,7 +42,7 @@ export const ToolItem = ({
         "transition duration-300 hover:translate-x-3 hover:opacity-70",
         "w-full shrink-0 grow basis-40",
         comingSoon &&
-          "opacity-40 transition-none hover:translate-x-0 hover:opacity-40",
+          "cursor-default opacity-40 transition-none hover:translate-x-0 hover:opacity-40",
         className
       )}
     >
