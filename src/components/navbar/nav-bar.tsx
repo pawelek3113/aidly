@@ -5,10 +5,10 @@ import { Logo } from "../brand/logo";
 import { NavAccountButton } from "../navbar/nav-account-button";
 import { NavDashboardButton } from "../navbar/nav-dashboard-button";
 import { NavMenu } from "../navbar/nav-menu";
+import { LanguageToggleButton } from "../shared/language-toggle-button";
+import { ThemeToggleButton } from "../shared/theme-toggle-button";
 import { Button } from "../ui/button";
 import { Dialog, DialogTrigger } from "../ui/dialog";
-import { ThemeToggleButton } from "../shared/theme-toggle-button";
-import { LanguageToggleButton } from "../shared/language-toggle-button";
 
 export const Navbar = () => {
   return (

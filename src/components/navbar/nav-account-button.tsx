@@ -1,17 +1,15 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
 import { User2Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { ComponentProps } from "react";
 import { LoadingIcon } from "../shared/LoadingIcon";
 import { Button } from "../ui/button";
 
-export const NavAccountButton = () => {
-  const router = useRouter();
+export const NavAccountButton = ({
+  ...props
+}: Omit<ComponentProps<typeof Button>, "render" | "children">) => {
   const { isPending } = authClient.useSession();
-
-  const handleClick = () => {
-    router.push("/account-center");
-  };
 
   return (
     <Button
@@ -19,7 +17,9 @@ export const NavAccountButton = () => {
       variant="outline_fat"
       chocolate="enabled"
       disabled={isPending}
-      onClick={handleClick}
+      nativeButton={false}
+      render={<Link href={"/account-center"} />}
+      {...props}
     >
       {isPending ? <LoadingIcon /> : <User2Icon />}
     </Button>
