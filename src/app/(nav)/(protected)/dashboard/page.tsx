@@ -13,7 +13,7 @@ const DashBoardPage = () => {
       name: "Job Compass",
       description: "Helps you track your current job applications.",
       icon: <LinkedinLogoIcon weight="bold" size={40} className="shrink-0" />,
-      href: "/job-tracker",
+      href: "/jobs",
       // comingSoon: true,
     },
     {

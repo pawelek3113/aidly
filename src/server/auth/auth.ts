@@ -1,6 +1,6 @@
 import { Locale } from "@/i18n/locales";
 import { db } from "@/server/db";
-import * as schema from "@/server/db/schema";
+import * as schema from "@/server/db/schema/tables";
 import { drizzleAdapter } from "@better-auth/drizzle-adapter/relations-v2";
 import { waitUntil } from "@vercel/functions";
 import { betterAuth } from "better-auth";
