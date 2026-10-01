@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { z } from "zod";
 import { baseProcedure, createTRPCRouter } from "../init";
+import { jobsRouter } from "./jobs";
 
 export const appRouter = createTRPCRouter({
   hello: baseProcedure
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
         greeting: `text: ${t("HomePage.title", { value: opts.input.text })}`,
       };
     }),
+  jobs: jobsRouter,
 });
 
 // export type definition of API
