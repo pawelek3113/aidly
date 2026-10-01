@@ -14,6 +14,12 @@
     "theme": "Przełącz motyw",
     "dialog": "Zamknij okno dialogowe"
   },
+  "jobs": {
+    "empty": {
+      "heading": "Nie masz żadnej zapisanej oferty pracy",
+      "subheading": "Zacznij poprzez dodanie ich tutaj."
+    }
+  },
   "AuthForm": {
     "email": "Email",
     "password": "Hasło",

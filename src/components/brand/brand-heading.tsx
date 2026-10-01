@@ -14,6 +14,8 @@ const brandTextVariants = cva("", {
       default: "brand-text",
     },
     size: {
+      gigantic: "text-5xl",
+      xlarge: "text-4xl",
       large: "text-2xl",
       medium: "text-lg",
       small: "text-sm",

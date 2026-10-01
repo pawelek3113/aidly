@@ -12,7 +12,7 @@ import { Dialog, DialogTrigger } from "../ui/dialog";
 
 export const Navbar = () => {
   return (
-    <nav className="glass-chocolate sticky top-2 z-50 mx-2 mb-4 grid h-16 w-auto min-w-fit grid-cols-3 items-center gap-4 rounded-4xl px-4 py-2 sm:mx-auto sm:w-xl">
+    <nav className="glass-chocolate sticky top-2 z-50 mx-2 mb-4 grid h-16 min-w-fit grid-cols-3 items-center gap-4 rounded-4xl px-4 py-2 sm:mx-auto sm:w-xl">
       <div className="hidden flex-row items-center gap-2 md:flex">
         <ThemeToggleButton variant="outline_fat" chocolate="enabled" />
         <LanguageToggleButton variant="outline_fat" chocolate="enabled" />
