@@ -1,4 +1,4 @@
-import z from "zod";
+import { inferProcedureOutput } from "@trpc/server";
 import { createTRPCRouter, protectedProcdure } from "../init";
 
 export const jobsRouter = createTRPCRouter({
@@ -14,3 +14,7 @@ export const jobsRouter = createTRPCRouter({
     })
   ),
 });
+
+export type JobsRouter = typeof jobsRouter;
+export type Jobs = inferProcedureOutput<JobsRouter["getAll"]>;
+export type Job = Jobs[number];
