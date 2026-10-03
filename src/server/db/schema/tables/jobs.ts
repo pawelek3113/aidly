@@ -8,13 +8,17 @@ import {
 import { user } from "./auth";
 
 export const jobCompany = pgTable("job_company", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
   name: text("name").notNull(),
   image: text("image"),
 });
 
 export const jobOfferAddress = pgTable("job_offer_address", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
   street: text("street"),
   streetNumber: text("street_number"),
   apartmentNumber: text("apartment_number"),
@@ -23,7 +27,9 @@ export const jobOfferAddress = pgTable("job_offer_address", {
 });
 
 export const jobOffer = pgTable("job_offer", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
   role: text("role").notNull(),
   companyId: text("company_id")
     .notNull()
@@ -40,6 +46,8 @@ export const jobOffer = pgTable("job_offer", {
   interviewCount: integer("interview_count").default(0).notNull(),
   hired: boolean("hired").default(false).notNull(),
   rejected: boolean("rejected").default(false).notNull(),
+
+  // expiryDate
 
   userId: text("user_id")
     .notNull()

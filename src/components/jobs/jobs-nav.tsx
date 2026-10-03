@@ -42,7 +42,7 @@ export const JobsNavbar = () => {
         size="icon-lg"
         variant="default"
         nativeButton={false}
-        render={<Link href="/jobs/create" />}
+        render={<Link href="/jobs/add" />}
         className="md:mt-5"
       >
         <PlusIcon weight="bold" />

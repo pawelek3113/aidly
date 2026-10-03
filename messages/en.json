@@ -21,6 +21,40 @@
     },
     "summary": {
       "heading": "Summary"
+    },
+    "create": {
+      "errors": {
+        "company": {
+          "name": "Company name is required.",
+          "notFound": "Specified company's not found"
+        },
+        "offer": {
+          "role": {
+            "required": "Role is required."
+          },
+          "url": {
+            "notAnUrl": "Provided text is not an URL.",
+            "required": "URL is required."
+          },
+          "notes": {
+            "maxLength": "Your notes are too long."
+          }
+        }
+      },
+      "heading": "Add a job offer",
+      "form": {
+        "placeholders": {
+          "role": "Backend Software Engineer",
+          "url": "http://www.job-portal.com/jobs/backend-engineer",
+          "companyName": "Acme"
+        },
+        "labels": {
+          "role": "Role",
+          "url": "Website",
+          "companyName": "Company",
+          "submit": "Add an offer"
+        }
+      }
     }
   },
   "AuthForm": {
@@ -78,6 +112,18 @@
       }
     },
     "toasts": {
+      "jobs": {
+        "offer": {
+          "create": {
+            "success": {
+              "title": "Successfully added new job offer"
+            },
+            "error": {
+              "title": "Adding new job offer failed"
+            }
+          }
+        }
+      },
       "signin": {
         "success": {
           "title": "Success!",

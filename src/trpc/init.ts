@@ -29,7 +29,7 @@ export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
 export const baseProcedure = t.procedure;
 
-export const protectedProcdure = t.procedure.use(async (opts) => {
+export const protectedProcedure = t.procedure.use(async (opts) => {
   const { ctx, next } = opts;
 
   if (!ctx.session || !ctx.user) {

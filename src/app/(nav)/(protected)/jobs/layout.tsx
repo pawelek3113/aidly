@@ -7,7 +7,7 @@ export default async function JobsLayout({
   children: ReactNode;
 }>) {
   return (
-    <div className="flex h-full grow flex-col items-center px-4 pb-4 md:grid md:grid-cols-[auto_1fr]">
+    <div className="flex h-full grow flex-col items-center px-4 pb-4 md:grid md:grid-cols-[auto_1fr] md:gap-16 lg:gap-24 xl:gap-36">
       <JobsNavbar />
       {children}
     </div>

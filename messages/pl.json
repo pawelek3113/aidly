@@ -18,6 +18,41 @@
     "empty": {
       "heading": "Nie masz żadnej zapisanej oferty pracy",
       "subheading": "Zacznij poprzez dodanie ich tutaj."
+    },
+    "summary": {
+      "heading": "Podsumowanie"
+    },
+    "create": {
+      "errors": {
+        "company": {
+          "name": "Nazwa firmy jest wymagana.",
+          "notFound": "Podana firma nie została znaleziona"
+        },
+        "offer": {
+          "role": {
+            "required": "Stanowisko jest wymagane."
+          },
+          "url": {
+            "notAnUrl": "Podany tekst to nie jest link.",
+            "required": "Link jest wymagany."
+          },
+          "notes": {
+            "maxLength": "Twoje notatki są za długie."
+          }
+        }
+      },
+      "heading": "Dodaj ofertę pracy",
+      "form": {
+        "placeholders": {
+          "role": "Inżynier Oprogramowania back-end",
+          "url": "http://www.praca.com/oferta/inzynier-oprogramowania"
+        },
+        "labels": {
+          "role": "Stanowisko",
+          "url": "Strona internetowa",
+          "submit": "Dodaj ofertę"
+        }
+      }
     }
   },
   "AuthForm": {
@@ -75,6 +110,18 @@
       }
     },
     "toasts": {
+      "jobs": {
+        "offer": {
+          "create": {
+            "success": {
+              "title": "Pomyślnie dodano nową ofertę pracy"
+            },
+            "error": {
+              "title": "Nie udało się dodać nowej oferty pracy"
+            }
+          }
+        }
+      },
       "signin": {
         "success": {
           "title": "Sukces!",
