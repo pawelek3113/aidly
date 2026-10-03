@@ -10,7 +10,7 @@ import { Button } from "../ui/button";
 
 export const JobsNavbar = () => {
   return (
-    <aside className="glass-chocolate fixed inset-x-2 bottom-2 z-50 mx-auto flex max-w-96 min-w-fit items-center justify-around gap-2 rounded-4xl px-4 py-2 md:static md:inset-x-auto md:bottom-0 md:mx-0 md:mt-0 md:min-h-40 md:w-auto md:flex-col md:px-2 md:py-4">
+    <aside className="glass-chocolate fixed inset-x-2 bottom-2 z-50 mx-auto flex max-w-96 min-w-fit items-center justify-around gap-2 rounded-4xl px-4 py-2 md:sticky md:inset-x-auto md:top-52 md:bottom-0 md:mx-0 md:mt-0 md:min-h-40 md:w-auto md:flex-col md:px-2 md:py-4">
       <Button
         size="icon-lg"
         variant="outline_fat"
