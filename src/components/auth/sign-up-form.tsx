@@ -13,10 +13,10 @@ import { Controller, useForm } from "react-hook-form";
 
 import { cn } from "@/lib/utils";
 import z from "zod";
+import { BrandHeading } from "../brand/brand-heading";
 import { ParagraphLink } from "../shared/para-with-link";
 import { PasswordInput } from "../ui/input-password";
 import { FORM_CLASSNAME } from "./auth-page";
-import { BrandHeading } from "../brand/brand-heading";
 
 type SignUpFormProps = {
   className?: HTMLFormElement["className"];
@@ -32,14 +32,14 @@ export const SignUpForm = ({ className }: SignUpFormProps) => {
       z.object({
         username: z
           .string()
-          .nonempty(t("errors.username.nonempty"))
+          .min(1, t("errors.username.nonempty"))
           .min(2, t("errors.username.min"))
           .max(32, t("errors.username.max"))
           .regex(/^\S+$/, t("errors.username.invalid")),
         email: z.email({ error: t("errors.email") }),
         password: z
           .string()
-          .nonempty(t("errors.password.nonempty"))
+          .min(1, t("errors.password.nonempty"))
           .min(8, t("errors.password.min")),
       }),
     [t]

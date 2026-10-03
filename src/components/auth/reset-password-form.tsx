@@ -12,10 +12,10 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import z from "zod";
+import { BrandHeading } from "../brand/brand-heading";
 import { Button } from "../ui/button";
 import { PasswordInput } from "../ui/input-password";
 import { FORM_CLASSNAME } from "./auth-page";
-import { BrandHeading } from "../brand/brand-heading";
 
 type ResetPasswordFormProps = {
   token: string;
@@ -32,7 +32,7 @@ export const ResetPasswordForm = ({
       z.object({
         password: z
           .string()
-          .nonempty(t("errors.password.nonempty"))
+          .min(1, t("errors.password.nonempty"))
           .min(8, t("errors.password.min")),
       }),
     [t]

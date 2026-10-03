@@ -31,7 +31,7 @@ export const SignInForm = ({ className }: SignInFormProps) => {
         email: z.email({ error: t("errors.email") }),
         password: z
           .string()
-          .nonempty(t("errors.password.nonempty"))
+          .min(1, t("errors.password.nonempty"))
           .min(8, t("errors.password.min")),
       }),
     [t]
