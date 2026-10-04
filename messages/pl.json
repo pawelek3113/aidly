@@ -45,11 +45,41 @@
       "form": {
         "placeholders": {
           "role": "Inżynier Oprogramowania back-end",
-          "url": "http://www.praca.com/oferta/inzynier-oprogramowania"
+          "url": "http://www.praca.com/oferta/inzynier-oprogramowania",
+          "companyName": "Acme",
+          "address": {
+            "street": "Main Street",
+            "streetNumber": "312",
+            "apartmentNumber": "67",
+            "city": "London",
+            "country": "United Kingdom"
+          }
         },
         "labels": {
           "role": "Stanowisko",
           "url": "Strona internetowa",
+          "companyName": "Nazwa firmy",
+          "notes": "Twoje notatki",
+          "address": {
+            "sectionHeading": "Adres",
+            "street": "Ulica",
+            "streetNumber": "Numer budynku",
+            "apartmentNumber": "Numer lokalu",
+            "city": "Miejscowość",
+            "country": "Kraj"
+          },
+          "isRemote": "Zdalnie",
+          "application": {
+            "heading": "Szczegóły aplikowania",
+            "hasApplied": "Czy aplikowano?",
+            "ghosted": "Czy otrzymano informację zwrotną?",
+            "interview": {
+              "count": "Ile rozmów rekrutacyjnych odbyto?",
+              "happened": "Czy rozmowa rekrutacyjna się odbyła?"
+            },
+            "hired": "Czy zatrudniono Cię?",
+            "rejected": "Czy odrzucono Cię?"
+          },
           "submit": "Dodaj ofertę"
         }
       }

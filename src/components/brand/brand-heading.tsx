@@ -35,8 +35,8 @@ export const BrandHeading = ({
   variant,
 }: BrandHeadingProps & VariantProps<typeof brandTextVariants>) => {
   return (
-    <p className={cn(brandTextVariants({ variant, size, className }))}>
+    <h1 className={cn(brandTextVariants({ variant, size, className }))}>
       {text ? text : children}
-    </p>
+    </h1>
   );
 };

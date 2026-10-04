@@ -46,12 +46,40 @@
         "placeholders": {
           "role": "Backend Software Engineer",
           "url": "http://www.job-portal.com/jobs/backend-engineer",
-          "companyName": "Acme"
+          "companyName": "Acme",
+          "address": {
+            "street": "Main Street",
+            "streetNumber": "312",
+            "apartmentNumber": "67",
+            "city": "London",
+            "country": "United Kingdom"
+          }
         },
         "labels": {
           "role": "Role",
           "url": "Website",
           "companyName": "Company",
+          "notes": "Your notes",
+          "address": {
+            "sectionHeading": "Address",
+            "street": "Street",
+            "streetNumber": "Building number",
+            "apartmentNumber": "Apartment number",
+            "city": "City",
+            "country": "Country"
+          },
+          "isRemote": "Remote",
+          "application": {
+            "heading": "Application details",
+            "hasApplied": "Have you applied?",
+            "ghosted": "Have you been ghosted?",
+            "interview": {
+              "count": "How many interviews have you attended?",
+              "happened": "Have you been interviewed?"
+            },
+            "hired": "Have you been hired?",
+            "rejected": "Have you been rejected?"
+          },
           "submit": "Add an offer"
         }
       }

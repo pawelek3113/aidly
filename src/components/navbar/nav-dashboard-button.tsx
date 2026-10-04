@@ -4,7 +4,7 @@ import { ToolboxIcon } from "@phosphor-icons/react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { ComponentProps } from "react";
-import { LoadingIcon } from "../shared/LoadingIcon";
+import { LoadingIcon } from "../shared/loading-icon";
 import { Button } from "../ui/button";
 
 type NavDashboardButtonProps = {

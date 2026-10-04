@@ -8,16 +8,26 @@ import { TOAST_TYPES } from "@/lib/toast-variants";
 import { showToast } from "@/lib/toasts";
 import { useTRPC } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusIcon } from "@phosphor-icons/react";
+import {
+  GhostIcon,
+  PlusIcon,
+  ReadCvLogoIcon,
+  SmileySadIcon,
+} from "@phosphor-icons/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { Controller, useForm } from "react-hook-form";
+import { useState } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { BrandHeading } from "../brand/brand-heading";
+import { Section } from "../shared/section";
 import { TranslatedFieldError } from "../shared/translated-field-error";
 import { Button } from "../ui/button";
 import { Field, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
+import { Switch } from "../ui/switch";
+import { Textarea } from "../ui/textarea";
+import { DetailTile } from "./detail-tile";
 
 export const JobCreation = () => {
   const t = useTranslations("");
@@ -46,24 +56,36 @@ export const JobCreation = () => {
     })
   );
 
-  const { control, handleSubmit, formState } = useForm<CreateJobOfferInput>({
-    resolver: zodResolver(createJobOfferSchema),
-    defaultValues: {
-      role: "",
-      company: {
-        name: "",
+  const [interviewHappened, setInterviewHappened] = useState(false);
+
+  const { control, handleSubmit, formState, setValue } =
+    useForm<CreateJobOfferInput>({
+      resolver: zodResolver(createJobOfferSchema),
+      defaultValues: {
+        role: "",
+        company: {
+          name: "",
+        },
+        address: {
+          street: "",
+          streetNumber: "",
+          apartmentNumber: "",
+          city: "",
+          country: "",
+        },
+        url: "",
+        notes: "",
+        isRemote: true,
+        hasApplied: false,
+        ghosted: false,
+        interviewCount: 0,
+        hired: false,
+        rejected: false,
       },
-      address: {
-        street: "",
-        streetNumber: "",
-        apartmentNumber: "",
-        city: "",
-        country: "",
-      },
-      url: "",
-    },
-    mode: "onTouched",
-  });
+      mode: "onTouched",
+    });
+
+  const hasApplied = useWatch({ control, name: "hasApplied" });
 
   const onSubmit = (values: CreateJobOfferInput) => {
     createJobOffer.mutate(values);
@@ -136,15 +158,374 @@ export const JobCreation = () => {
         )}
       />
 
-      <Button
-        type="submit"
-        disabled={formState.isSubmitting}
-        size="lg"
-        className="w-fit"
+      <Section
+        heading={t("jobs.create.form.labels.address.sectionHeading")}
+        rightArrow
+        clickable
+        contentClassName="gap-4"
       >
-        <PlusIcon weight="bold" />
-        {t("jobs.create.form.labels.submit")}
-      </Button>
+        <div className="flex flex-col gap-4 md:flex-row">
+          <Controller
+            name="address.city"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="address.city">
+                  {t("jobs.create.form.labels.address.city")}
+                </FieldLabel>
+                <Input
+                  {...field}
+                  value={field.value ?? ""}
+                  id="address.city"
+                  aria-invalid={fieldState.invalid}
+                  placeholder={t("jobs.create.form.placeholders.address.city")}
+                />
+                {fieldState.invalid && (
+                  <TranslatedFieldError error={fieldState.error} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="address.country"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="address.country">
+                  {t("jobs.create.form.labels.address.country")}
+                </FieldLabel>
+                <Input
+                  {...field}
+                  value={field.value ?? ""}
+                  id="address.country"
+                  aria-invalid={fieldState.invalid}
+                  placeholder={t(
+                    "jobs.create.form.placeholders.address.country"
+                  )}
+                />
+                {fieldState.invalid && (
+                  <TranslatedFieldError error={fieldState.error} />
+                )}
+              </Field>
+            )}
+          />
+        </div>
+        <Controller
+          name="address.street"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="address.street">
+                {t("jobs.create.form.labels.address.street")}
+              </FieldLabel>
+              <Input
+                {...field}
+                value={field.value ?? ""}
+                id="address.street"
+                aria-invalid={fieldState.invalid}
+                placeholder={t("jobs.create.form.placeholders.address.street")}
+              />
+              {fieldState.invalid && (
+                <TranslatedFieldError error={fieldState.error} />
+              )}
+            </Field>
+          )}
+        />
+        <div className="flex flex-col gap-4 md:flex-row">
+          <Controller
+            name="address.streetNumber"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="address.streetNumber">
+                  {t("jobs.create.form.labels.address.streetNumber")}
+                </FieldLabel>
+                <Input
+                  {...field}
+                  value={field.value ?? ""}
+                  id="address.streetNumber"
+                  aria-invalid={fieldState.invalid}
+                  placeholder={t(
+                    "jobs.create.form.placeholders.address.streetNumber"
+                  )}
+                />
+                {fieldState.invalid && (
+                  <TranslatedFieldError error={fieldState.error} />
+                )}
+              </Field>
+            )}
+          />
+          <Controller
+            name="address.apartmentNumber"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="address.apartmentNumber">
+                  {t("jobs.create.form.labels.address.apartmentNumber")}
+                </FieldLabel>
+                <Input
+                  {...field}
+                  value={field.value ?? ""}
+                  id="address.apartmentNumber"
+                  aria-invalid={fieldState.invalid}
+                  placeholder={t(
+                    "jobs.create.form.placeholders.address.apartmentNumber"
+                  )}
+                />
+                {fieldState.invalid && (
+                  <TranslatedFieldError error={fieldState.error} />
+                )}
+              </Field>
+            )}
+          />
+        </div>
+      </Section>
+
+      <Controller
+        name="isRemote"
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field
+            data-invalid={fieldState.invalid}
+            className="max-w-fit flex-row items-center gap-4"
+          >
+            <FieldLabel htmlFor="isRemote">
+              {t("jobs.create.form.labels.isRemote")}
+            </FieldLabel>
+            <Switch
+              id="isRemote"
+              ref={field.ref}
+              onBlur={field.onBlur}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+
+            {fieldState.invalid && (
+              <TranslatedFieldError error={fieldState.error} />
+            )}
+          </Field>
+        )}
+      />
+
+      <Section
+        className="border-chocolate-border bg-chocolate-muted gap-5 rounded-4xl border-8 p-7 px-9"
+        heading={t("jobs.create.form.labels.application.heading")}
+        nonExpandable
+        headingClassName="text-brand-secondary"
+        contentClassName="gap-4"
+      >
+        <Controller
+          name="hasApplied"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field
+              data-invalid={fieldState.invalid}
+              className="max-w-fit flex-row items-center gap-4"
+            >
+              <FieldLabel htmlFor="hasApplied">
+                {t("jobs.create.form.labels.application.hasApplied")}
+              </FieldLabel>
+              <Switch
+                id="hasApplied"
+                ref={field.ref}
+                onBlur={field.onBlur}
+                checked={field.value}
+                onCheckedChange={field.onChange}
+              />
+
+              {fieldState.invalid && (
+                <TranslatedFieldError error={fieldState.error} />
+              )}
+            </Field>
+          )}
+        />
+
+        {/* TODO: turn off other values once applied unchecked  !!! */}
+        {hasApplied && (
+          <>
+            <div
+              className="flex max-w-fit flex-row items-center gap-4"
+              data-slot="field"
+            >
+              <FieldLabel>
+                {t("jobs.create.form.labels.application.interview.happened")}
+              </FieldLabel>
+              <Switch
+                checked={interviewHappened}
+                onCheckedChange={(checked) => {
+                  setValue("interviewCount", Number(checked), {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true,
+                  });
+                  setInterviewHappened(checked);
+                }}
+              />
+            </div>
+
+            {interviewHappened && (
+              <Controller
+                name="interviewCount"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field
+                    data-invalid={fieldState.invalid}
+                    className="max-w-fit flex-row items-center gap-4"
+                  >
+                    <FieldLabel htmlFor="interviewCount">
+                      {t("jobs.create.form.labels.application.interview.count")}
+                    </FieldLabel>
+
+                    <Input
+                      {...field}
+                      onChange={(e) => {
+                        const v = e.target.valueAsNumber;
+                        field.onChange(Number.isNaN(v) ? undefined : v);
+                      }}
+                      value={field.value ?? ""}
+                      id="interviewCount"
+                      aria-invalid={fieldState.invalid}
+                      placeholder={"1"}
+                      type="number"
+                    />
+
+                    {fieldState.invalid && (
+                      <TranslatedFieldError error={fieldState.error} />
+                    )}
+                  </Field>
+                )}
+              />
+            )}
+
+            <div className="flex flex-wrap gap-4">
+              {/* RADIO */}
+              <Controller
+                name="ghosted"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid} className="w-fit">
+                    <DetailTile
+                      id="ghosted"
+                      ref={field.ref}
+                      onBlur={field.onBlur}
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      icon={
+                        <GhostIcon className="size-full" weight="duotone" />
+                      }
+                      label={t("jobs.create.form.labels.application.ghosted")}
+                    />
+                    {fieldState.invalid && (
+                      <TranslatedFieldError error={fieldState.error} />
+                    )}
+                  </Field>
+                )}
+              />
+              <Controller
+                name="rejected"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid} className="w-fit">
+                    <DetailTile
+                      id="rejected"
+                      ref={field.ref}
+                      onBlur={field.onBlur}
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      // onCheckedChange={(checked) => {
+                      //   if (checked) {
+                      //     setValue("hired", false, {
+                      //       shouldValidate: true,
+                      //       shouldDirty: true,
+                      //       shouldTouch: true,
+                      //     });
+                      //   }
+                      //   field.onChange(checked);
+                      // }}
+                      icon={
+                        <SmileySadIcon className="size-full" weight="duotone" />
+                      }
+                      label={t("jobs.create.form.labels.application.rejected")}
+                    />
+                    {fieldState.invalid && (
+                      <TranslatedFieldError error={fieldState.error} />
+                    )}
+                  </Field>
+                )}
+              />
+              <Controller
+                name="hired"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid} className="w-fit">
+                    <DetailTile
+                      id="hired"
+                      ref={field.ref}
+                      onBlur={field.onBlur}
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      // onCheckedChange={(checked) => {
+                      //   if (checked) {
+                      //     setValue("rejected", false, {
+                      //       shouldValidate: true,
+                      //       shouldDirty: true,
+                      //       shouldTouch: true,
+                      //     });
+                      //   }
+                      //   field.onChange(checked);
+                      // }}
+                      icon={
+                        <ReadCvLogoIcon
+                          className="size-full"
+                          weight="duotone"
+                        />
+                      }
+                      label={t("jobs.create.form.labels.application.hired")}
+                    />
+                    {fieldState.invalid && (
+                      <TranslatedFieldError error={fieldState.error} />
+                    )}
+                  </Field>
+                )}
+              />
+            </div>
+          </>
+        )}
+      </Section>
+
+      <Controller
+        name="notes"
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="notes">
+              {t("jobs.create.form.labels.notes")}
+            </FieldLabel>
+            <Textarea
+              {...field}
+              value={field.value ?? ""}
+              id="notes"
+              aria-invalid={fieldState.invalid}
+              className="resize-y"
+            />
+            {fieldState.invalid && (
+              <TranslatedFieldError error={fieldState.error} />
+            )}
+          </Field>
+        )}
+      />
+
+      <div className="pt-4">
+        <Button
+          type="submit"
+          disabled={formState.isSubmitting}
+          size="lg"
+          className="w-fit"
+        >
+          <PlusIcon weight="bold" />
+          {t("jobs.create.form.labels.submit")}
+        </Button>
+      </div>
     </form>
   );
 };

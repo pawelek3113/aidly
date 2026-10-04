@@ -40,14 +40,17 @@ export const jobOffer = pgTable("job_offer", {
     onDelete: "set null",
   }),
   isRemote: boolean("is_remote").default(false).notNull(),
-  image: text("image"),
+
   hasApplied: boolean("has_applied").default(false).notNull(),
   ghosted: boolean("ghosted").default(false).notNull(),
   interviewCount: integer("interview_count").default(0).notNull(),
   hired: boolean("hired").default(false).notNull(),
   rejected: boolean("rejected").default(false).notNull(),
 
+  // feedback
   // expiryDate
+
+  image: text("image"),
 
   userId: text("user_id")
     .notNull()
