@@ -25,6 +25,8 @@ export const createJobOfferSchema = createInsertSchema(jobOffer, {
       .min(1, "jobs.create.errors.offer.url.required")
       .pipe(z.url("jobs.create.errors.offer.url.notAnUrl")),
   notes: (s) => s.max(300, "jobs.create.errors.offer.notes.maxLength"),
+  interviewCount: (i) =>
+    i.min(0, "jobs.create.errors.offer.interview.count.minValue"),
 })
   .omit({
     id: true,

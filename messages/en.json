@@ -38,6 +38,11 @@
           },
           "notes": {
             "maxLength": "Your notes are too long."
+          },
+          "interview": {
+            "count": {
+              "minValue": "Minimum value is 0."
+            }
           }
         }
       },

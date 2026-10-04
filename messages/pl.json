@@ -38,6 +38,11 @@
           },
           "notes": {
             "maxLength": "Twoje notatki są za długie."
+          },
+          "interview": {
+            "count": {
+              "minValue": "Minimalna wartość to 0."
+            }
           }
         }
       },
@@ -48,11 +53,11 @@
           "url": "http://www.praca.com/oferta/inzynier-oprogramowania",
           "companyName": "Acme",
           "address": {
-            "street": "Main Street",
-            "streetNumber": "312",
-            "apartmentNumber": "67",
-            "city": "London",
-            "country": "United Kingdom"
+            "street": "Sezamkowa",
+            "streetNumber": "21B",
+            "apartmentNumber": "37",
+            "city": "Warszawa",
+            "country": "Polska"
           }
         },
         "labels": {
