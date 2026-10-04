@@ -78,18 +78,51 @@ export const jobsRouter = createTRPCRouter({
       });
     }),
 
-  getAll: protectedProcedure.query(async (opts) =>
-    opts.ctx.db.query.jobOffer.findMany({
-      where: { userId: opts.ctx.user.id },
-      orderBy: { createdAt: "desc" },
-      with: {
-        jobCompany: true,
-        jobOfferAddress: true,
-      },
-    })
+  getAll: protectedProcedure.query(
+    async (opts) =>
+      await opts.ctx.db.query.jobOffer.findMany({
+        where: { userId: opts.ctx.user.id },
+        orderBy: { createdAt: "desc" },
+        with: {
+          jobCompany: true,
+          jobOfferAddress: true,
+        },
+      })
   ),
+
+  getSummary: protectedProcedure.query(async ({ ctx }) => {
+    const [row] = await ctx.db
+      .select({
+        total: sql<number>`count(*)`.mapWith(Number),
+        applied:
+          sql<number>`count(*) filter (where ${jobOffer.hasApplied})`.mapWith(
+            Number
+          ),
+        ghosted:
+          sql<number>`count(*) filter (where ${jobOffer.ghosted})`.mapWith(
+            Number
+          ),
+        interviews:
+          sql<number>`coalesce(sum(${jobOffer.interviewCount}), 0)`.mapWith(
+            Number
+          ),
+        rejections:
+          sql<number>`count(*) filter (where ${jobOffer.rejected})`.mapWith(
+            Number
+          ),
+        hired: sql<number>`count(*) filter (where ${jobOffer.hired})`.mapWith(
+          Number
+        ),
+      })
+      .from(jobOffer)
+      .where(eq(jobOffer.userId, ctx.user.id));
+
+    return row;
+  }),
 });
 
 export type JobsRouter = typeof jobsRouter;
 export type Jobs = inferProcedureOutput<JobsRouter["getAll"]>;
 export type Job = Jobs[number];
+
+export type Summary = inferProcedureOutput<JobsRouter["getSummary"]>;
