@@ -77,7 +77,7 @@
           "application": {
             "heading": "Szczegóły aplikowania",
             "hasApplied": "Czy aplikowano?",
-            "ghosted": "Czy otrzymano informację zwrotną?",
+            "ghosted": "Czy Cię zghostowano?",
             "interview": {
               "count": "Ile rozmów rekrutacyjnych odbyto?",
               "happened": "Czy rozmowa rekrutacyjna się odbyła?"

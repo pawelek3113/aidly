@@ -58,7 +58,7 @@ export const JobCreation = () => {
 
   const [interviewHappened, setInterviewHappened] = useState(false);
 
-  const { control, handleSubmit, formState, setValue } =
+  const { control, handleSubmit, formState, setValue, setValues } =
     useForm<CreateJobOfferInput>({
       resolver: zodResolver(createJobOfferSchema),
       defaultValues: {
@@ -398,7 +398,6 @@ export const JobCreation = () => {
             )}
 
             <div className="flex flex-wrap gap-4">
-              {/* RADIO */}
               <Controller
                 name="ghosted"
                 control={control}
@@ -409,7 +408,19 @@ export const JobCreation = () => {
                       ref={field.ref}
                       onBlur={field.onBlur}
                       checked={field.value}
-                      onCheckedChange={field.onChange}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setValues(
+                            { hired: false, rejected: false },
+                            {
+                              shouldValidate: true,
+                              shouldDirty: true,
+                              shouldTouch: true,
+                            }
+                          );
+                        }
+                        field.onChange(checked);
+                      }}
                       icon={
                         <GhostIcon className="size-full" weight="duotone" />
                       }
@@ -431,17 +442,19 @@ export const JobCreation = () => {
                       ref={field.ref}
                       onBlur={field.onBlur}
                       checked={field.value}
-                      onCheckedChange={field.onChange}
-                      // onCheckedChange={(checked) => {
-                      //   if (checked) {
-                      //     setValue("hired", false, {
-                      //       shouldValidate: true,
-                      //       shouldDirty: true,
-                      //       shouldTouch: true,
-                      //     });
-                      //   }
-                      //   field.onChange(checked);
-                      // }}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setValues(
+                            { hired: false, ghosted: false },
+                            {
+                              shouldValidate: true,
+                              shouldDirty: true,
+                              shouldTouch: true,
+                            }
+                          );
+                        }
+                        field.onChange(checked);
+                      }}
                       icon={
                         <SmileySadIcon className="size-full" weight="duotone" />
                       }
@@ -463,17 +476,19 @@ export const JobCreation = () => {
                       ref={field.ref}
                       onBlur={field.onBlur}
                       checked={field.value}
-                      onCheckedChange={field.onChange}
-                      // onCheckedChange={(checked) => {
-                      //   if (checked) {
-                      //     setValue("rejected", false, {
-                      //       shouldValidate: true,
-                      //       shouldDirty: true,
-                      //       shouldTouch: true,
-                      //     });
-                      //   }
-                      //   field.onChange(checked);
-                      // }}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setValues(
+                            { rejected: false, ghosted: false },
+                            {
+                              shouldValidate: true,
+                              shouldDirty: true,
+                              shouldTouch: true,
+                            }
+                          );
+                        }
+                        field.onChange(checked);
+                      }}
                       icon={
                         <ReadCvLogoIcon
                           className="size-full"
