@@ -149,10 +149,10 @@
         "offer": {
           "create": {
             "success": {
-              "title": "Pomyślnie dodano nową ofertę pracy"
+              "title": "Pomyślnie dodano nową ofertę pracy."
             },
             "error": {
-              "title": "Nie udało się dodać nowej oferty pracy"
+              "title": "Nie udało się dodać nowej oferty pracy."
             }
           }
         }

@@ -41,14 +41,14 @@ export const JobCreation = () => {
       onSuccess: (_id) => {
         queryClient.invalidateQueries(trpc.jobs.pathFilter());
         showToast({
-          title: t("toasts.jobs.offer.create.success"),
+          title: t("toasts.jobs.offer.create.success.title"),
           type: TOAST_TYPES.success,
         });
         router.push("/jobs");
       },
       onError: (err) => {
         showToast({
-          title: t("toasts.jobs.offer.create.error"),
+          title: t("toasts.jobs.offer.create.error.title"),
           description: t(err.message),
           type: TOAST_TYPES.success,
         });

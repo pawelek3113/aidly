@@ -149,10 +149,10 @@
         "offer": {
           "create": {
             "success": {
-              "title": "Successfully added new job offer"
+              "title": "Successfully added new job offer."
             },
             "error": {
-              "title": "Adding new job offer failed"
+              "title": "Adding new job offer failed."
             }
           }
         }
