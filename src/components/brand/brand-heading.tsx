@@ -8,10 +8,11 @@ type BrandHeadingProps = {
   text?: string;
 };
 
-const brandTextVariants = cva("", {
+const brandTextVariants = cva("brand-text", {
   variants: {
     variant: {
-      default: "brand-text",
+      default: "",
+      pageHeading: "text-center md:text-start",
     },
     size: {
       gigantic: "text-5xl",

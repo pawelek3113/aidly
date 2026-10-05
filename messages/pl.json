@@ -20,7 +20,13 @@
       "subheading": "Zacznij poprzez dodanie ich tutaj."
     },
     "summary": {
-      "heading": "Podsumowanie"
+      "heading": "Podsumowanie",
+      "total": "łącznie",
+      "applied": "aplikowano",
+      "ghosted": "zghostowano",
+      "interviews": "rozmów rekrutacyjnych",
+      "rejections": "odrzuceń",
+      "hired": "zatrudniono"
     },
     "create": {
       "errors": {

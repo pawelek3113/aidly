@@ -20,7 +20,13 @@
       "subheading": "Start by adding some job offers you want to track here."
     },
     "summary": {
-      "heading": "Summary"
+      "heading": "Summary",
+      "total": "total offers",
+      "applied": "applied",
+      "ghosted": "ghosted",
+      "interviews": "interviews",
+      "rejections": "rejections",
+      "hired": "hired"
     },
     "create": {
       "errors": {

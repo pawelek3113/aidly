@@ -6,11 +6,13 @@ import { JobsSummary } from "./jobs-summary";
 
 export const JobsDashboard = () => {
   const trpc = useTRPC();
-  const { data: jobs } = useSuspenseQuery(trpc.jobs.getAll.queryOptions());
+  const { data: summary } = useSuspenseQuery(
+    trpc.jobs.getSummary.queryOptions()
+  );
 
-  if (jobs.length === 0) {
+  if (summary.total === 0) {
     return <JobsEmpty />;
   }
 
-  return <JobsSummary jobs={jobs} />;
+  return <JobsSummary summary={summary} />;
 };

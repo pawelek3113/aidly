@@ -96,7 +96,11 @@ export const JobCreation = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex w-full max-w-5xl flex-col gap-4 px-5 md:px-0"
     >
-      <BrandHeading text={t("jobs.create.heading")} size="gigantic" />
+      <BrandHeading
+        text={t("jobs.create.heading")}
+        size="gigantic"
+        variant="pageHeading"
+      />
       <Controller
         name="role"
         control={control}

@@ -1,14 +1,14 @@
 import { JobsDashboard } from "@/components/jobs/jobs-dashboard";
-import { JobsDashboardSkeleton } from "@/components/jobs/jobs-skeleton";
+import { JobsSummarySkeleton } from "@/components/jobs/jobs-skeleton";
 import { HydrateClient, prefetch, trpc } from "@/trpc/server";
 import { Suspense } from "react";
 
 const JobsPage = async () => {
-  prefetch(trpc.jobs.getAll.queryOptions());
+  prefetch(trpc.jobs.getSummary.queryOptions());
 
   return (
     <HydrateClient>
-      <Suspense fallback={<JobsDashboardSkeleton />}>
+      <Suspense fallback={<JobsSummarySkeleton />}>
         <JobsDashboard />
       </Suspense>
     </HydrateClient>
