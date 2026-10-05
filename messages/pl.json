@@ -14,6 +14,32 @@
     "theme": "Przełącz motyw",
     "dialog": "Zamknij okno dialogowe"
   },
+  "tools": {
+    "job_compass": {
+      "name": "Kompas Pracy",
+      "description": "Pomoże Ci śledzić aktualny postęp w rekrutacji."
+    },
+    "todo_lists": {
+      "name": "Przypomnienia",
+      "description": "Twój drugi mózg, gromadzący każdą Twoją myśl."
+    },
+    "recipe_book": {
+      "name": "Przepiśnik",
+      "description": "Podpowie Ci, co teraz zjeść na podstawie zebranych przepisów."
+    },
+    "calorie_tracker": {
+      "name": "Śledzenie Kalorii",
+      "description": "Liczy to co zjesz przez cały dzień."
+    },
+    "budget_planner": {
+      "name": "Wydatki",
+      "description": "Pomoże Ci zaoszczędzić trochę pieniędzy."
+    }
+  },
+  "dashboard": {
+    "heading": "Panel",
+    "subheading": "Wybierz narzędzie, z którego chcesz skorzystać."
+  },
   "jobs": {
     "empty": {
       "heading": "Nie masz żadnej zapisanej oferty pracy",
@@ -23,6 +49,7 @@
       "heading": "Twoje oferty pracy"
     },
     "summary": {
+      "toolTitle": "Job Compass",
       "heading": "Podsumowanie",
       "total": "łącznie",
       "applied": "aplikowano",

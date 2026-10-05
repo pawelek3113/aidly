@@ -1,3 +1,4 @@
+import { BrandHeading } from "@/components/brand/brand-heading";
 import { Tool, ToolItem } from "@/components/dashboard/tool-item";
 import {
   AvocadoIcon,
@@ -6,42 +7,38 @@ import {
   PiggyBankIcon,
   PizzaIcon,
 } from "@phosphor-icons/react/dist/ssr";
+import { getTranslations } from "next-intl/server";
 
-const DashBoardPage = () => {
+const DashBoardPage = async () => {
+  const t = await getTranslations("dashboard");
+
   const tools: Tool[] = [
     {
-      name: "Job Compass",
-      description: "Helps you track your current job applications.",
+      id: "job_compass",
       icon: <LinkedinLogoIcon weight="bold" size={40} className="shrink-0" />,
       href: "/jobs",
       // comingSoon: true,
     },
     {
-      name: "Todo Lists",
-      description:
-        "Your second brain that collects every thought you could've think of.",
+      id: "todo_lists",
       icon: <BrainIcon weight="bold" size={40} className="shrink-0" />,
       href: "/todos",
       comingSoon: true,
     },
     {
-      name: "Recipe Book",
-      description:
-        "Recommends you what to eat now and collects step-by-step instructions how to make your delicious snacks.",
+      id: "recipe_book",
       icon: <PizzaIcon weight="bold" size={40} className="shrink-0" />,
       href: "/recipes",
       comingSoon: true,
     },
     {
-      name: "Calorie Tracker",
-      description: "Counts what you eat throughout the day.",
+      id: "calorie_tracker",
       icon: <AvocadoIcon weight="bold" size={40} className="shrink-0" />,
       href: "/calories",
       comingSoon: true,
     },
     {
-      name: "Budget planner",
-      description: "Helps you save some money.",
+      id: "budget_planner",
       icon: <PiggyBankIcon weight="bold" size={40} className="shrink-0" />,
       href: "/expenses",
       comingSoon: true,
@@ -49,10 +46,24 @@ const DashBoardPage = () => {
   ];
 
   return (
-    <div className="flex flex-col items-start gap-4 sm:grid sm:grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]">
-      {tools.map((tool) => (
-        <ToolItem {...tool} key={tool.name} />
-      ))}
+    <div className="flex flex-col gap-4">
+      <BrandHeading
+        text={t("heading")}
+        variant="pageHeading"
+        size="gigantic"
+        className="md:text-center"
+      />
+      <BrandHeading
+        text={t("subheading")}
+        size="large"
+        className="md:text-center"
+        variant="pageHeading"
+      />
+      <div className="flex flex-col items-start gap-4 sm:grid sm:grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]">
+        {tools.map((tool) => (
+          <ToolItem {...tool} key={tool.id} />
+        ))}
+      </div>
     </div>
   );
 };

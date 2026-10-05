@@ -14,6 +14,32 @@
     "theme": "Toggle theme",
     "dialog": "Close dialog"
   },
+  "tools": {
+    "job_compass": {
+      "name": "Job Compass",
+      "description": "Helps you track your current job applications."
+    },
+    "todo_lists": {
+      "name": "Todo Lists",
+      "description": "Your second brain that collects every thought you could've think of."
+    },
+    "recipe_book": {
+      "name": "Recipe Book",
+      "description": "Recommends you what to eat now and collects step-by-step instructions how to make your delicious snacks."
+    },
+    "calorie_tracker": {
+      "name": "Calorie Tracker",
+      "description": "Counts what you eat throughout the day."
+    },
+    "budget_planner": {
+      "name": "Budget Planner",
+      "description": "Helps you save some money."
+    }
+  },
+  "dashboard": {
+    "heading": "Dashboard",
+    "subheading": "Choose a tool you want to use."
+  },
   "jobs": {
     "empty": {
       "heading": "You've not collected any job offer yet",
@@ -23,6 +49,7 @@
       "heading": "Your job offers"
     },
     "summary": {
+      "toolTitle": "Job Compass",
       "heading": "Summary",
       "total": "total offers",
       "applied": "applied",
