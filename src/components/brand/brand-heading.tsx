@@ -12,7 +12,7 @@ const brandTextVariants = cva("brand-text", {
   variants: {
     variant: {
       default: "",
-      pageHeading: "text-center md:text-start",
+      pageHeading: "text-center md:text-start mb-4",
     },
     size: {
       gigantic: "text-5xl",

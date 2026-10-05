@@ -19,6 +19,9 @@
       "heading": "Nie masz żadnej zapisanej oferty pracy",
       "subheading": "Zacznij poprzez dodanie ich tutaj."
     },
+    "offers": {
+      "heading": "Twoje oferty pracy"
+    },
     "summary": {
       "heading": "Podsumowanie",
       "total": "łącznie",
