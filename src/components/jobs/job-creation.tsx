@@ -58,7 +58,7 @@ export const JobCreation = () => {
 
   const [interviewHappened, setInterviewHappened] = useState(false);
 
-  const { control, handleSubmit, formState, setValue, setValues } =
+  const { control, handleSubmit, formState, setValue, setValues, resetField } =
     useForm<CreateJobOfferInput>({
       resolver: zodResolver(createJobOfferSchema),
       defaultValues: {
@@ -112,6 +112,7 @@ export const JobCreation = () => {
             <Input
               {...field}
               id="role"
+              autoComplete="off"
               aria-invalid={fieldState.invalid}
               placeholder={t("jobs.create.form.placeholders.role")}
             />
@@ -132,6 +133,7 @@ export const JobCreation = () => {
             <Input
               {...field}
               id="url"
+              autoComplete="off"
               aria-invalid={fieldState.invalid}
               placeholder={t("jobs.create.form.placeholders.url")}
             />
@@ -152,6 +154,7 @@ export const JobCreation = () => {
             <Input
               {...field}
               id="company.name"
+              autoComplete="off"
               aria-invalid={fieldState.invalid}
               placeholder={t("jobs.create.form.placeholders.companyName")}
             />
@@ -181,6 +184,7 @@ export const JobCreation = () => {
                   {...field}
                   value={field.value ?? ""}
                   id="address.city"
+                  autoComplete="off"
                   aria-invalid={fieldState.invalid}
                   placeholder={t("jobs.create.form.placeholders.address.city")}
                 />
@@ -202,6 +206,7 @@ export const JobCreation = () => {
                   {...field}
                   value={field.value ?? ""}
                   id="address.country"
+                  autoComplete="off"
                   aria-invalid={fieldState.invalid}
                   placeholder={t(
                     "jobs.create.form.placeholders.address.country"
@@ -226,6 +231,7 @@ export const JobCreation = () => {
                 {...field}
                 value={field.value ?? ""}
                 id="address.street"
+                autoComplete="off"
                 aria-invalid={fieldState.invalid}
                 placeholder={t("jobs.create.form.placeholders.address.street")}
               />
@@ -248,6 +254,7 @@ export const JobCreation = () => {
                   {...field}
                   value={field.value ?? ""}
                   id="address.streetNumber"
+                  autoComplete="off"
                   aria-invalid={fieldState.invalid}
                   placeholder={t(
                     "jobs.create.form.placeholders.address.streetNumber"
@@ -271,6 +278,7 @@ export const JobCreation = () => {
                   {...field}
                   value={field.value ?? ""}
                   id="address.apartmentNumber"
+                  autoComplete="off"
                   aria-invalid={fieldState.invalid}
                   placeholder={t(
                     "jobs.create.form.placeholders.address.apartmentNumber"
@@ -334,7 +342,17 @@ export const JobCreation = () => {
                 ref={field.ref}
                 onBlur={field.onBlur}
                 checked={field.value}
-                onCheckedChange={field.onChange}
+                onCheckedChange={(checked) => {
+                  if (!checked) {
+                    setInterviewHappened(checked);
+                    resetField("interviewCount");
+                    resetField("ghosted");
+                    resetField("rejected");
+                    resetField("hired");
+                  }
+
+                  field.onChange(checked);
+                }}
               />
 
               {fieldState.invalid && (
@@ -344,7 +362,6 @@ export const JobCreation = () => {
           )}
         />
 
-        {/* TODO: turn off other values once applied unchecked  !!! */}
         {hasApplied && (
           <>
             <div
@@ -388,6 +405,7 @@ export const JobCreation = () => {
                       }}
                       value={field.value ?? ""}
                       id="interviewCount"
+                      autoComplete="off"
                       aria-invalid={fieldState.invalid}
                       placeholder={"1"}
                       type="number"
