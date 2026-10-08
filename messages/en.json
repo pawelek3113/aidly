@@ -41,12 +41,33 @@
     "subheading": "Choose a tool you want to use."
   },
   "jobs": {
+    "toasts": {
+      "offer": {
+        "create": {
+          "success": {
+            "title": "Successfully added new job offer."
+          },
+          "error": {
+            "title": "Adding new job offer failed."
+          }
+        }
+      }
+    },
     "empty": {
       "heading": "You've not collected any job offer yet",
       "subheading": "Start by adding some job offers you want to track here."
     },
     "offers": {
-      "heading": "Your job offers"
+      "heading": "Your job offers",
+      "row": {
+        "features": {
+          "remote": "remote"
+        },
+        "labels": {
+          "notes": "notes",
+          "createdAt": "day created"
+        }
+      }
     },
     "summary": {
       "toolTitle": "Job Compass",
@@ -181,18 +202,6 @@
       }
     },
     "toasts": {
-      "jobs": {
-        "offer": {
-          "create": {
-            "success": {
-              "title": "Successfully added new job offer."
-            },
-            "error": {
-              "title": "Adding new job offer failed."
-            }
-          }
-        }
-      },
       "signin": {
         "success": {
           "title": "Success!",

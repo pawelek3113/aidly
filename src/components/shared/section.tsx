@@ -9,13 +9,14 @@ type SectionProps = {
   children?: ReactNode;
   className?: string;
   contentClassName?: string;
-  heading?: string;
+  heading?: string | ReactNode;
   brandheadingEnabled?: boolean;
   rightArrow?: boolean;
   nonExpandable?: boolean;
   initialExpanded?: boolean;
   clickable?: boolean;
   headingClassName?: string;
+  arrowDisabled?: boolean;
 };
 
 export const Section = ({
@@ -29,6 +30,7 @@ export const Section = ({
   initialExpanded = true,
   clickable,
   headingClassName,
+  arrowDisabled,
 }: SectionProps) => {
   const [expanded, setExpanded] = useState(initialExpanded);
 
@@ -40,7 +42,7 @@ export const Section = ({
   };
 
   return (
-    <div className={cn("flex flex-col gap-2", className)}>
+    <section className={cn("flex flex-col gap-2", className)}>
       <div
         {...(clickable && {
           tabIndex: 0,
@@ -53,7 +55,7 @@ export const Section = ({
           clickable && "cursor-pointer"
         )}
       >
-        {!nonExpandable && (
+        {!nonExpandable && !arrowDisabled && (
           <Button
             variant="ghost"
             size="icon-3xl"
@@ -80,13 +82,17 @@ export const Section = ({
           </Button>
         )}
 
-        {brandheadingEnabled ? (
-          <BrandHeading text={heading} className={headingClassName} />
-        ) : (
-          <h2 className={cn("text-2xl font-bold", headingClassName)}>
-            {heading}
-          </h2>
-        )}
+        {heading &&
+          typeof heading === "string" &&
+          (brandheadingEnabled ? (
+            <BrandHeading text={heading} className={headingClassName} />
+          ) : (
+            <h2 className={cn("text-2xl font-bold", headingClassName)}>
+              {heading}
+            </h2>
+          ))}
+
+        {heading && typeof heading !== "string" && heading}
       </div>
       <AnimatePresence initial={false}>
         {expanded && (
@@ -105,6 +111,6 @@ export const Section = ({
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </section>
   );
 };

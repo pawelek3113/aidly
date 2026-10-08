@@ -41,12 +41,33 @@
     "subheading": "Wybierz narzędzie, z którego chcesz skorzystać."
   },
   "jobs": {
+    "toasts": {
+      "offer": {
+        "create": {
+          "success": {
+            "title": "Pomyślnie dodano nową ofertę pracy."
+          },
+          "error": {
+            "title": "Nie udało się dodać nowej oferty pracy."
+          }
+        }
+      }
+    },
     "empty": {
       "heading": "Nie masz żadnej zapisanej oferty pracy",
       "subheading": "Zacznij poprzez dodanie ich tutaj."
     },
     "offers": {
-      "heading": "Twoje oferty pracy"
+      "heading": "Twoje oferty pracy",
+      "row": {
+        "features": {
+          "remote": "zdalnie"
+        },
+        "labels": {
+          "notes": "notatki",
+          "createdAt": "dzień utworzenia"
+        }
+      }
     },
     "summary": {
       "toolTitle": "Job Compass",
@@ -181,18 +202,6 @@
       }
     },
     "toasts": {
-      "jobs": {
-        "offer": {
-          "create": {
-            "success": {
-              "title": "Pomyślnie dodano nową ofertę pracy."
-            },
-            "error": {
-              "title": "Nie udało się dodać nowej oferty pracy."
-            }
-          }
-        }
-      },
       "signin": {
         "success": {
           "title": "Sukces!",
