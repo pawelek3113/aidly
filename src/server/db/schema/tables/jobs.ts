@@ -1,24 +1,45 @@
 import {
   boolean,
+  date,
   integer,
   pgTable,
+  primaryKey,
   text,
   timestamp,
+  uuid,
 } from "drizzle-orm/pg-core";
+import {
+  jobContractEnum,
+  jobLevelEnum,
+  offerStatusEnum,
+  workModeEnum,
+} from "../enums";
 import { user } from "./auth";
 
+export const salaryCurrency = pgTable("salary_currency", {
+  id: uuid().primaryKey().defaultRandom(),
+  currency: text().notNull().unique(),
+});
+
+export const jobSalary = pgTable("job_salary", {
+  id: uuid().primaryKey().defaultRandom(),
+  value: integer().notNull(),
+  currencyId: uuid("currency_id")
+    .notNull()
+    .references(() => salaryCurrency.id, { onDelete: "restrict" }),
+  jobId: uuid("job_id").references(() => jobOffer.id, {
+    onDelete: "cascade",
+  }),
+});
+
 export const jobCompany = pgTable("job_company", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  name: text("name").notNull(),
-  image: text("image"),
+  id: uuid().primaryKey().defaultRandom(),
+  name: text().notNull(),
+  image: text(),
 });
 
 export const jobOfferAddress = pgTable("job_offer_address", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+  id: uuid().primaryKey().defaultRandom(),
   street: text("street"),
   streetNumber: text("street_number"),
   apartmentNumber: text("apartment_number"),
@@ -26,31 +47,49 @@ export const jobOfferAddress = pgTable("job_offer_address", {
   country: text("country"),
 });
 
+export const skill = pgTable("job_offer_skill", {
+  id: uuid().primaryKey().defaultRandom(),
+  title: text().notNull().unique(),
+});
+
+export const jobOfferSkill = pgTable(
+  "job_offer_skill_junc",
+  {
+    offerId: uuid("offer_id")
+      .notNull()
+      .references(() => jobOffer.id, { onDelete: "cascade" }),
+    skillId: uuid("skill_id")
+      .notNull()
+      .references(() => skill.id, { onDelete: "cascade" }),
+  },
+  (t) => [primaryKey({ columns: [t.offerId, t.skillId] })]
+);
+
 export const jobOffer = pgTable("job_offer", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  role: text("role").notNull(),
-  companyId: text("company_id")
+  id: uuid().primaryKey().defaultRandom(),
+  role: text().notNull(),
+  companyId: uuid("company_id")
     .notNull()
-    .references(() => jobCompany.id),
-  url: text("url").notNull(),
-  notes: text("notes"),
-  addressId: text("address_id").references(() => jobOfferAddress.id, {
+    .references(() => jobCompany.id, { onDelete: "set null" }),
+  url: text(),
+  portal: text(),
+  notes: text(),
+  addressId: uuid("address_id").references(() => jobOfferAddress.id, {
     onDelete: "set null",
   }),
-  isRemote: boolean("is_remote").default(false).notNull(),
 
-  hasApplied: boolean("has_applied").default(false).notNull(),
-  ghosted: boolean("ghosted").default(false).notNull(),
+  workMode: workModeEnum("work_mode").default("remote").notNull(),
   interviewCount: integer("interview_count").default(0).notNull(),
-  hired: boolean("hired").default(false).notNull(),
-  rejected: boolean("rejected").default(false).notNull(),
+  status: offerStatusEnum().notNull(),
 
-  // feedback
-  // expiryDate
+  contract: jobContractEnum().default("mandate").notNull(),
+  level: jobLevelEnum().default("junior").notNull(),
 
-  image: text("image"),
+  isFavorite: boolean("is_favorite").notNull().default(false),
+
+  feedback: text(),
+  expirationDate: date("expiration_date", { mode: "date" }),
+  image: text(),
 
   userId: text("user_id")
     .notNull()
@@ -62,3 +101,8 @@ export const jobOffer = pgTable("job_offer", {
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
 });
+
+export type WorkMode = (typeof workModeEnum.enumValues)[number];
+export type Status = (typeof offerStatusEnum.enumValues)[number];
+export type Contract = (typeof jobContractEnum.enumValues)[number];
+export type Level = (typeof jobLevelEnum.enumValues)[number];

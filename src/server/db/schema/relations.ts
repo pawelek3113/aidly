@@ -4,7 +4,9 @@ import {
   jobCompany,
   jobOffer,
   jobOfferAddress,
+  jobOfferSkill,
   session,
+  skill,
   user,
   verification,
 } from "./tables";
@@ -18,6 +20,8 @@ export const relations = defineRelations(
     jobOffer,
     jobCompany,
     jobOfferAddress,
+    skill,
+    jobOfferSkill,
   },
   (r) => ({
     user: {
@@ -58,6 +62,18 @@ export const relations = defineRelations(
       jobOfferAddress: r.one.jobOfferAddress({
         from: r.jobOffer.addressId,
         to: r.jobOfferAddress.id,
+      }),
+      skills: r.many.skill({
+        from: r.jobOffer.id.through(r.jobOfferSkill.offerId),
+        to: r.skill.id.through(r.jobOfferSkill.skillId),
+      }),
+      // TODO: add salary relations
+    },
+    // TODO: add salary relations
+    skill: {
+      jobOffers: r.many.jobOffer({
+        from: r.skill.id.through(r.jobOfferSkill.skillId),
+        to: r.jobOffer.id.through(r.jobOfferSkill.offerId),
       }),
     },
     jobCompany: {
