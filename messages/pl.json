@@ -98,8 +98,12 @@
           },
           "interview": {
             "count": {
-              "minValue": "Minimalna wartość to 0."
+              "minValue": "Minimalna wartość to 0.",
+              "required": "Liczba rozmów rekrutacyjnych jest wymagana, w przypadku gdy rozmowa się odbyła."
             }
+          },
+          "salary": {
+            "minValue": "Minimalna wartość wynagrodzenia to 0."
           }
         }
       },
@@ -122,6 +126,10 @@
           "url": "Strona internetowa",
           "companyName": "Nazwa firmy",
           "notes": "Twoje notatki",
+          "expirationDate": {
+            "label": "Data wygaśnięcia",
+            "placeholder": "Wybierz datę"
+          },
           "address": {
             "sectionHeading": "Adres",
             "street": "Ulica",
@@ -130,15 +138,49 @@
             "city": "Miejscowość",
             "country": "Kraj"
           },
-          "isRemote": "Zdalnie",
+          "skills": {
+            "heading": "Umiejętności",
+            "label": "Umiejętności"
+          },
+          "salary": {
+            "heading": "Miesięczne wynagrodzenie",
+            "label": "Wynagrodzenie",
+            "value": {
+              "label": "Wartość"
+            },
+            "currency": {
+              "label": "Waluta"
+            }
+          },
+          "level": "Poziom doświadczenia",
+          "levels": {
+            "junior": "Junior",
+            "mid": "Mid",
+            "senior": "Senior"
+          },
+          "contract": "Rodzaj umowy",
+          "contracts": {
+            "mandate": "zlecenie",
+            "employment": "o pracę",
+            "b2b": "B2B",
+            "specificWork": "o dzieło"
+          },
+          "workMode": "Tryb pracy",
+          "workModes": {
+            "remote": "Zdalnie",
+            "onSite": "Na miejscu",
+            "hybrid": "Hybrydowo"
+          },
           "application": {
             "heading": "Szczegóły aplikowania",
             "hasApplied": "Czy aplikowano?",
-            "ghosted": "Czy Cię zghostowano?",
             "interview": {
               "count": "Ile rozmów rekrutacyjnych odbyto?",
               "happened": "Czy rozmowa rekrutacyjna się odbyła?"
             },
+            "status": "Status",
+            "feedback": "Informacja zwrotna",
+            "ghosted": "Czy Cię zghostowano?",
             "hired": "Czy zatrudniono Cię?",
             "rejected": "Czy odrzucono Cię?"
           },

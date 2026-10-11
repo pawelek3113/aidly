@@ -54,6 +54,7 @@
     "next-intl": "^4.13.4",
     "pg": "^8.22.0",
     "react": "19.2.8",
+    "react-day-picker": "^10.0.2",
     "react-dom": "19.2.8",
     "react-email": "6.9.1",
     "react-hook-form": "^7.84.0",

@@ -98,8 +98,12 @@
           },
           "interview": {
             "count": {
-              "minValue": "Minimum value is 0."
+              "minValue": "Minimum value is 0.",
+              "required": "Number of interviews is required, since you've been interviewed."
             }
+          },
+          "salary": {
+            "minValue": "Minimum value of salary is 0."
           }
         }
       },
@@ -122,6 +126,10 @@
           "url": "Website",
           "companyName": "Company",
           "notes": "Your notes",
+          "expirationDate": {
+            "label": "Expiration date",
+            "placeholder": "Pick a date"
+          },
           "address": {
             "sectionHeading": "Address",
             "street": "Street",
@@ -130,15 +138,49 @@
             "city": "City",
             "country": "Country"
           },
-          "isRemote": "Remote",
+          "skills": {
+            "heading": "Skills",
+            "label": "Skills"
+          },
+          "salary": {
+            "heading": "Monthly salary",
+            "label": "Salary",
+            "value": {
+              "label": "Amount"
+            },
+            "currency": {
+              "label": "Currency"
+            }
+          },
+          "level": "Level of experience",
+          "levels": {
+            "junior": "Junior",
+            "mid": "Mid",
+            "senior": "Senior"
+          },
+          "contract": "Agreement type",
+          "contracts": {
+            "mandate": "mandate",
+            "employment": "employment",
+            "b2b": "B2B",
+            "specificWork": "specific work"
+          },
+          "workMode": "Work mode",
+          "workModes": {
+            "remote": "Remote",
+            "onSite": "On-site",
+            "hybrid": "Hybrid"
+          },
           "application": {
             "heading": "Application details",
             "hasApplied": "Have you applied?",
-            "ghosted": "Have you been ghosted?",
             "interview": {
               "count": "How many interviews have you attended?",
               "happened": "Have you been interviewed?"
             },
+            "status": "Status",
+            "feedback": "Feedback",
+            "ghosted": "Have you been ghosted?",
             "hired": "Have you been hired?",
             "rejected": "Have you been rejected?"
           },
