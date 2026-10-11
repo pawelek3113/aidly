@@ -27,9 +27,11 @@ export const jobSalary = pgTable("job_salary", {
   currencyId: uuid("currency_id")
     .notNull()
     .references(() => salaryCurrency.id, { onDelete: "restrict" }),
-  jobId: uuid("job_id").references(() => jobOffer.id, {
-    onDelete: "cascade",
-  }),
+  jobId: uuid("job_id")
+    .references(() => jobOffer.id, {
+      onDelete: "cascade",
+    })
+    .notNull(),
 });
 
 export const jobCompany = pgTable("job_company", {
@@ -70,7 +72,7 @@ export const jobOffer = pgTable("job_offer", {
   role: text().notNull(),
   companyId: uuid("company_id")
     .notNull()
-    .references(() => jobCompany.id, { onDelete: "set null" }),
+    .references(() => jobCompany.id, { onDelete: "restrict" }),
   url: text(),
   portal: text(),
   notes: text(),
@@ -80,7 +82,7 @@ export const jobOffer = pgTable("job_offer", {
 
   workMode: workModeEnum("work_mode").default("remote").notNull(),
   interviewCount: integer("interview_count").default(0).notNull(),
-  status: offerStatusEnum().notNull(),
+  status: offerStatusEnum().default("saved").notNull(),
 
   contract: jobContractEnum().default("mandate").notNull(),
   level: jobLevelEnum().default("junior").notNull(),
