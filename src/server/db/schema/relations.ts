@@ -5,6 +5,8 @@ import {
   jobOffer,
   jobOfferAddress,
   jobOfferSkill,
+  jobSalary,
+  salaryCurrency,
   session,
   skill,
   user,
@@ -22,6 +24,8 @@ export const relations = defineRelations(
     jobOfferAddress,
     skill,
     jobOfferSkill,
+    jobSalary,
+    salaryCurrency,
   },
   (r) => ({
     user: {
@@ -67,9 +71,24 @@ export const relations = defineRelations(
         from: r.jobOffer.id.through(r.jobOfferSkill.offerId),
         to: r.skill.id.through(r.jobOfferSkill.skillId),
       }),
-      // TODO: add salary relations
+      salary: r.one.jobSalary({
+        from: r.jobOffer.id,
+        to: r.jobSalary.jobId,
+      }),
     },
-    // TODO: add salary relations
+    jobSalary: {
+      jobOffer: r.one.jobOffer({
+        from: r.jobSalary.jobId,
+        to: r.jobOffer.id,
+      }),
+      currency: r.one.salaryCurrency({
+        from: r.jobSalary.currencyId,
+        to: r.salaryCurrency.id,
+      }),
+    },
+    salaryCurrency: {
+      jobSalaries: r.many.jobSalary(),
+    },
     skill: {
       jobOffers: r.many.jobOffer({
         from: r.skill.id.through(r.jobOfferSkill.skillId),

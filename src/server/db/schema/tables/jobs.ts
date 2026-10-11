@@ -25,9 +25,11 @@ export const jobSalary = pgTable("job_salary", {
   id: uuid().primaryKey().defaultRandom(),
   value: integer().notNull(),
   currencyId: uuid("currency_id")
+    .unique()
     .notNull()
     .references(() => salaryCurrency.id, { onDelete: "restrict" }),
   jobId: uuid("job_id")
+    .unique()
     .references(() => jobOffer.id, {
       onDelete: "cascade",
     })
