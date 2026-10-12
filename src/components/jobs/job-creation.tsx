@@ -14,36 +14,13 @@ import {
   offerStatusEnum,
   workModeEnum,
 } from "@/server/db/schema/enums";
-import {
-  Contract,
-  Level,
-  Status,
-  type WorkMode,
-} from "@/server/db/schema/tables";
 import { useTRPC } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  BriefcaseIcon,
-  BuildingOfficeIcon,
-  FileTextIcon,
-  GhostIcon,
-  HandshakeIcon,
-  HouseLineIcon,
-  LeafIcon,
-  OfficeChairIcon,
-  PenNibIcon,
-  PlantIcon,
-  PlusIcon,
-  ReadCvLogoIcon,
-  SmileySadIcon,
-  StarIcon,
-  TreeIcon,
-} from "@phosphor-icons/react";
+import { PlusIcon, StarIcon } from "@phosphor-icons/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { ReactNode } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { BrandHeading } from "../brand/brand-heading";
 import { Section } from "../shared/section";
@@ -56,81 +33,15 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { RadioGroup } from "../ui/radio-group";
 import { Switch } from "../ui/switch";
 import { Textarea } from "../ui/textarea";
+import {
+  CONTRACT_LABELS_ICONS,
+  INITIAL_STATUS,
+  isTerminalStatus,
+  LEVEL_LABELS_ICONS,
+  STATUS_LABELS_ICONS,
+  WORK_MODE_LABELS_ICONS,
+} from "./constants";
 import { DetailTile } from "./detail-tile";
-
-type TerminalStatus = Extract<Status, "ghosted" | "hired" | "rejected">;
-type InitialStatus = Extract<Status, "saved">;
-
-const INITIAL_STATUS: InitialStatus = "saved";
-
-const isTerminalStatus = (s: Status): s is TerminalStatus =>
-  s in STATUS_LABELS_ICONS;
-
-const LEVEL_LABELS_ICONS = {
-  junior: {
-    label: "jobs.create.form.labels.levels.junior",
-    icon: <LeafIcon className="size-full" weight="duotone" />,
-  },
-  mid: {
-    label: "jobs.create.form.labels.levels.mid",
-    icon: <PlantIcon className="size-full" weight="duotone" />,
-  },
-  senior: {
-    label: "jobs.create.form.labels.levels.senior",
-    icon: <TreeIcon className="size-full" weight="duotone" />,
-  },
-} as const satisfies Record<Level, { label: string; icon: ReactNode }>;
-
-const CONTRACT_LABELS_ICONS = {
-  mandate: {
-    label: "jobs.create.form.labels.contracts.mandate",
-    icon: <FileTextIcon className="size-full" weight="duotone" />,
-  },
-  employment: {
-    label: "jobs.create.form.labels.contracts.employment",
-    icon: <BriefcaseIcon className="size-full" weight="duotone" />,
-  },
-  B2B: {
-    label: "jobs.create.form.labels.contracts.b2b",
-    icon: <HandshakeIcon className="size-full" weight="duotone" />,
-  },
-  specific_work: {
-    label: "jobs.create.form.labels.contracts.specificWork",
-    icon: <PenNibIcon className="size-full" weight="duotone" />,
-  },
-} as const satisfies Record<Contract, { label: string; icon: ReactNode }>;
-
-const WORK_MODE_LABELS_ICONS = {
-  remote: {
-    label: "jobs.create.form.labels.workModes.remote",
-    icon: <HouseLineIcon className="size-full" weight="duotone" />,
-  },
-  on_site: {
-    label: "jobs.create.form.labels.workModes.onSite",
-    icon: <BuildingOfficeIcon className="size-full" weight="duotone" />,
-  },
-  hybrid: {
-    label: "jobs.create.form.labels.workModes.hybrid",
-    icon: <OfficeChairIcon className="size-full" weight="duotone" />,
-  },
-} as const satisfies Record<WorkMode, { label: string; icon: ReactNode }>;
-
-const STATUS_LABELS_ICONS = {
-  ghosted: {
-    label: "jobs.create.form.labels.application.ghosted",
-    icon: <GhostIcon className="size-full" weight="duotone" />,
-  },
-  hired: {
-    label: "jobs.create.form.labels.application.hired",
-    icon: <ReadCvLogoIcon className="size-full" weight="duotone" />,
-  },
-  rejected: {
-    label: "jobs.create.form.labels.application.rejected",
-    icon: <SmileySadIcon className="size-full" weight="duotone" />,
-  },
-} as const satisfies Record<TerminalStatus, { label: string; icon: ReactNode }>;
-
-// TODO: kick outta here
 
 export const JobCreation = () => {
   const t = useTranslations();
