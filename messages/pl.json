@@ -127,6 +127,9 @@
           }
         },
         "labels": {
+          "general": "Ogólne",
+          "roleCharacteristics": "Cechy stanowiska",
+          "workStyle": "Styl pracy",
           "role": "Stanowisko",
           "url": "Strona internetowa",
           "companyName": "Nazwa firmy",

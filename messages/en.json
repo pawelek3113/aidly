@@ -127,6 +127,9 @@
           }
         },
         "labels": {
+          "general": "General",
+          "roleCharacteristics": "Role characteristics",
+          "workStyle": "Work style",
           "role": "Role",
           "url": "Website",
           "companyName": "Company",

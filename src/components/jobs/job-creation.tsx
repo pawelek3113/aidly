@@ -118,148 +118,164 @@ export const JobCreation = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex w-full max-w-5xl flex-col gap-4 px-5 md:px-0"
+      className="flex w-full max-w-5xl flex-col gap-4"
     >
       <BrandHeading
         text={t("jobs.create.heading")}
-        size="gigantic"
+
+        className="text-4xl md:text-5xl"
         variant="pageHeading"
       />
-      <Controller
-        name="role"
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor="role">
-              {t("jobs.create.form.labels.role")}
-            </FieldLabel>
-            <Input
-              {...field}
-              id="role"
-              autoComplete="off"
-              aria-invalid={fieldState.invalid}
-              placeholder={t("jobs.create.form.placeholders.role")}
-            />
-            {fieldState.invalid && (
-              <TranslatedFieldError error={fieldState.error} />
-            )}
-          </Field>
-        )}
-      />
-      <Controller
-        name="url"
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor="url">
-              {t("jobs.create.form.labels.url")}
-            </FieldLabel>
-            <Input
-              {...field}
-              value={field.value ?? ""}
-              id="url"
-              autoComplete="off"
-              aria-invalid={fieldState.invalid}
-              placeholder={t("jobs.create.form.placeholders.url")}
-            />
-            {fieldState.invalid && (
-              <TranslatedFieldError error={fieldState.error} />
-            )}
-          </Field>
-        )}
-      />
-      <Controller
-        name="company.name"
-        // TODO: handle autocompletion with fetching existing companies from the db
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor="company.name">
-              {t("jobs.create.form.labels.companyName")}
-            </FieldLabel>
-            <Input
-              {...field}
-              id="company.name"
-              autoComplete="off"
-              aria-invalid={fieldState.invalid}
-              placeholder={t("jobs.create.form.placeholders.companyName")}
-            />
-            {fieldState.invalid && (
-              <TranslatedFieldError error={fieldState.error} />
-            )}
-          </Field>
-        )}
-      />
-      <Controller
-        name="contract"
-        control={control}
-        render={({ field, fieldState }) => (
-          <FieldSet data-invalid={fieldState.invalid} className="max-w-fit">
-            <FieldLegend variant="label">
-              {t("jobs.create.form.labels.contract")}
-            </FieldLegend>
+      <Section
+        heading={t("jobs.create.form.labels.general")}
+        rightArrow
+        clickable
+        contentClassName="flex-col gap-4"
+      >
+        <Controller
+          name="role"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="role">
+                {t("jobs.create.form.labels.role")}
+              </FieldLabel>
+              <Input
+                {...field}
+                id="role"
+                autoComplete="off"
+                aria-invalid={fieldState.invalid}
+                placeholder={t("jobs.create.form.placeholders.role")}
+              />
+              {fieldState.invalid && (
+                <TranslatedFieldError error={fieldState.error} />
+              )}
+            </Field>
+          )}
+        />
+        <Controller
+          name="url"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="url">
+                {t("jobs.create.form.labels.url")}
+              </FieldLabel>
+              <Input
+                {...field}
+                value={field.value ?? ""}
+                id="url"
+                autoComplete="off"
+                aria-invalid={fieldState.invalid}
+                placeholder={t("jobs.create.form.placeholders.url")}
+              />
+              {fieldState.invalid && (
+                <TranslatedFieldError error={fieldState.error} />
+              )}
+            </Field>
+          )}
+        />
+        <Controller
+          name="company.name"
+          // TODO: handle autocompletion with fetching existing companies from the db
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="company.name">
+                {t("jobs.create.form.labels.companyName")}
+              </FieldLabel>
+              <Input
+                {...field}
+                id="company.name"
+                autoComplete="off"
+                aria-invalid={fieldState.invalid}
+                placeholder={t("jobs.create.form.placeholders.companyName")}
+              />
+              {fieldState.invalid && (
+                <TranslatedFieldError error={fieldState.error} />
+              )}
+            </Field>
+          )}
+        />
+      </Section>
 
-            <RadioGroup
-              name={field.name}
-              value={field.value}
-              onValueChange={field.onChange}
-              onBlur={field.onBlur}
-              aria-invalid={fieldState.invalid}
-              className="flex flex-row flex-wrap justify-center gap-4 md:justify-start"
-            >
-              {jobContractEnum.enumValues.map((c) => (
-                <DetailTile
-                  key={c}
-                  checked={c === field.value}
-                  onCheckedChange={(_checked) => field.onChange(c)}
-                  id={`${field.name}_${c}`}
-                  aria-invalid={fieldState.invalid}
-                  label={t(CONTRACT_LABELS_ICONS[c].label)}
-                  icon={CONTRACT_LABELS_ICONS[c].icon}
-                />
-              ))}
-            </RadioGroup>
-            {fieldState.invalid && (
-              <TranslatedFieldError error={fieldState.error} />
-            )}
-          </FieldSet>
-        )}
-      />
-      <Controller
-        name="level"
-        control={control}
-        render={({ field, fieldState }) => (
-          <FieldSet data-invalid={fieldState.invalid} className="max-w-fit">
-            <FieldLegend variant="label">
-              {t("jobs.create.form.labels.level")}
-            </FieldLegend>
+      <Section
+        heading={t("jobs.create.form.labels.roleCharacteristics")}
+        rightArrow
+        clickable
+        contentClassName="flex-col gap-4"
+      >
+        <Controller
+          name="contract"
+          control={control}
+          render={({ field, fieldState }) => (
+            <FieldSet data-invalid={fieldState.invalid} className="max-w-fit">
+              <FieldLegend variant="label">
+                {t("jobs.create.form.labels.contract")}
+              </FieldLegend>
 
-            <RadioGroup
-              name={field.name}
-              value={field.value}
-              onValueChange={field.onChange}
-              onBlur={field.onBlur}
-              aria-invalid={fieldState.invalid}
-              className="flex flex-row flex-wrap justify-center gap-4 md:justify-start"
-            >
-              {jobLevelEnum.enumValues.map((l) => (
-                <DetailTile
-                  key={l}
-                  checked={l === field.value}
-                  onCheckedChange={(_checked) => field.onChange(l)}
-                  id={`${field.name}_${l}`}
-                  aria-invalid={fieldState.invalid}
-                  label={t(LEVEL_LABELS_ICONS[l].label)}
-                  icon={LEVEL_LABELS_ICONS[l].icon}
-                />
-              ))}
-            </RadioGroup>
-            {fieldState.invalid && (
-              <TranslatedFieldError error={fieldState.error} />
-            )}
-          </FieldSet>
-        )}
-      />
+              <RadioGroup
+                name={field.name}
+                value={field.value}
+                onValueChange={field.onChange}
+                onBlur={field.onBlur}
+                aria-invalid={fieldState.invalid}
+                className="flex flex-row flex-wrap justify-center gap-4 md:justify-start"
+              >
+                {jobContractEnum.enumValues.map((c) => (
+                  <DetailTile
+                    key={c}
+                    checked={c === field.value}
+                    onCheckedChange={(_checked) => field.onChange(c)}
+                    id={`${field.name}_${c}`}
+                    aria-invalid={fieldState.invalid}
+                    label={t(CONTRACT_LABELS_ICONS[c].label)}
+                    icon={CONTRACT_LABELS_ICONS[c].icon}
+                  />
+                ))}
+              </RadioGroup>
+              {fieldState.invalid && (
+                <TranslatedFieldError error={fieldState.error} />
+              )}
+            </FieldSet>
+          )}
+        />
+        <Controller
+          name="level"
+          control={control}
+          render={({ field, fieldState }) => (
+            <FieldSet data-invalid={fieldState.invalid} className="max-w-fit">
+              <FieldLegend variant="label">
+                {t("jobs.create.form.labels.level")}
+              </FieldLegend>
+
+              <RadioGroup
+                name={field.name}
+                value={field.value}
+                onValueChange={field.onChange}
+                onBlur={field.onBlur}
+                aria-invalid={fieldState.invalid}
+                className="flex flex-row flex-wrap justify-center gap-4 md:justify-start"
+              >
+                {jobLevelEnum.enumValues.map((l) => (
+                  <DetailTile
+                    key={l}
+                    checked={l === field.value}
+                    onCheckedChange={(_checked) => field.onChange(l)}
+                    id={`${field.name}_${l}`}
+                    aria-invalid={fieldState.invalid}
+                    label={t(LEVEL_LABELS_ICONS[l].label)}
+                    icon={LEVEL_LABELS_ICONS[l].icon}
+                  />
+                ))}
+              </RadioGroup>
+              {fieldState.invalid && (
+                <TranslatedFieldError error={fieldState.error} />
+              )}
+            </FieldSet>
+          )}
+        />
+      </Section>
 
       <Section
         heading={t("jobs.create.form.labels.salary.heading")}
@@ -271,7 +287,7 @@ export const JobCreation = () => {
           name="salary.value"
           control={control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="max-w-fit">
+            <Field data-invalid={fieldState.invalid} className="md:max-w-fit">
               <FieldLabel htmlFor={field.name}>
                 {t("jobs.create.form.labels.salary.value.label")}
               </FieldLabel>
@@ -301,7 +317,7 @@ export const JobCreation = () => {
           name="salary.currency.currency"
           control={control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="max-w-fit">
+            <Field data-invalid={fieldState.invalid} className="md:max-w-fit">
               <FieldLabel htmlFor={field.name}>
                 {t("jobs.create.form.labels.salary.currency.label")}
               </FieldLabel>
@@ -322,169 +338,156 @@ export const JobCreation = () => {
         />
       </Section>
 
-      <Controller
-        name="workMode"
-        control={control}
-        render={({ field, fieldState }) => (
-          <FieldSet data-invalid={fieldState.invalid} className="max-w-fit">
-            <FieldLegend variant="label">
-              {t("jobs.create.form.labels.workMode")}
-            </FieldLegend>
-
-            <RadioGroup
-              name={field.name}
-              value={field.value}
-              onValueChange={field.onChange}
-              onBlur={field.onBlur}
-              aria-invalid={fieldState.invalid}
-              className="flex flex-row flex-wrap justify-center gap-4 md:justify-start"
-            >
-              {workModeEnum.enumValues.map((mode) => (
-                <DetailTile
-                  key={mode}
-                  checked={mode === field.value}
-                  onCheckedChange={(_checked) => field.onChange(mode)}
-                  id={`${field.name}_${mode}`}
-                  aria-invalid={fieldState.invalid}
-                  label={t(WORK_MODE_LABELS_ICONS[mode].label)}
-                  icon={WORK_MODE_LABELS_ICONS[mode].icon}
-                />
-              ))}
-            </RadioGroup>
-            {fieldState.invalid && (
-              <TranslatedFieldError error={fieldState.error} />
-            )}
-          </FieldSet>
-        )}
-      />
-
       {/* <Section
         heading={t("jobs.create.form.labels.skills.heading")}
         rightArrow
         clickable
         contentClassName="flex flex-row flex-wrap gap-1"
-      >
+        >
         {}
-
-// TODO: COMBOBOX LATER instead of input 
+        
+        // TODO: COMBOBOX LATER instead of input 
         <Controller
-          name="skills"
-          control={control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid} className="max-w-fit">
-              <FieldLabel htmlFor={field.name}>
-                {t("jobs.create.form.labels.skills.label")}
-              </FieldLabel>
-
-              <Input
-                {...field}
-                id={field.name}
-                value={field.value ?? ""}
-                autoComplete="off"
-                aria-invalid={fieldState.invalid}
-              />
-
-              {fieldState.invalid && (
-                <TranslatedFieldError error={fieldState.error} />
-              )}
+        name="skills"
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid} className="max-w-fit">
+          <FieldLabel htmlFor={field.name}>
+          {t("jobs.create.form.labels.skills.label")}
+          </FieldLabel>
+          
+          <Input
+          {...field}
+          id={field.name}
+          value={field.value ?? ""}
+          autoComplete="off"
+          aria-invalid={fieldState.invalid}
+          />
+          
+          {fieldState.invalid && (
+            <TranslatedFieldError error={fieldState.error} />
+            )}
             </Field>
-          )}
-        />
-      </Section> */}
+            )}
+            />
+            </Section> */}
 
       <Section
-        heading={t("jobs.create.form.labels.address.sectionHeading")}
+        heading={t("jobs.create.form.labels.workStyle")}
         rightArrow
         clickable
-        contentClassName="gap-4"
+        contentClassName="flex-col gap-4"
       >
-        <div className="flex flex-col gap-4 md:flex-row">
-          <Controller
-            name="address.city"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="address.city">
-                  {t("jobs.create.form.labels.address.city")}
-                </FieldLabel>
-                <Input
-                  {...field}
-                  value={field.value ?? ""}
-                  id="address.city"
-                  autoComplete="off"
-                  aria-invalid={fieldState.invalid}
-                  placeholder={t("jobs.create.form.placeholders.address.city")}
-                />
-                {fieldState.invalid && (
-                  <TranslatedFieldError error={fieldState.error} />
-                )}
-              </Field>
-            )}
-          />
-          <Controller
-            name="address.country"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="address.country">
-                  {t("jobs.create.form.labels.address.country")}
-                </FieldLabel>
-                <Input
-                  {...field}
-                  value={field.value ?? ""}
-                  id="address.country"
-                  autoComplete="off"
-                  aria-invalid={fieldState.invalid}
-                  placeholder={t(
-                    "jobs.create.form.placeholders.address.country"
-                  )}
-                />
-                {fieldState.invalid && (
-                  <TranslatedFieldError error={fieldState.error} />
-                )}
-              </Field>
-            )}
-          />
-        </div>
         <Controller
-          name="address.street"
+          name="workMode"
           control={control}
           render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="address.street">
-                {t("jobs.create.form.labels.address.street")}
-              </FieldLabel>
-              <Input
-                {...field}
-                value={field.value ?? ""}
-                id="address.street"
-                autoComplete="off"
+            <FieldSet data-invalid={fieldState.invalid} className="max-w-fit">
+              <FieldLegend variant="label">
+                {t("jobs.create.form.labels.workMode")}
+              </FieldLegend>
+
+              <RadioGroup
+                name={field.name}
+                value={field.value}
+                onValueChange={field.onChange}
+                onBlur={field.onBlur}
                 aria-invalid={fieldState.invalid}
-                placeholder={t("jobs.create.form.placeholders.address.street")}
-              />
+                className="flex flex-row flex-wrap justify-center gap-4 md:justify-start"
+              >
+                {workModeEnum.enumValues.map((mode) => (
+                  <DetailTile
+                    key={mode}
+                    checked={mode === field.value}
+                    onCheckedChange={(_checked) => field.onChange(mode)}
+                    id={`${field.name}_${mode}`}
+                    aria-invalid={fieldState.invalid}
+                    label={t(WORK_MODE_LABELS_ICONS[mode].label)}
+                    icon={WORK_MODE_LABELS_ICONS[mode].icon}
+                  />
+                ))}
+              </RadioGroup>
               {fieldState.invalid && (
                 <TranslatedFieldError error={fieldState.error} />
               )}
-            </Field>
+            </FieldSet>
           )}
         />
-        <div className="flex flex-col gap-4 md:flex-row">
+
+        <Section
+          heading={t("jobs.create.form.labels.address.sectionHeading")}
+          rightArrow
+          clickable
+          className="border-chocolate-border border-l-4 pl-2"
+          contentClassName="gap-4"
+          headingClassName="text-xl"
+        >
+          <div className="flex flex-col gap-4 md:flex-row">
+            <Controller
+              name="address.city"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="address.city">
+                    {t("jobs.create.form.labels.address.city")}
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    value={field.value ?? ""}
+                    id="address.city"
+                    autoComplete="off"
+                    aria-invalid={fieldState.invalid}
+                    placeholder={t(
+                      "jobs.create.form.placeholders.address.city"
+                    )}
+                  />
+                  {fieldState.invalid && (
+                    <TranslatedFieldError error={fieldState.error} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              name="address.country"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="address.country">
+                    {t("jobs.create.form.labels.address.country")}
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    value={field.value ?? ""}
+                    id="address.country"
+                    autoComplete="off"
+                    aria-invalid={fieldState.invalid}
+                    placeholder={t(
+                      "jobs.create.form.placeholders.address.country"
+                    )}
+                  />
+                  {fieldState.invalid && (
+                    <TranslatedFieldError error={fieldState.error} />
+                  )}
+                </Field>
+              )}
+            />
+          </div>
           <Controller
-            name="address.streetNumber"
+            name="address.street"
             control={control}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="address.streetNumber">
-                  {t("jobs.create.form.labels.address.streetNumber")}
+                <FieldLabel htmlFor="address.street">
+                  {t("jobs.create.form.labels.address.street")}
                 </FieldLabel>
                 <Input
                   {...field}
                   value={field.value ?? ""}
-                  id="address.streetNumber"
+                  id="address.street"
                   autoComplete="off"
                   aria-invalid={fieldState.invalid}
                   placeholder={t(
-                    "jobs.create.form.placeholders.address.streetNumber"
+                    "jobs.create.form.placeholders.address.street"
                   )}
                 />
                 {fieldState.invalid && (
@@ -493,31 +496,57 @@ export const JobCreation = () => {
               </Field>
             )}
           />
-          <Controller
-            name="address.apartmentNumber"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="address.apartmentNumber">
-                  {t("jobs.create.form.labels.address.apartmentNumber")}
-                </FieldLabel>
-                <Input
-                  {...field}
-                  value={field.value ?? ""}
-                  id="address.apartmentNumber"
-                  autoComplete="off"
-                  aria-invalid={fieldState.invalid}
-                  placeholder={t(
-                    "jobs.create.form.placeholders.address.apartmentNumber"
+          <div className="flex flex-col gap-4 md:flex-row">
+            <Controller
+              name="address.streetNumber"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="address.streetNumber">
+                    {t("jobs.create.form.labels.address.streetNumber")}
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    value={field.value ?? ""}
+                    id="address.streetNumber"
+                    autoComplete="off"
+                    aria-invalid={fieldState.invalid}
+                    placeholder={t(
+                      "jobs.create.form.placeholders.address.streetNumber"
+                    )}
+                  />
+                  {fieldState.invalid && (
+                    <TranslatedFieldError error={fieldState.error} />
                   )}
-                />
-                {fieldState.invalid && (
-                  <TranslatedFieldError error={fieldState.error} />
-                )}
-              </Field>
-            )}
-          />
-        </div>
+                </Field>
+              )}
+            />
+            <Controller
+              name="address.apartmentNumber"
+              control={control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="address.apartmentNumber">
+                    {t("jobs.create.form.labels.address.apartmentNumber")}
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    value={field.value ?? ""}
+                    id="address.apartmentNumber"
+                    autoComplete="off"
+                    aria-invalid={fieldState.invalid}
+                    placeholder={t(
+                      "jobs.create.form.placeholders.address.apartmentNumber"
+                    )}
+                  />
+                  {fieldState.invalid && (
+                    <TranslatedFieldError error={fieldState.error} />
+                  )}
+                </Field>
+              )}
+            />
+          </div>
+        </Section>
       </Section>
       <Section
         className="border-chocolate-border bg-chocolate-muted gap-5 rounded-4xl border-8 p-7 px-9"
