@@ -103,7 +103,12 @@
             }
           },
           "salary": {
-            "minValue": "Minimalna wartość wynagrodzenia to 0."
+            "minValue": "Minimalna wartość wynagrodzenia to 0.",
+            "required": "Wartość wynagrodzenia jest wymagana, gdy wprowadzono walutę."
+          },
+          "currency": {
+            "required": "Waluta jest wymagana, gdy wprowadzono wartość wynagrodzenia.",
+            "invalid": "Wprowadzona waluta jest nieprawidłowa, użyj trzyliterowego kodu waluty, np. PLN."
           }
         }
       },

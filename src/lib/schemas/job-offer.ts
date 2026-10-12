@@ -7,7 +7,7 @@ import {
   skill,
 } from "@/server/db/schema/tables";
 import { createInsertSchema } from "drizzle-orm/zod";
-import z, { boolean, output, type ZodType } from "zod";
+import z, { boolean, type ZodType } from "zod";
 
 export const companySchema = createInsertSchema(jobCompany, {
   name: (s) => s.min(1, "jobs.create.errors.company.name"),
@@ -21,17 +21,22 @@ export const addressSchema = createInsertSchema(jobOfferAddress).omit({
   id: true,
 });
 
-export const currencySchema = createInsertSchema(
-  salaryCurrency
-
-  // TODO: handle Invalid input: expected string, received undefined
-).omit({
+export const currencySchema = createInsertSchema(salaryCurrency, {
+  currency: () =>
+    z
+      .string({ error: "jobs.create.errors.offer.currency.required" })
+      .trim()
+      .min(1, "jobs.create.errors.offer.currency.required")
+      .regex(/^[A-Z]{3}$/, "jobs.create.errors.offer.currency.invalid"),
+}).omit({
   id: true,
 });
 
 export const salarySchema = createInsertSchema(jobSalary, {
-  value: (i) => i.min(0, "jobs.create.errors.offer.salary.minValue"),
-  // TODO: handle Invalid input: expected number, received undefined
+  value: () =>
+    z
+      .number({ error: "jobs.create.errors.offer.salary.required" })
+      .min(0, "jobs.create.errors.offer.salary.minValue"),
 })
   .omit({
     id: true,
@@ -42,7 +47,9 @@ export const salarySchema = createInsertSchema(jobSalary, {
 
 export const salaryFormSchema = salarySchema.nullable();
 
+// <helpers>
 type SalaryInput = z.input<typeof salarySchema>;
+type SalaryOutput = z.output<typeof salaryFormSchema>;
 
 export type SalaryDraft =
   | {
@@ -52,21 +59,26 @@ export type SalaryDraft =
   | null
   | undefined;
 
-const emptyToNull = (s: unknown) => {
-  const salary = s as SalaryDraft;
+const isBlank = (v: unknown) =>
+  v == null ||
+  (typeof v === "string" && v.trim() === "") ||
+  (typeof v === "number" && Number.isNaN(v));
 
-  const hasValue = salary?.value != null;
-  const hasCurrency = !!salary?.currency?.currency?.trim();
+const emptyToNull = (input: unknown) => {
+  const salary = input as SalaryDraft;
 
-  return hasValue || hasCurrency ? salary : null;
+  const isEmpty = isBlank(salary?.value) && isBlank(salary?.currency?.currency);
+  return isEmpty ? null : salary;
 };
+
+// </helpers>
 
 export const salaryFieldSchema = z.preprocess(
   emptyToNull,
   salaryFormSchema
-) as ZodType<output<typeof salaryFormSchema>, SalaryDraft>;
+) as ZodType<SalaryOutput, SalaryDraft>;
 
-export const skillsSchema = createInsertSchema(skill);
+export const skillsSchema = createInsertSchema(skill).nullable();
 
 export const createJobOfferSchema = createInsertSchema(jobOffer, {
   role: (s) => s.min(1, "jobs.create.errors.offer.role.required"),
@@ -91,7 +103,7 @@ export const createJobOfferSchema = createInsertSchema(jobOffer, {
     company: companySchema,
     address: addressSchema,
     salary: salaryFieldSchema,
-    // skills: skillsSchema.nullable(), TODO
+    skills: skillsSchema,
     hasApplied: boolean().default(false),
     interviewHappened: boolean().default(false),
   })

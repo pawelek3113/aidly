@@ -103,7 +103,12 @@
             }
           },
           "salary": {
+            "required": "Value of salary is required when currency is entered.",
             "minValue": "Minimum value of salary is 0."
+          },
+          "currency": {
+            "required": "Currency is required when value of salary is entered.",
+            "invalid": "Entered currency is invalid, use 3-letter currency code, e.g. USD."
           }
         }
       },
