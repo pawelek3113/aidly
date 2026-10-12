@@ -8,6 +8,7 @@ import {
 } from "@/server/db/schema/tables";
 import { createInsertSchema } from "drizzle-orm/zod";
 import z, { boolean, type ZodType } from "zod";
+import { emptyToNull, SalaryDraft, SalaryOutput } from "../salary-helpers";
 
 export const companySchema = createInsertSchema(jobCompany, {
   name: (s) => s.min(1, "jobs.create.errors.company.name"),
@@ -46,32 +47,6 @@ export const salarySchema = createInsertSchema(jobSalary, {
   .extend({ currency: currencySchema });
 
 export const salaryFormSchema = salarySchema.nullable();
-
-// <helpers>
-type SalaryInput = z.input<typeof salarySchema>;
-type SalaryOutput = z.output<typeof salaryFormSchema>;
-
-export type SalaryDraft =
-  | {
-      value?: SalaryInput["value"] | null;
-      currency?: Partial<SalaryInput["currency"]>;
-    }
-  | null
-  | undefined;
-
-const isBlank = (v: unknown) =>
-  v == null ||
-  (typeof v === "string" && v.trim() === "") ||
-  (typeof v === "number" && Number.isNaN(v));
-
-const emptyToNull = (input: unknown) => {
-  const salary = input as SalaryDraft;
-
-  const isEmpty = isBlank(salary?.value) && isBlank(salary?.currency?.currency);
-  return isEmpty ? null : salary;
-};
-
-// </helpers>
 
 export const salaryFieldSchema = z.preprocess(
   emptyToNull,
