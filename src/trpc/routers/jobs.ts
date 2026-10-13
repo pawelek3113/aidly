@@ -6,6 +6,7 @@ import {
 } from "@/server/db/schema/tables";
 import { inferProcedureOutput, TRPCError } from "@trpc/server";
 import { eq, sql } from "drizzle-orm";
+import z from "zod";
 import { createTRPCRouter, protectedProcedure } from "../init";
 
 export const jobsRouter = createTRPCRouter({
@@ -119,6 +120,15 @@ export const jobsRouter = createTRPCRouter({
 
     return row;
   }),
+
+  searchCompany: protectedProcedure
+    .input(z.object({ name: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.jobCompany.findMany({
+        where: { name: { ilike: `%${input.name}%` } },
+        limit: 10,
+      });
+    }),
 });
 
 export type JobsRouter = typeof jobsRouter;
