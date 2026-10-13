@@ -108,7 +108,8 @@
           },
           "currency": {
             "required": "Currency is required when value of salary is entered.",
-            "invalid": "Entered currency is invalid, use 3-letter currency code, e.g. USD."
+            "invalid": "Entered currency is invalid, use 3-letter currency code, e.g. USD.",
+            "notFound": "Specified currency's not found."
           }
         }
       },

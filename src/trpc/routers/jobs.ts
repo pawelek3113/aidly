@@ -3,6 +3,8 @@ import {
   jobCompany,
   jobOffer,
   jobOfferAddress,
+  jobSalary,
+  salaryCurrency,
 } from "@/server/db/schema/tables";
 import { inferProcedureOutput, TRPCError } from "@trpc/server";
 import { eq, sql } from "drizzle-orm";
@@ -14,7 +16,7 @@ export const jobsRouter = createTRPCRouter({
     .input(createJobOfferSchema)
     .mutation(async ({ ctx, input }) => {
       ctx.db.transaction(async (tx) => {
-        const { company, address, ...job } = input;
+        const { company, address, salary, ...job } = input;
 
         let companyId;
 
@@ -75,6 +77,40 @@ export const jobsRouter = createTRPCRouter({
           })
           .returning({ id: jobOffer.id });
 
+        if (salary) {
+          let currencyId;
+          const existingCurrency = await tx.query.salaryCurrency.findFirst({
+            where: {
+              currency: {
+                eq: salary.currency.currency,
+              },
+            },
+          });
+
+          currencyId = existingCurrency?.id;
+
+          if (!existingCurrency) {
+            const [createdCurrency] = await tx
+              .insert(salaryCurrency)
+              .values({ currency: salary.currency.currency })
+              .returning({ id: salaryCurrency.id });
+
+            currencyId = createdCurrency?.id;
+          }
+
+          if (!currencyId) {
+            throw new TRPCError({
+              code: "BAD_REQUEST",
+              message: "jobs.create.errors.currency.notFound",
+            });
+          }
+
+          await tx
+            .insert(jobSalary)
+            .values({ ...salary, currencyId, jobId: offer.id })
+            .returning({ id: jobSalary.id });
+        }
+
         return offer.id;
       });
     }),
@@ -120,6 +156,8 @@ export const jobsRouter = createTRPCRouter({
 
     return row;
   }),
+
+  // TODO: fix above, then connect searchCompany procedure to new combobox, also do the same with salary currency
 
   searchCompany: protectedProcedure
     .input(z.object({ name: z.string() }))

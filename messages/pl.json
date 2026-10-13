@@ -108,7 +108,8 @@
           },
           "currency": {
             "required": "Waluta jest wymagana, gdy wprowadzono wartość wynagrodzenia.",
-            "invalid": "Wprowadzona waluta jest nieprawidłowa, użyj trzyliterowego kodu waluty, np. PLN."
+            "invalid": "Wprowadzona waluta jest nieprawidłowa, użyj trzyliterowego kodu waluty, np. PLN.",
+            "notFound": "Podana waluta nie została znaleziona."
           }
         }
       },
