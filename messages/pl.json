@@ -81,6 +81,9 @@
     },
     "create": {
       "errors": {
+        "skills": {
+          "maxLength": "Tytuł umiejętności jest za długi."
+        },
         "company": {
           "name": "Nazwa firmy jest wymagana.",
           "notFound": "Podana firma nie została znaleziona"

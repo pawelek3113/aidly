@@ -81,6 +81,9 @@
     },
     "create": {
       "errors": {
+        "skills": {
+          "maxLength": "Skill title is too long."
+        },
         "company": {
           "name": "Company name is required.",
           "notFound": "Specified company's not found"

@@ -638,7 +638,7 @@ export const JobCreation = () => {
                       {...field}
                       onChange={(e) => {
                         const v = e.target.valueAsNumber;
-                        field.onChange(Number.isNaN(v) ? null : v);
+                        field.onChange(Number.isNaN(v) ? undefined : v);
                       }}
                       value={field.value ?? ""}
                       id="interviewCount"

@@ -54,6 +54,7 @@ export const jobOfferAddress = pgTable("job_offer_address", {
 export const skill = pgTable("job_offer_skill", {
   id: uuid().primaryKey().defaultRandom(),
   title: text().notNull().unique(),
+  image: text(),
 });
 
 export const jobOfferSkill = pgTable(

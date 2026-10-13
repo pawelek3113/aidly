@@ -3,8 +3,10 @@ import {
   jobCompany,
   jobOffer,
   jobOfferAddress,
+  jobOfferSkill,
   jobSalary,
   salaryCurrency,
+  skill,
 } from "@/server/db/schema/tables";
 import { inferProcedureOutput, TRPCError } from "@trpc/server";
 import { eq, sql } from "drizzle-orm";
@@ -16,7 +18,7 @@ export const jobsRouter = createTRPCRouter({
     .input(createJobOfferSchema)
     .mutation(async ({ ctx, input }) => {
       ctx.db.transaction(async (tx) => {
-        const { company, address, salary, ...job } = input;
+        const { company, address, salary, skills, ...job } = input;
 
         let companyId;
 
@@ -109,6 +111,34 @@ export const jobsRouter = createTRPCRouter({
             .insert(jobSalary)
             .values({ ...salary, currencyId, jobId: offer.id })
             .returning({ id: jobSalary.id });
+        }
+
+        if (skills && skills?.length > 0) {
+          skills.forEach(async (s) => {
+            let skillId;
+            const existingSkill = await tx.query.skill.findFirst({
+              where: {
+                title: {
+                  eq: s.title,
+                },
+              },
+            });
+
+            if (!existingSkill) {
+              const [newSkill] = await tx
+                .insert(skill)
+                .values({ ...s })
+                .returning({ id: skill.id });
+
+              skillId = newSkill.id;
+            } else {
+              skillId = existingSkill.id;
+            }
+
+            await tx
+              .insert(jobOfferSkill)
+              .values({ offerId: offer.id, skillId });
+          });
         }
 
         return offer.id;

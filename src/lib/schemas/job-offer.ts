@@ -29,8 +29,6 @@ export const currencySchema = createInsertSchema(salaryCurrency, {
       .trim()
       .min(1, "jobs.create.errors.offer.currency.required")
       .regex(/^[A-Z]{3}$/, "jobs.create.errors.offer.currency.invalid"),
-}).omit({
-  id: true,
 });
 
 export const salarySchema = createInsertSchema(jobSalary, {
@@ -53,7 +51,11 @@ export const salaryFieldSchema = z.preprocess(
   salaryFormSchema
 ) as ZodType<SalaryOutput, SalaryDraft>;
 
-export const skillsSchema = createInsertSchema(skill).nullable();
+export const skillsSchema = createInsertSchema(skill, {
+  title: (s) => s.max(20, "jobs.create.errors.skills.maxLength"),
+})
+  .array()
+  .nullable();
 
 export const createJobOfferSchema = createInsertSchema(jobOffer, {
   role: (s) => s.min(1, "jobs.create.errors.offer.role.required"),
@@ -63,7 +65,7 @@ export const createJobOfferSchema = createInsertSchema(jobOffer, {
       .pipe(z.url("jobs.create.errors.offer.url.notAnUrl")),
   notes: (s) => s.max(300, "jobs.create.errors.offer.notes.maxLength"),
   interviewCount: (i) =>
-    i.min(0, "jobs.create.errors.offer.interview.count.minValue").nullable(),
+    i.min(0, "jobs.create.errors.offer.interview.count.minValue").optional(),
 })
   .omit({
     id: true,
