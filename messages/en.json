@@ -65,7 +65,7 @@
         },
         "labels": {
           "notes": "notes",
-          "createdAt": "day created"
+          "createdAt": "date created"
         }
       }
     },
@@ -73,6 +73,7 @@
       "toolTitle": "Job Compass",
       "heading": "Summary",
       "total": "total offers",
+      "saved": "saved",
       "applied": "applied",
       "ghosted": "ghosted",
       "interviews": "interviews",

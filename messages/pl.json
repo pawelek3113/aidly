@@ -65,7 +65,7 @@
         },
         "labels": {
           "notes": "notatki",
-          "createdAt": "dzień utworzenia"
+          "createdAt": "data utworzenia"
         }
       }
     },
@@ -73,6 +73,7 @@
       "toolTitle": "Job Compass",
       "heading": "Podsumowanie",
       "total": "łącznie",
+      "saved": "zapisano",
       "applied": "aplikowano",
       "ghosted": "zghostowano",
       "interviews": "rozmów rekrutacyjnych",

@@ -8,8 +8,9 @@ import {
   salaryCurrency,
   skill,
 } from "@/server/db/schema/tables";
+import { countWhere } from "@/server/db/utils";
 import { inferProcedureOutput, TRPCError } from "@trpc/server";
-import { eq, sql } from "drizzle-orm";
+import { eq, ne, sql } from "drizzle-orm";
 import z from "zod";
 import { createTRPCRouter, protectedProcedure } from "../init";
 
@@ -161,25 +162,15 @@ export const jobsRouter = createTRPCRouter({
     const [row] = await ctx.db
       .select({
         total: sql<number>`count(*)`.mapWith(Number),
-        applied:
-          sql<number>`count(*) filter (where ${jobOffer.hasApplied})`.mapWith(
-            Number
-          ),
-        ghosted:
-          sql<number>`count(*) filter (where ${jobOffer.ghosted})`.mapWith(
-            Number
-          ),
+        saved: countWhere(eq(jobOffer.status, "saved")),
+        applied: countWhere(ne(jobOffer.status, "saved")),
+        ghosted: countWhere(eq(jobOffer.status, "ghosted")),
         interviews:
           sql<number>`coalesce(sum(${jobOffer.interviewCount}), 0)`.mapWith(
             Number
           ),
-        rejections:
-          sql<number>`count(*) filter (where ${jobOffer.rejected})`.mapWith(
-            Number
-          ),
-        hired: sql<number>`count(*) filter (where ${jobOffer.hired})`.mapWith(
-          Number
-        ),
+        rejections: countWhere(eq(jobOffer.status, "rejected")),
+        hired: countWhere(eq(jobOffer.status, "hired")),
       })
       .from(jobOffer)
       .where(eq(jobOffer.userId, ctx.user.id));
