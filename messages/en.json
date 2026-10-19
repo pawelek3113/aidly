@@ -131,6 +131,9 @@
             "apartmentNumber": "67",
             "city": "London",
             "country": "United Kingdom"
+          },
+          "salary": {
+            "currency": "USD"
           }
         },
         "labels": {

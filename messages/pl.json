@@ -131,6 +131,9 @@
             "apartmentNumber": "37",
             "city": "Warszawa",
             "country": "Polska"
+          },
+          "salary": {
+            "currency": "PLN"
           }
         },
         "labels": {

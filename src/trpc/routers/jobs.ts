@@ -178,13 +178,20 @@ export const jobsRouter = createTRPCRouter({
     return row;
   }),
 
-  // TODO: fix above, then connect searchCompany procedure to new combobox, also do the same with salary currency
-
   searchCompany: protectedProcedure
     .input(z.object({ name: z.string() }))
     .query(async ({ ctx, input }) => {
       return await ctx.db.query.jobCompany.findMany({
         where: { name: { ilike: `%${input.name}%` } },
+        limit: 10,
+      });
+    }),
+
+  searchCurrency: protectedProcedure
+    .input(z.object({ currency: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.salaryCurrency.findMany({
+        where: { currency: { ilike: `%${input.currency}%` } },
         limit: 10,
       });
     }),
@@ -198,4 +205,8 @@ export type Summary = inferProcedureOutput<JobsRouter["getSummary"]>;
 
 export type SearchedCompany = inferProcedureOutput<
   JobsRouter["searchCompany"]
+>[number];
+
+export type SearchedCurrency = inferProcedureOutput<
+  JobsRouter["searchCurrency"]
 >[number];

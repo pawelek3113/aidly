@@ -15,7 +15,10 @@ import {
   workModeEnum,
 } from "@/server/db/schema/enums";
 import { useTRPC } from "@/trpc/client";
-import { type SearchedCompany } from "@/trpc/routers/jobs";
+import {
+  type SearchedCompany,
+  type SearchedCurrency,
+} from "@/trpc/routers/jobs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon, StarIcon } from "@phosphor-icons/react";
 import {
@@ -65,21 +68,22 @@ export const JobCreation = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const [open, setOpen] = useState(false);
+  const [openCompany, setOpenCompany] = useState(false);
+  const [openCurrency, setOpenCurrency] = useState(false);
 
   const createJobOffer = useMutation(
     trpc.jobs.add.mutationOptions({
       onSuccess: (_id) => {
         queryClient.invalidateQueries(trpc.jobs.pathFilter());
         showToast({
-          title: t("toasts.jobs.offer.create.success.title"),
+          title: t("jobs.toasts.offer.create.success.title"),
           type: TOAST_TYPES.success,
         });
         router.push("/jobs");
       },
       onError: (err) => {
         showToast({
-          title: t("toasts.jobs.offer.create.error.title"),
+          title: t("jobs.toasts.offer.create.success.title"),
           description: t(err.message),
           type: TOAST_TYPES.success,
         });
@@ -118,7 +122,7 @@ export const JobCreation = () => {
       feedback: null,
       isFavorite: false,
       level: "junior",
-      salary: null,
+      salary: { currency: { currency: "", id: undefined }, value: null },
       // TODO: skills
       // TODO: image
     },
@@ -127,8 +131,12 @@ export const JobCreation = () => {
 
   const companyName = useWatch({ control, name: "company.name" });
   const companyId = useWatch({ control, name: "company.id" });
+  const currency =
+    useWatch({ control, name: "salary.currency.currency" }) ?? "";
+  const currencyId = useWatch({ control, name: "salary.currency.id" });
 
   const debouncedCompanyName = useDebounce(companyName, 250);
+  const debouncedCurrency = useDebounce(currency, 250);
 
   const { data: searchCompanies = [] } = useQuery(
     trpc.jobs.searchCompany.queryOptions(
@@ -140,8 +148,21 @@ export const JobCreation = () => {
     )
   );
 
+  const { data: searchCurrencies = [] } = useQuery(
+    trpc.jobs.searchCurrency.queryOptions(
+      { currency: debouncedCurrency },
+      {
+        placeholderData: keepPreviousData,
+        staleTime: 5 * 60 * 1000,
+      }
+    )
+  );
+
   const selectedCompany =
     searchCompanies.find((c) => c.id === companyId) ?? null;
+
+  const selectedCurrency =
+    searchCurrencies.find((c) => c.id === currencyId) ?? null;
 
   const hasApplied = useWatch({ control, name: "hasApplied" });
   const interviewHappened = useWatch({ control, name: "interviewHappened" });
@@ -221,8 +242,8 @@ export const JobCreation = () => {
                 {t("jobs.create.form.labels.companyName")}
               </FieldLabel>
               <Combobox
-                open={open && searchCompanies.length > 0}
-                onOpenChange={setOpen}
+                open={openCompany && searchCompanies.length > 0}
+                onOpenChange={setOpenCompany}
                 value={selectedCompany}
                 filter={null}
                 items={searchCompanies}
@@ -288,7 +309,7 @@ export const JobCreation = () => {
                 onValueChange={field.onChange}
                 onBlur={field.onBlur}
                 aria-invalid={fieldState.invalid}
-                className="flex flex-row flex-wrap justify-center gap-4 md:justify-start"
+                className="flex w-full flex-row flex-wrap justify-center gap-4 md:justify-start"
               >
                 {jobContractEnum.enumValues.map((c) => (
                   <DetailTile
@@ -312,7 +333,7 @@ export const JobCreation = () => {
           name="level"
           control={control}
           render={({ field, fieldState }) => (
-            <FieldSet data-invalid={fieldState.invalid} className="max-w-fit">
+            <FieldSet data-invalid={fieldState.invalid}>
               <FieldLegend variant="label">
                 {t("jobs.create.form.labels.level")}
               </FieldLegend>
@@ -380,7 +401,6 @@ export const JobCreation = () => {
             </Field>
           )}
         />
-        {/* TODO: use combobox here */}
         <Controller
           name="salary.currency.currency"
           control={control}
@@ -389,14 +409,45 @@ export const JobCreation = () => {
               <FieldLabel htmlFor={field.name}>
                 {t("jobs.create.form.labels.salary.currency.label")}
               </FieldLabel>
-
-              <Input
-                {...field}
-                id={field.name}
-                value={field.value ?? ""}
-                autoComplete="off"
-                aria-invalid={fieldState.invalid}
-              />
+              <Combobox
+                open={openCurrency && searchCurrencies.length > 0}
+                onOpenChange={setOpenCurrency}
+                value={selectedCurrency}
+                filter={null}
+                items={searchCurrencies}
+                itemToStringLabel={(c: SearchedCurrency) => c.currency}
+                inputValue={field.value ?? ""}
+                onInputValueChange={(text, details) => {
+                  if (details.reason !== "input-change") return;
+                  field.onChange(text);
+                  setValue("salary.currency.id", undefined);
+                }}
+                onValueChange={(curr: SearchedCurrency | null) => {
+                  if (curr) {
+                    setValue("salary.currency.id", curr.id);
+                    field.onChange(curr.currency);
+                  }
+                }}
+              >
+                <ComboboxInput
+                  id={field.name}
+                  onBlur={field.onBlur}
+                  autoComplete="off"
+                  aria-invalid={fieldState.invalid}
+                  placeholder={t(
+                    "jobs.create.form.placeholders.salary.currency"
+                  )}
+                />
+                <ComboboxContent>
+                  <ComboboxList>
+                    {(curr: SearchedCurrency) => (
+                      <ComboboxItem key={curr.id} value={curr}>
+                        {curr.currency}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
 
               {fieldState.invalid && (
                 <TranslatedFieldError error={fieldState.error} />
@@ -450,7 +501,7 @@ export const JobCreation = () => {
           name="workMode"
           control={control}
           render={({ field, fieldState }) => (
-            <FieldSet data-invalid={fieldState.invalid} className="max-w-fit">
+            <FieldSet data-invalid={fieldState.invalid}>
               <FieldLegend variant="label">
                 {t("jobs.create.form.labels.workMode")}
               </FieldLegend>
