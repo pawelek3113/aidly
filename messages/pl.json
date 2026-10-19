@@ -122,7 +122,9 @@
         "placeholders": {
           "role": "Inżynier Oprogramowania back-end",
           "url": "http://www.praca.com/oferta/inzynier-oprogramowania",
-          "companyName": "Acme",
+          "companyName": {
+            "name": "Acme"
+          },
           "address": {
             "street": "Sezamkowa",
             "streetNumber": "21B",

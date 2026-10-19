@@ -15,18 +15,33 @@ import {
   workModeEnum,
 } from "@/server/db/schema/enums";
 import { useTRPC } from "@/trpc/client";
+import { type SearchedCompany } from "@/trpc/routers/jobs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon, StarIcon } from "@phosphor-icons/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { BrandHeading } from "../brand/brand-heading";
+import { useDebounce } from "../hooks/use-debounce";
 import { Section } from "../shared/section";
 import { TranslatedFieldError } from "../shared/translated-field-error";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "../ui/combobox";
 import { Field, FieldLabel, FieldLegend, FieldSet } from "../ui/field";
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -49,6 +64,8 @@ export const JobCreation = () => {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
   const router = useRouter();
+
+  const [open, setOpen] = useState(false);
 
   const createJobOffer = useMutation(
     trpc.jobs.add.mutationOptions({
@@ -79,6 +96,7 @@ export const JobCreation = () => {
     defaultValues: {
       role: "",
       company: {
+        id: undefined,
         name: "",
       },
       address: {
@@ -106,6 +124,24 @@ export const JobCreation = () => {
     },
     mode: "onTouched",
   });
+
+  const companyName = useWatch({ control, name: "company.name" });
+  const companyId = useWatch({ control, name: "company.id" });
+
+  const debouncedCompanyName = useDebounce(companyName, 250);
+
+  const { data: searchCompanies = [] } = useQuery(
+    trpc.jobs.searchCompany.queryOptions(
+      { name: debouncedCompanyName },
+      {
+        placeholderData: keepPreviousData,
+        staleTime: 5 * 60 * 1000,
+      }
+    )
+  );
+
+  const selectedCompany =
+    searchCompanies.find((c) => c.id === companyId) ?? null;
 
   const hasApplied = useWatch({ control, name: "hasApplied" });
   const interviewHappened = useWatch({ control, name: "interviewHappened" });
@@ -175,22 +211,54 @@ export const JobCreation = () => {
             </Field>
           )}
         />
+
         <Controller
           name="company.name"
-          // TODO: handle autocompletion with fetching existing companies from the db
           control={control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="company.name">
                 {t("jobs.create.form.labels.companyName")}
               </FieldLabel>
-              <Input
-                {...field}
-                id="company.name"
-                autoComplete="off"
-                aria-invalid={fieldState.invalid}
-                placeholder={t("jobs.create.form.placeholders.companyName")}
-              />
+              <Combobox
+                open={open && searchCompanies.length > 0}
+                onOpenChange={setOpen}
+                value={selectedCompany}
+                filter={null}
+                items={searchCompanies}
+                itemToStringLabel={(c: SearchedCompany) => c.name}
+                inputValue={field.value ?? ""}
+                onInputValueChange={(text, details) => {
+                  if (details.reason !== "input-change") return;
+                  field.onChange(text);
+                  setValue("company.id", undefined);
+                }}
+                onValueChange={(company: SearchedCompany | null) => {
+                  if (company) {
+                    setValue("company.id", company.id);
+                    field.onChange(company.name);
+                  }
+                }}
+              >
+                <ComboboxInput
+                  id={field.name}
+                  onBlur={field.onBlur}
+                  autoComplete="off"
+                  aria-invalid={fieldState.invalid}
+                  placeholder={t(
+                    "jobs.create.form.placeholders.companyName.name"
+                  )}
+                />
+                <ComboboxContent>
+                  <ComboboxList>
+                    {(company: SearchedCompany) => (
+                      <ComboboxItem key={company.id} value={company}>
+                        {company.name}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
               {fieldState.invalid && (
                 <TranslatedFieldError error={fieldState.error} />
               )}
@@ -281,7 +349,7 @@ export const JobCreation = () => {
         heading={t("jobs.create.form.labels.salary.heading")}
         rightArrow
         clickable
-        contentClassName="flex-col md:flex-row gap-4"
+        contentClassName="flex-row gap-4"
       >
         <Controller
           name="salary.value"

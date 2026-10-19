@@ -195,3 +195,7 @@ export type Jobs = inferProcedureOutput<JobsRouter["getAll"]>;
 export type Job = Jobs[number];
 
 export type Summary = inferProcedureOutput<JobsRouter["getSummary"]>;
+
+export type SearchedCompany = inferProcedureOutput<
+  JobsRouter["searchCompany"]
+>[number];

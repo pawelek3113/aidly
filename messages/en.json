@@ -122,7 +122,9 @@
         "placeholders": {
           "role": "Backend Software Engineer",
           "url": "http://www.job-portal.com/jobs/backend-engineer",
-          "companyName": "Acme",
+          "companyName": {
+            "name": "Acme"
+          },
           "address": {
             "street": "Main Street",
             "streetNumber": "312",
