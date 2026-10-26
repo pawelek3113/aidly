@@ -1,0 +1,1 @@
+ALTER TABLE "job_company" ADD CONSTRAINT "job_company_name_key" UNIQUE("name");

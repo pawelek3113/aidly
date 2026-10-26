@@ -25,7 +25,6 @@ export const jobSalary = pgTable("job_salary", {
   id: uuid().primaryKey().defaultRandom(),
   value: integer().notNull(),
   currencyId: uuid("currency_id")
-    .unique()
     .notNull()
     .references(() => salaryCurrency.id, { onDelete: "restrict" }),
   jobId: uuid("job_id")
@@ -38,7 +37,7 @@ export const jobSalary = pgTable("job_salary", {
 
 export const jobCompany = pgTable("job_company", {
   id: uuid().primaryKey().defaultRandom(),
-  name: text().notNull(),
+  name: text().notNull().unique(),
   image: text(),
 });
 

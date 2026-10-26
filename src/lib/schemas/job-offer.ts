@@ -80,7 +80,7 @@ export const createJobOfferSchema = createInsertSchema(jobOffer, {
     company: companySchema,
     address: addressSchema,
     salary: salaryFieldSchema,
-    // skills: skillsSchema,
+    skills: skillsSchema,
     hasApplied: boolean().default(false),
     interviewHappened: boolean().default(false),
   })

@@ -158,7 +158,8 @@
           },
           "skills": {
             "heading": "Umiejętności",
-            "label": "Umiejętności"
+            "label": "Umiejętności",
+            "prompt": "Dodaj \"{title}\""
           },
           "salary": {
             "heading": "Miesięczne wynagrodzenie",

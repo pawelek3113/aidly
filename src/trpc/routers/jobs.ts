@@ -6,11 +6,11 @@ import {
   jobOfferSkill,
   jobSalary,
   salaryCurrency,
-  skill,
+  skill as skillTable,
 } from "@/server/db/schema/tables";
 import { countWhere } from "@/server/db/utils";
 import { inferProcedureOutput, TRPCError } from "@trpc/server";
-import { eq, ne, sql } from "drizzle-orm";
+import { eq, inArray, ne, sql } from "drizzle-orm";
 import z from "zod";
 import { createTRPCRouter, protectedProcedure } from "../init";
 
@@ -18,7 +18,7 @@ export const jobsRouter = createTRPCRouter({
   add: protectedProcedure
     .input(createJobOfferSchema)
     .mutation(async ({ ctx, input }) => {
-      ctx.db.transaction(async (tx) => {
+      return await ctx.db.transaction(async (tx) => {
         const { company, address, salary, skills, ...job } = input;
 
         let companyId;
@@ -37,30 +37,17 @@ export const jobsRouter = createTRPCRouter({
           }
           companyId = company.id;
         } else {
-          // user typed company name without autocompletion
-          const [match] = await tx
-            .select({ id: jobCompany })
+          // user typed company name without picking a suggestion
+          const name = company.name.trim();
+          await tx.insert(jobCompany).values({ name }).onConflictDoNothing();
+
+          const [row] = await tx
+            .select({ id: jobCompany.id })
             .from(jobCompany)
-            .where(
-              eq(
-                sql`lower(${jobCompany.name})`,
-                company.name.trim().toLowerCase()
-              )
-            )
+            .where(eq(sql`lower(${jobCompany.name})`, name.toLowerCase()))
             .limit(1);
 
-          if (match) {
-            companyId = match.id;
-          }
-          {
-            // new company
-            const [createdCompany] = await tx
-              .insert(jobCompany)
-              .values({ ...company })
-              .returning({ id: jobCompany.id });
-
-            companyId = createdCompany.id;
-          }
+          companyId = row.id;
         }
 
         const [newAddress] = address
@@ -80,66 +67,46 @@ export const jobsRouter = createTRPCRouter({
           })
           .returning({ id: jobOffer.id });
 
-        if (salary) {
-          let currencyId;
-          const existingCurrency = await tx.query.salaryCurrency.findFirst({
-            where: {
-              currency: {
-                eq: salary.currency.currency,
-              },
-            },
-          });
+        if (salary?.value != null) {
+          const code = salary.currency.currency.trim().toUpperCase();
 
-          currencyId = existingCurrency?.id;
+          await tx
+            .insert(salaryCurrency)
+            .values({ currency: code })
+            .onConflictDoNothing();
 
-          if (!existingCurrency) {
-            const [createdCurrency] = await tx
-              .insert(salaryCurrency)
-              .values({ currency: salary.currency.currency })
-              .returning({ id: salaryCurrency.id });
-
-            currencyId = createdCurrency?.id;
-          }
-
-          if (!currencyId) {
-            throw new TRPCError({
-              code: "BAD_REQUEST",
-              message: "jobs.create.errors.currency.notFound",
-            });
-          }
+          const [cur] = await tx
+            .select({ id: salaryCurrency.id })
+            .from(salaryCurrency)
+            .where(eq(salaryCurrency.currency, code));
 
           await tx
             .insert(jobSalary)
-            .values({ ...salary, currencyId, jobId: offer.id })
+            .values({
+              value: salary.value,
+              currencyId: cur.id,
+              jobId: offer.id,
+            })
             .returning({ id: jobSalary.id });
         }
 
         if (skills && skills?.length > 0) {
-          skills.forEach(async (s) => {
-            let skillId;
-            const existingSkill = await tx.query.skill.findFirst({
-              where: {
-                title: {
-                  eq: s.title,
-                },
-              },
-            });
+          const titles = [...new Set(skills.map((s) => s.title.trim()))];
 
-            if (!existingSkill) {
-              const [newSkill] = await tx
-                .insert(skill)
-                .values({ ...s })
-                .returning({ id: skill.id });
+          await tx
+            .insert(skillTable)
+            .values(titles.map((title) => ({ title })))
+            .onConflictDoNothing();
 
-              skillId = newSkill.id;
-            } else {
-              skillId = existingSkill.id;
-            }
+          const rows = await tx
+            .select({ id: skillTable.id })
+            .from(skillTable)
+            .where(inArray(skillTable.title, titles));
 
-            await tx
-              .insert(jobOfferSkill)
-              .values({ offerId: offer.id, skillId });
-          });
+          await tx
+            .insert(jobOfferSkill)
+            .values(rows.map((r) => ({ offerId: offer.id, skillId: r.id })))
+            .onConflictDoNothing();
         }
 
         return offer.id;
@@ -195,6 +162,16 @@ export const jobsRouter = createTRPCRouter({
         limit: 10,
       });
     }),
+
+  searchSkill: protectedProcedure
+    .input(z.object({ title: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.skill.findMany({
+        where: { title: { ilike: `%${input.title}%` } },
+        limit: 10,
+        columns: { id: true, title: true },
+      });
+    }),
 });
 
 export type JobsRouter = typeof jobsRouter;
@@ -209,4 +186,8 @@ export type SearchedCompany = inferProcedureOutput<
 
 export type SearchedCurrency = inferProcedureOutput<
   JobsRouter["searchCurrency"]
+>[number];
+
+export type SearchedSkill = inferProcedureOutput<
+  JobsRouter["searchSkill"]
 >[number];

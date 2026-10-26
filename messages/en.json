@@ -158,7 +158,8 @@
           },
           "skills": {
             "heading": "Skills",
-            "label": "Skills"
+            "label": "Skills",
+            "prompt": "Add \"{title}\""
           },
           "salary": {
             "heading": "Monthly salary",

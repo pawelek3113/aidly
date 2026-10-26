@@ -16,6 +16,7 @@ import {
 } from "@/server/db/schema/enums";
 import { useTRPC } from "@/trpc/client";
 import {
+  SearchedSkill,
   type SearchedCompany,
   type SearchedCurrency,
 } from "@/trpc/routers/jobs";
@@ -40,10 +41,14 @@ import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import {
   Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
   ComboboxContent,
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
+  ComboboxValue,
 } from "../ui/combobox";
 import { Field, FieldLabel, FieldLegend, FieldSet } from "../ui/field";
 import { Input } from "../ui/input";
@@ -70,6 +75,9 @@ export const JobCreation = () => {
 
   const [openCompany, setOpenCompany] = useState(false);
   const [openCurrency, setOpenCurrency] = useState(false);
+
+  const [openSkills, setOpenSkills] = useState(false);
+  const [searchedSkill, setSearchedSkill] = useState("");
 
   const createJobOffer = useMutation(
     trpc.jobs.add.mutationOptions({
@@ -123,7 +131,7 @@ export const JobCreation = () => {
       isFavorite: false,
       level: "junior",
       salary: { currency: { currency: "", id: undefined }, value: null },
-      // TODO: skills
+      skills: [],
       // TODO: image
     },
     mode: "onTouched",
@@ -137,6 +145,8 @@ export const JobCreation = () => {
 
   const debouncedCompanyName = useDebounce(companyName, 250);
   const debouncedCurrency = useDebounce(currency, 250);
+
+  const debouncedSkill = useDebounce(searchedSkill, 250);
 
   const { data: searchCompanies = [] } = useQuery(
     trpc.jobs.searchCompany.queryOptions(
@@ -152,6 +162,17 @@ export const JobCreation = () => {
     trpc.jobs.searchCurrency.queryOptions(
       { currency: debouncedCurrency },
       {
+        placeholderData: keepPreviousData,
+        staleTime: 5 * 60 * 1000,
+      }
+    )
+  );
+
+  const { data: searchSkills = [] } = useQuery(
+    trpc.jobs.searchSkill.queryOptions(
+      { title: debouncedSkill },
+      {
+        enabled: debouncedSkill.length >= 1,
         placeholderData: keepPreviousData,
         staleTime: 5 * 60 * 1000,
       }
@@ -457,39 +478,94 @@ export const JobCreation = () => {
         />
       </Section>
 
-      {/* <Section
+      <Section
         heading={t("jobs.create.form.labels.skills.heading")}
         rightArrow
         clickable
         contentClassName="flex flex-row flex-wrap gap-1"
-        >
-        {}
-        
-        // TODO: COMBOBOX LATER instead of input 
+      >
         <Controller
-        name="skills"
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field data-invalid={fieldState.invalid} className="max-w-fit">
-          <FieldLabel htmlFor={field.name}>
-          {t("jobs.create.form.labels.skills.label")}
-          </FieldLabel>
-          
-          <Input
-          {...field}
-          id={field.name}
-          value={field.value ?? ""}
-          autoComplete="off"
-          aria-invalid={fieldState.invalid}
-          />
-          
-          {fieldState.invalid && (
-            <TranslatedFieldError error={fieldState.error} />
-            )}
-            </Field>
-            )}
-            />
-            </Section> */}
+          name="skills"
+          control={control}
+          render={({ field, fieldState }) => {
+            const selected = (field.value ?? []) as SearchedSkill[];
+
+            const typed = searchedSkill.trim();
+            const hasExact = searchSkills.some(
+              (s) => s.title.toLowerCase() === typed.toLowerCase()
+            );
+
+            const items =
+              typed && !hasExact
+                ? [...searchSkills, { title: typed }]
+                : searchSkills;
+
+            return (
+              <Field data-invalid={fieldState.invalid} className="max-w-fit">
+                <FieldLabel htmlFor={field.name}>
+                  {t("jobs.create.form.labels.skills.label")}
+                </FieldLabel>
+                <Combobox
+                  open={openSkills && searchedSkill.length > 0}
+                  onOpenChange={setOpenSkills}
+
+                  multiple
+                  filter={null}
+                  items={items}
+                  itemToStringLabel={(s: SearchedSkill) => s.title}
+                  isItemEqualToValue={(a: SearchedSkill, b: SearchedSkill) =>
+                    a.title.toLowerCase() === b.title.toLowerCase()
+                  }
+
+                  inputValue={searchedSkill}
+                  onInputValueChange={(text, details) => {
+                    if (details.reason !== "input-change") return;
+                    setSearchedSkill(text);
+                  }}
+
+                  value={selected}
+                  onValueChange={(v: SearchedSkill[]) => {
+                    field.onChange(v);
+                    setSearchedSkill("");
+                  }}
+                >
+                  <ComboboxChips>
+                    <ComboboxValue>
+                      {(selectedValues: SearchedSkill[]) =>
+                        selectedValues.map((s) => (
+                          <ComboboxChip key={s.title}>{s.title}</ComboboxChip>
+                        ))
+                      }
+                    </ComboboxValue>
+                    <ComboboxChipsInput
+                      id={field.name}
+                      onBlur={field.onBlur}
+                      autoComplete="off"
+                    />
+                  </ComboboxChips>
+                  <ComboboxContent>
+                    <ComboboxList>
+                      {(s: SearchedSkill) => (
+                        <ComboboxItem key={s.title} value={s}>
+                          {s.id
+                            ? s.title
+                            : t("jobs.create.form.labels.skills.prompt", {
+                                title: s.title,
+                              })}
+                        </ComboboxItem>
+                      )}
+                    </ComboboxList>
+                  </ComboboxContent>
+                </Combobox>
+
+                {fieldState.invalid && (
+                  <TranslatedFieldError error={fieldState.error} />
+                )}
+              </Field>
+            );
+          }}
+        />
+      </Section>
 
       <Section
         heading={t("jobs.create.form.labels.workStyle")}

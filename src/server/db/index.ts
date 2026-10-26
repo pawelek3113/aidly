@@ -5,6 +5,7 @@ import { relations } from "./schema/relations";
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL!,
+  connectionTimeoutMillis: 5000,
 });
 
 export const db = drizzle({
