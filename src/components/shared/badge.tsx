@@ -10,7 +10,7 @@ type BadgeProps = {
 };
 
 const badgeVariants = cva(
-  "uppercase inline-flex shrink-0 gap-1 items-center justify-center rounded-4xl border border-transparent bg-clip-padding text-sm tracking-tighter font-bold whitespace-nowrap",
+  "uppercase inline-flex shrink-0 gap-1 items-center justify-center border border-transparent bg-clip-padding text-sm tracking-tighter font-bold whitespace-nowrap",
   {
     variants: {
       variant: {
@@ -25,9 +25,17 @@ const badgeVariants = cva(
       },
       size: {
         xs: "",
-        sm: "",
+        sm: "px-1 py-0.5 text-xs",
         md: "px-2 py-1",
         lg: "",
+      },
+      borderRadius: {
+        md: "rounded-md",
+        lg: "rounded-lg",
+        xl: "rounded-xl",
+        "2xl": "rounded-2xl",
+        "3xl": "rounded-3xl",
+        "4xl": "rounded-4xl",
       },
       chocolate: {
         none: "",
@@ -38,6 +46,7 @@ const badgeVariants = cva(
       variant: "default",
       size: "md",
       chocolate: "none",
+      borderRadius: "4xl",
     },
   }
 );
@@ -49,6 +58,7 @@ const Badge = ({
   icon,
   variant = "default",
   size = "md",
+  borderRadius = "4xl",
   chocolate = "none",
   ...props
 }: HTMLAttributes<HTMLParagraphElement> &
@@ -57,7 +67,9 @@ const Badge = ({
   return (
     <p
       data-slot="button"
-      className={cn(badgeVariants({ variant, size, chocolate, className }))}
+      className={cn(
+        badgeVariants({ variant, size, chocolate, borderRadius, className })
+      )}
       {...props}
     >
       {icon ?? icon}

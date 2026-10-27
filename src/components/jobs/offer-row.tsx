@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Badge } from "../shared/badge";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { WORK_MODE_LABELS_ICONS } from "./constants";
+import { LEVEL_LABELS_ICONS, WORK_MODE_LABELS_ICONS } from "./constants";
 import { Field } from "./offer-row-field";
 import { Label } from "./offer-row-label";
 
@@ -30,6 +30,7 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
   };
 
   const workMode = WORK_MODE_LABELS_ICONS[job.workMode];
+  const jobLevel = LEVEL_LABELS_ICONS[job.level];
 
   const formattedAddress = [
     job?.jobOfferAddress?.street,
@@ -78,9 +79,26 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
                 />
               )}
             </div>
-            <p className={cn("text-lg font-extrabold", hasExpired && "italic")}>
-              {job.role}
-            </p>
+            <div className="inline-flex items-center gap-1">
+              <p
+                className={cn("text-lg font-extrabold", hasExpired && "italic")}
+              >
+                {job.role}
+              </p>
+              <Badge
+                text={t(jobLevel.label)}
+                variant="outline"
+                className={jobLevel.badgeClass}
+                borderRadius="md"
+                size="sm"
+              />
+              <Badge
+                text={job.status}
+                variant="outline"
+                borderRadius="lg"
+                size="sm"
+              />
+            </div>
             <p className="font-light tracking-wider">{job.jobCompany?.name}</p>
           </div>
 
@@ -89,20 +107,24 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
               className={workMode.badgeClass}
               text={t(workMode.label)}
               icon={workMode.icon}
+              size="sm"
             />
             {job.jobOfferAddress?.city && <p>{job.jobOfferAddress?.city}</p>}
           </div>
         </div>
         {job.url && (
-          <Button
-            nativeButton={false}
-            variant="outline_fat"
-            size="icon-lg"
-            onClick={(e) => e.stopPropagation()}
-            render={<Link href={job.url} target="_blank" />}
-          >
-            <ArrowSquareOutIcon weight="duotone" />
-          </Button>
+          <div className="flex h-fit items-center gap-2">
+            <Label text={job.portal ?? ""} />
+            <Button
+              nativeButton={false}
+              variant="outline_fat"
+              size="icon-lg"
+              onClick={(e) => e.stopPropagation()}
+              render={<Link href={job.url} target="_blank" />}
+            >
+              <ArrowSquareOutIcon weight="duotone" />
+            </Button>
+          </div>
         )}
       </div>
       <AnimatePresence initial={false}>

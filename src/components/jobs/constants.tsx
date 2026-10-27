@@ -34,17 +34,23 @@ export const isTerminalStatus = (s: Status): s is TerminalStatus =>
 export const LEVEL_LABELS_ICONS = {
   junior: {
     label: "jobs.create.form.labels.levels.junior",
+    badgeClass: "border-[#86d681]",
     icon: <LeafIcon className="size-full" weight="duotone" />,
   },
   mid: {
     label: "jobs.create.form.labels.levels.mid",
+    badgeClass: "border-[#dfba59]",
     icon: <PlantIcon className="size-full" weight="duotone" />,
   },
   senior: {
     label: "jobs.create.form.labels.levels.senior",
+    badgeClass: "border-[#d0603f]",
     icon: <TreeIcon className="size-full" weight="duotone" />,
   },
-} as const satisfies Record<Level, { label: string; icon: ReactNode }>;
+} as const satisfies Record<
+  Level,
+  { label: string; icon: ReactNode; badgeClass?: string }
+>;
 
 export const CONTRACT_LABELS_ICONS = {
   mandate: {
@@ -83,7 +89,7 @@ export const WORK_MODE_LABELS_ICONS = {
   },
 } as const satisfies Record<
   WorkMode,
-  { label: string; icon: ReactNode; badgeClass: string }
+  { label: string; icon: ReactNode; badgeClass?: string }
 >;
 
 export const STATUS_LABELS_ICONS = {
