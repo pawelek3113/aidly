@@ -59,10 +59,13 @@ export const skillsSchema = createInsertSchema(skill, {
 
 export const createJobOfferSchema = createInsertSchema(jobOffer, {
   role: (s) => s.min(1, "jobs.create.errors.offer.role.required"),
-  url: (s) =>
-    s
-      .min(1, "jobs.create.errors.offer.url.required")
-      .pipe(z.url("jobs.create.errors.offer.url.notAnUrl")),
+  url: z
+    .union([
+      z.url("jobs.create.errors.offer.url.notAnUrl"),
+      z.literal("").transform(() => null),
+      z.null(),
+    ])
+    .default(null),
   notes: (s) => s.max(300, "jobs.create.errors.offer.notes.maxLength"),
   interviewCount: (i) =>
     i.min(0, "jobs.create.errors.offer.interview.count.minValue").optional(),

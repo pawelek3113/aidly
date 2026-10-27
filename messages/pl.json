@@ -63,7 +63,8 @@
         "labels": {
           "notes": "notatki",
           "createdAt": "data utworzenia",
-          "expired": "wygasła"
+          "expired": "wygasła",
+          "expiring": "wygasa: {exp}"
         }
       }
     },

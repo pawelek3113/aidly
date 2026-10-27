@@ -63,7 +63,8 @@
         "labels": {
           "notes": "notes",
           "createdAt": "date created",
-          "expired": "expired"
+          "expired": "expired",
+          "expiring": "expiring: {exp}"
         }
       }
     },

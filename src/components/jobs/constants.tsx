@@ -68,17 +68,17 @@ export const CONTRACT_LABELS_ICONS = {
 export const WORK_MODE_LABELS_ICONS = {
   remote: {
     label: "jobs.create.form.labels.workModes.remote",
-    badgeClass: "bg-[#712abb]",
+    badgeClass: "bg-[#67419c]",
     icon: <HouseLineIcon className="size-full" weight="duotone" />,
   },
   on_site: {
     label: "jobs.create.form.labels.workModes.onSite",
-    badgeClass: "bg-[#00f00f]",
+    badgeClass: "bg-[#5ebf59]",
     icon: <BuildingOfficeIcon className="size-full" weight="duotone" />,
   },
   hybrid: {
     label: "jobs.create.form.labels.workModes.hybrid",
-    badgeClass: "bg-[#0088fa]",
+    badgeClass: "bg-[#408add]",
     icon: <OfficeChairIcon className="size-full" weight="duotone" />,
   },
 } as const satisfies Record<

@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import { Job } from "@/trpc/routers/jobs";
 import { ArrowSquareOutIcon } from "@phosphor-icons/react";
-import { isPast } from "date-fns";
+import { differenceInCalendarDays, isPast } from "date-fns";
 import { AnimatePresence, motion } from "motion/react";
 import { useFormatter, useTranslations } from "next-intl";
 import Link from "next/link";
@@ -42,7 +42,12 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
     .join(" ");
 
   let hasExpired = false;
+  let expiringIn = null;
   if (job?.expirationDate) {
+    const dif = differenceInCalendarDays(job.expirationDate, new Date());
+    if (dif < 7 && dif > 0) {
+      expiringIn = formatter.relativeTime(job.expirationDate);
+    }
     hasExpired = isPast(job.expirationDate);
   }
 
@@ -58,12 +63,21 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
       <div className="flex w-full flex-row justify-between">
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-2">
-            {hasExpired && (
-              <Label
-                text={t("jobs.offers.row.labels.expired")}
-                className="text-destructive"
-              />
-            )}
+            <div className="flex gap-1">
+              {hasExpired && (
+                <Label
+                  text={t("jobs.offers.row.labels.expired")}
+                  className="text-destructive"
+                />
+              )}
+              {expiringIn && (
+                <Label
+                  text={t("jobs.offers.row.labels.expiring", {
+                    exp: expiringIn,
+                  })}
+                />
+              )}
+            </div>
             <p className={cn("text-lg font-extrabold", hasExpired && "italic")}>
               {job.role}
             </p>
