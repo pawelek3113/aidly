@@ -60,12 +60,10 @@
     "offers": {
       "heading": "Twoje oferty pracy",
       "row": {
-        "features": {
-          "remote": "zdalnie"
-        },
         "labels": {
           "notes": "notatki",
-          "createdAt": "data utworzenia"
+          "createdAt": "data utworzenia",
+          "expired": "wygasła"
         }
       }
     },

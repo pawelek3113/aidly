@@ -1,4 +1,5 @@
 import { createJobOfferSchema } from "@/lib/schemas/job-offer";
+import { getPortal } from "@/lib/utils";
 import {
   jobCompany,
   jobOffer,
@@ -20,6 +21,8 @@ export const jobsRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.transaction(async (tx) => {
         const { company, address, salary, skills, ...job } = input;
+
+        const portal = getPortal(job?.url);
 
         let companyId;
 
@@ -61,6 +64,7 @@ export const jobsRouter = createTRPCRouter({
           .insert(jobOffer)
           .values({
             ...job,
+            portal,
             userId: ctx.user.id,
             companyId,
             addressId: newAddress?.id,

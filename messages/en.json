@@ -60,12 +60,10 @@
     "offers": {
       "heading": "Your job offers",
       "row": {
-        "features": {
-          "remote": "remote"
-        },
         "labels": {
           "notes": "notes",
-          "createdAt": "date created"
+          "createdAt": "date created",
+          "expired": "expired"
         }
       }
     },

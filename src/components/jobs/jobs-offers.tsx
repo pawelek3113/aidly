@@ -19,7 +19,7 @@ export const JobsOffers = () => {
   return (
     <div className="flex w-full flex-col gap-4 md:max-w-11/12">
       <BrandHeading text={t("heading")} variant="pageHeading" size="gigantic" />
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
         {jobs.map((j) => (
           <OfferRow job={j} key={j.id} />
         ))}

@@ -6,10 +6,11 @@ import { HTMLAttributes, ReactNode } from "react";
 type BadgeProps = {
   children?: ReactNode;
   text?: string;
+  icon?: ReactNode;
 };
 
 const badgeVariants = cva(
-  "uppercase inline-flex shrink-0 items-center justify-center rounded-4xl border border-transparent bg-clip-padding text-sm tracking-tighter font-bold whitespace-nowrap",
+  "uppercase inline-flex shrink-0 gap-1 items-center justify-center rounded-4xl border border-transparent bg-clip-padding text-sm tracking-tighter font-bold whitespace-nowrap",
   {
     variants: {
       variant: {
@@ -45,6 +46,7 @@ const Badge = ({
   className,
   children,
   text,
+  icon,
   variant = "default",
   size = "md",
   chocolate = "none",
@@ -58,6 +60,7 @@ const Badge = ({
       className={cn(badgeVariants({ variant, size, chocolate, className }))}
       {...props}
     >
+      {icon ?? icon}
       {text ? text : children}
     </p>
   );
