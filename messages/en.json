@@ -44,7 +44,10 @@
     "statuses": {
       "applied": "Applied",
       "interviewed": "Interviewed",
-      "saved": "Saved"
+      "saved": "Saved",
+      "hired": "Hired",
+      "rejected": "Rejected",
+      "ghosted": "Ghosted"
     },
     "toasts": {
       "offer": {

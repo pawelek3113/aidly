@@ -44,7 +44,10 @@
     "statuses": {
       "applied": "Aplikowano",
       "interviewed": "Rozmowa się odbyła",
-      "saved": "Zapisano"
+      "saved": "Zapisano",
+      "hired": "Zatrudniono",
+      "rejected": "Odrzucono",
+      "ghosted": "Zghostowano"
     },
     "toasts": {
       "offer": {

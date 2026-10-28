@@ -66,8 +66,14 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
   return (
     <div
       className={cn(
-        "border-chocolate-border hover:bg-chocolate-muted flex w-full flex-col justify-between rounded-4xl border-4 px-5 py-3 hover:cursor-pointer",
-        hasExpired && "bg-chocolate-muted opacity-50"
+        "border-chocolate-border hover:bg-chocolate-muted relative flex w-full flex-col justify-between overflow-clip rounded-4xl border-4 px-5 py-3 hover:cursor-pointer",
+        hasExpired && "bg-chocolate-muted opacity-50",
+        job.status === "hired" &&
+          "border-success from-success-muted bg-linear-to-l from-0% to-transparent to-70%",
+        job.status === "rejected" &&
+          "border-destructive from-destructive-muted bg-linear-to-l from-0% to-transparent to-70%",
+        job.status === "ghosted" &&
+          "border-gray-400 bg-linear-to-l from-gray-500 from-0% to-transparent to-70%"
       )}
       tabIndex={0}
       onClick={handleClick}
@@ -142,6 +148,25 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
             {job.jobOfferAddress?.city && <p>{job.jobOfferAddress?.city}</p>}
           </div>
         </div>
+        {isTerminalStatus(job.status) && (
+          <>
+            <div className="pointer-events-none absolute top-1/2 right-6 grid -translate-y-1/2">
+              <div className="col-start-1 row-start-1 size-60 justify-self-end opacity-20">
+                {jobStatus.icon}
+              </div>
+              <p
+                className={cn(
+                  "col-start-1 row-start-1 self-center text-5xl font-extrabold tracking-tighter whitespace-nowrap uppercase",
+                  job.status === "hired" && "text-success",
+                  job.status === "rejected" && "text-destructive",
+                  job.status === "ghosted" && "text-gray-400"
+                )}
+              >
+                {t(jobStatus.label)}
+              </p>
+            </div>
+          </>
+        )}
         {job.url && (
           <div className="flex h-fit items-center gap-2">
             <Label text={job.portal ?? ""} />

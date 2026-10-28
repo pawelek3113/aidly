@@ -107,7 +107,18 @@ export const TERMINAL_STATUS_LABELS_ICONS = {
 } as const satisfies Record<TerminalStatus, ConstantEntry>;
 
 export const STATUS_LABELS_ICONS = {
-  ...TERMINAL_STATUS_LABELS_ICONS,
+  ghosted: {
+    ...TERMINAL_STATUS_LABELS_ICONS["ghosted"],
+    label: "jobs.statuses.ghosted",
+  },
+  hired: {
+    ...TERMINAL_STATUS_LABELS_ICONS["hired"],
+    label: "jobs.statuses.hired",
+  },
+  rejected: {
+    ...TERMINAL_STATUS_LABELS_ICONS["rejected"],
+    label: "jobs.statuses.rejected",
+  },
   applied: {
     label: "jobs.statuses.applied",
     icon: <CheckCircleIcon className="size-full" weight="duotone" />,
