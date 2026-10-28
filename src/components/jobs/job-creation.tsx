@@ -61,7 +61,7 @@ import {
   INITIAL_STATUS,
   isTerminalStatus,
   LEVEL_LABELS_ICONS,
-  STATUS_LABELS_ICONS,
+  TERMINAL_STATUS_LABELS_ICONS,
   WORK_MODE_LABELS_ICONS,
 } from "./constants";
 import { DetailTile } from "./detail-tile";
@@ -883,8 +883,8 @@ export const JobCreation = () => {
                           }}
                           id={`${field.name}_${s}`}
                           aria-invalid={fieldState.invalid}
-                          label={t(STATUS_LABELS_ICONS[s].label)}
-                          icon={STATUS_LABELS_ICONS[s].icon}
+                          label={t(TERMINAL_STATUS_LABELS_ICONS[s].label)}
+                          icon={TERMINAL_STATUS_LABELS_ICONS[s].icon}
                         />
                       ))}
                   </div>

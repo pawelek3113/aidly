@@ -1,16 +1,26 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Job } from "@/trpc/routers/jobs";
-import { ArrowSquareOutIcon } from "@phosphor-icons/react";
+import {
+  ArrowSquareOutIcon,
+  ClockCountdownIcon,
+  HourglassSimpleIcon,
+} from "@phosphor-icons/react";
 import { differenceInCalendarDays, isPast } from "date-fns";
 import { AnimatePresence, motion } from "motion/react";
 import { useFormatter, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useState } from "react";
 import { Badge } from "../shared/badge";
+import { ToolTip } from "../shared/tooltip";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
-import { LEVEL_LABELS_ICONS, WORK_MODE_LABELS_ICONS } from "./constants";
+import {
+  isTerminalStatus,
+  LEVEL_LABELS_ICONS,
+  STATUS_LABELS_ICONS,
+  WORK_MODE_LABELS_ICONS,
+} from "./constants";
 import { Field } from "./offer-row-field";
 import { Label } from "./offer-row-label";
 
@@ -31,6 +41,7 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
 
   const workMode = WORK_MODE_LABELS_ICONS[job.workMode];
   const jobLevel = LEVEL_LABELS_ICONS[job.level];
+  const jobStatus = STATUS_LABELS_ICONS[job.status];
 
   const formattedAddress = [
     job?.jobOfferAddress?.street,
@@ -66,20 +77,45 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
           <div className="flex flex-col gap-2">
             <div className="flex gap-1">
               {hasExpired && (
-                <Label
-                  text={t("jobs.offers.row.labels.expired")}
-                  className="text-destructive"
-                />
+                <div className="flex items-center gap-1">
+                  <HourglassSimpleIcon
+                    weight="bold"
+                    className="text-destructive shrink-0"
+                  />
+                  <Label
+                    text={t("jobs.offers.row.labels.expired")}
+                    className="text-destructive"
+                  />
+                </div>
               )}
               {expiringIn && (
-                <Label
-                  text={t("jobs.offers.row.labels.expiring", {
-                    exp: expiringIn,
-                  })}
-                />
+                <div className="flex items-center gap-1">
+                  <ClockCountdownIcon
+                    weight="bold"
+                    className="text-muted-foreground shrink-0"
+                  />
+                  <Label
+                    text={t("jobs.offers.row.labels.expiring", {
+                      exp: expiringIn,
+                    })}
+                  />
+                </div>
               )}
             </div>
             <div className="inline-flex items-center gap-1">
+              {!isTerminalStatus(job.status) && (
+                <ToolTip
+                  trigger={
+                    <Badge
+                      icon={jobStatus.icon}
+                      variant="outline"
+                      borderRadius="lg"
+                      size="icon_sm"
+                    />
+                  }
+                  content={t(jobStatus.label)}
+                />
+              )}
               <p
                 className={cn("text-lg font-extrabold", hasExpired && "italic")}
               >
@@ -90,12 +126,6 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
                 variant="outline"
                 className={jobLevel.badgeClass}
                 borderRadius="md"
-                size="sm"
-              />
-              <Badge
-                text={job.status}
-                variant="outline"
-                borderRadius="lg"
                 size="sm"
               />
             </div>

@@ -9,6 +9,9 @@ import {
 import {
   BriefcaseIcon,
   BuildingOfficeIcon,
+  ChatCircleDotsIcon,
+  CheckCircleIcon,
+  FileIcon,
   FileTextIcon,
   GhostIcon,
   HandshakeIcon,
@@ -23,13 +26,15 @@ import {
 } from "@phosphor-icons/react";
 import { ReactNode } from "react";
 
+type ConstantEntry = { label: string; icon: ReactNode; badgeClass?: string };
+
 export type TerminalStatus = Extract<Status, "ghosted" | "hired" | "rejected">;
 export type InitialStatus = Extract<Status, "saved">;
 
 export const INITIAL_STATUS: InitialStatus = "saved";
 
 export const isTerminalStatus = (s: Status): s is TerminalStatus =>
-  s in STATUS_LABELS_ICONS;
+  s in TERMINAL_STATUS_LABELS_ICONS;
 
 export const LEVEL_LABELS_ICONS = {
   junior: {
@@ -47,10 +52,7 @@ export const LEVEL_LABELS_ICONS = {
     badgeClass: "border-[#d0603f]",
     icon: <TreeIcon className="size-full" weight="duotone" />,
   },
-} as const satisfies Record<
-  Level,
-  { label: string; icon: ReactNode; badgeClass?: string }
->;
+} as const satisfies Record<Level, ConstantEntry>;
 
 export const CONTRACT_LABELS_ICONS = {
   mandate: {
@@ -69,7 +71,7 @@ export const CONTRACT_LABELS_ICONS = {
     label: "jobs.create.form.labels.contracts.specificWork",
     icon: <PenNibIcon className="size-full" weight="duotone" />,
   },
-} as const satisfies Record<Contract, { label: string; icon: ReactNode }>;
+} as const satisfies Record<Contract, ConstantEntry>;
 
 export const WORK_MODE_LABELS_ICONS = {
   remote: {
@@ -87,12 +89,9 @@ export const WORK_MODE_LABELS_ICONS = {
     badgeClass: "bg-[#408add]",
     icon: <OfficeChairIcon className="size-full" weight="duotone" />,
   },
-} as const satisfies Record<
-  WorkMode,
-  { label: string; icon: ReactNode; badgeClass?: string }
->;
+} as const satisfies Record<WorkMode, ConstantEntry>;
 
-export const STATUS_LABELS_ICONS = {
+export const TERMINAL_STATUS_LABELS_ICONS = {
   ghosted: {
     label: "jobs.create.form.labels.application.ghosted",
     icon: <GhostIcon className="size-full" weight="duotone" />,
@@ -105,4 +104,20 @@ export const STATUS_LABELS_ICONS = {
     label: "jobs.create.form.labels.application.rejected",
     icon: <SmileySadIcon className="size-full" weight="duotone" />,
   },
-} as const satisfies Record<TerminalStatus, { label: string; icon: ReactNode }>;
+} as const satisfies Record<TerminalStatus, ConstantEntry>;
+
+export const STATUS_LABELS_ICONS = {
+  ...TERMINAL_STATUS_LABELS_ICONS,
+  applied: {
+    label: "jobs.statuses.applied",
+    icon: <CheckCircleIcon className="size-full" weight="duotone" />,
+  },
+  interviewed: {
+    label: "jobs.statuses.interviewed",
+    icon: <ChatCircleDotsIcon className="size-full" weight="duotone" />,
+  },
+  saved: {
+    label: "jobs.statuses.saved",
+    icon: <FileIcon className="size-full" weight="duotone" />,
+  },
+} as const satisfies Record<Status, ConstantEntry>;

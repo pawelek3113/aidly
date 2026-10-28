@@ -41,6 +41,11 @@
     "subheading": "Wybierz narzędzie, z którego chcesz skorzystać."
   },
   "jobs": {
+    "statuses": {
+      "applied": "Aplikowano",
+      "interviewed": "Rozmowa się odbyła",
+      "saved": "Zapisano"
+    },
     "toasts": {
       "offer": {
         "create": {
