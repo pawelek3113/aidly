@@ -77,7 +77,7 @@ export const createJobOfferSchema = createInsertSchema(jobOffer, {
     companyId: true,
     createdAt: true,
     updatedAt: true,
-    portal: true, // TODO: based on the URL!!!
+    portal: true,
   })
   .extend({
     company: companySchema,

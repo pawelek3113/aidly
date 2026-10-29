@@ -69,6 +69,11 @@
       "heading": "Your job offers",
       "row": {
         "labels": {
+          "skills": "skills",
+          "salary": "salary",
+          "interviews": "interviews",
+          "favorite": "favorite",
+          "feedback": "feedback",
           "notes": "notes",
           "createdAt": "date created",
           "expired": "expired",

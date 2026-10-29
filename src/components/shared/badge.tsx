@@ -6,11 +6,12 @@ import { HTMLAttributes, ReactNode } from "react";
 type BadgeProps = {
   children?: ReactNode;
   text?: string;
+  textClassName?: string;
   icon?: ReactNode;
 };
 
 const badgeVariants = cva(
-  "uppercase inline-flex shrink-0 gap-1 items-center justify-center border border-transparent bg-clip-padding text-sm tracking-tighter font-bold whitespace-nowrap",
+  "inline-flex shrink-0 gap-1 items-center justify-center border border-transparent bg-clip-padding text-sm tracking-tighter font-bold whitespace-nowrap",
   {
     variants: {
       variant: {
@@ -32,6 +33,9 @@ const badgeVariants = cva(
         lg: "",
       },
       borderRadius: {
+        none: "rounded-none",
+        xs: "rounded-xs",
+        sm: "rounded-sm",
         md: "rounded-md",
         lg: "rounded-lg",
         xl: "rounded-xl",
@@ -43,12 +47,22 @@ const badgeVariants = cva(
         none: "",
         enabled: "bg-chocolate border-chocolate-border hover:bg-input/30",
       },
+      noPadding: {
+        defaultPadding: "",
+        enabled: "p-0",
+      },
+      uppercase: {
+        true: "uppercase",
+        false: "",
+      },
     },
     defaultVariants: {
       variant: "default",
       size: "md",
       chocolate: "none",
       borderRadius: "4xl",
+      noPadding: "defaultPadding",
+      uppercase: true,
     },
   }
 );
@@ -57,6 +71,9 @@ const Badge = ({
   className,
   children,
   text,
+  textClassName,
+  noPadding,
+  uppercase,
   icon,
   variant = "default",
   size = "md",
@@ -70,12 +87,20 @@ const Badge = ({
     <p
       data-slot="button"
       className={cn(
-        badgeVariants({ variant, size, chocolate, borderRadius, className })
+        badgeVariants({
+          variant,
+          size,
+          chocolate,
+          borderRadius,
+          noPadding,
+          uppercase,
+          className,
+        })
       )}
       {...props}
     >
       {icon ?? icon}
-      {text ? text : children}
+      {text ? <span className={textClassName}>{text}</span> : children}
     </p>
   );
 };

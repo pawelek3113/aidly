@@ -6,6 +6,7 @@ import {
   Status,
   type WorkMode,
 } from "@/server/db/schema/tables";
+import { ConstantEntry, TerminalStatus } from "@/types/job";
 import {
   BriefcaseIcon,
   BuildingOfficeIcon,
@@ -24,17 +25,6 @@ import {
   SmileySadIcon,
   TreeIcon,
 } from "@phosphor-icons/react";
-import { ReactNode } from "react";
-
-type ConstantEntry = { label: string; icon: ReactNode; badgeClass?: string };
-
-export type TerminalStatus = Extract<Status, "ghosted" | "hired" | "rejected">;
-export type InitialStatus = Extract<Status, "saved">;
-
-export const INITIAL_STATUS: InitialStatus = "saved";
-
-export const isTerminalStatus = (s: Status): s is TerminalStatus =>
-  s in TERMINAL_STATUS_LABELS_ICONS;
 
 export const LEVEL_LABELS_ICONS = {
   junior: {
@@ -58,18 +48,22 @@ export const CONTRACT_LABELS_ICONS = {
   mandate: {
     label: "jobs.create.form.labels.contracts.mandate",
     icon: <FileTextIcon className="size-full" weight="duotone" />,
+    badgeClass: "border-[#1998a2]",
   },
   employment: {
     label: "jobs.create.form.labels.contracts.employment",
     icon: <BriefcaseIcon className="size-full" weight="duotone" />,
+    badgeClass: "border-[#a48125]",
   },
   B2B: {
     label: "jobs.create.form.labels.contracts.b2b",
     icon: <HandshakeIcon className="size-full" weight="duotone" />,
+    badgeClass: "border-[#2b41b6]",
   },
   specific_work: {
     label: "jobs.create.form.labels.contracts.specificWork",
     icon: <PenNibIcon className="size-full" weight="duotone" />,
+    badgeClass: "border-[#613a90]",
   },
 } as const satisfies Record<Contract, ConstantEntry>;
 

@@ -2,15 +2,15 @@ import { Skeleton } from "../ui/skeleton";
 
 export const JobsSummarySkeleton = () => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col flex-wrap gap-4">
       <Skeleton className="bg-chocolate-muted h-6 w-2/3" />
       <div className="flex flex-wrap gap-2">
-        <Skeleton className="bg-chocolate-muted size-52" />
-        <Skeleton className="bg-chocolate-muted size-52" />
-        <Skeleton className="bg-chocolate-muted size-52" />
-        <Skeleton className="bg-chocolate-muted size-52" />
-        <Skeleton className="bg-chocolate-muted size-52" />
-        <Skeleton className="bg-chocolate-muted size-52" />
+        <Skeleton className="bg-chocolate-muted size-40 sm:size-52" />
+        <Skeleton className="bg-chocolate-muted size-40 sm:size-52" />
+        <Skeleton className="bg-chocolate-muted size-40 sm:size-52" />
+        <Skeleton className="bg-chocolate-muted size-40 sm:size-52" />
+        <Skeleton className="bg-chocolate-muted size-40 sm:size-52" />
+        <Skeleton className="bg-chocolate-muted size-40 sm:size-52" />
       </div>
     </div>
   );

@@ -58,13 +58,13 @@ import { Switch } from "../ui/switch";
 import { Textarea } from "../ui/textarea";
 import {
   CONTRACT_LABELS_ICONS,
-  INITIAL_STATUS,
-  isTerminalStatus,
   LEVEL_LABELS_ICONS,
   TERMINAL_STATUS_LABELS_ICONS,
   WORK_MODE_LABELS_ICONS,
 } from "./constants";
 import { DetailTile } from "./detail-tile";
+import { INITIAL_STATUS } from "@/types";
+import { isTerminalStatus } from "@/lib/is-terminal-job-status";
 
 export const JobCreation = () => {
   const t = useTranslations();

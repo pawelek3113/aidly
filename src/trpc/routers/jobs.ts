@@ -1,3 +1,4 @@
+import { isTerminalStatus } from "@/lib/is-terminal-job-status";
 import { createJobOfferSchema } from "@/lib/schemas/job-offer";
 import { getPortal } from "@/lib/utils";
 import {
@@ -11,6 +12,7 @@ import {
 } from "@/server/db/schema/tables";
 import { countWhere } from "@/server/db/utils";
 import { inferProcedureOutput, TRPCError } from "@trpc/server";
+import { endOfDay } from "date-fns";
 import { eq, inArray, ne, sql } from "drizzle-orm";
 import z from "zod";
 import { createTRPCRouter, protectedProcedure } from "../init";
@@ -20,7 +22,23 @@ export const jobsRouter = createTRPCRouter({
     .input(createJobOfferSchema)
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.transaction(async (tx) => {
-        const { company, address, salary, skills, ...job } = input;
+        const {
+          company,
+          address,
+          salary,
+          skills,
+          expirationDate,
+          status,
+          ...job
+        } = input;
+
+        let newStatus = status;
+
+        if (status && !isTerminalStatus(status) && job.interviewHappened) {
+          newStatus = "interviewed";
+        }
+
+        const exp = expirationDate ? endOfDay(expirationDate) : null;
 
         const portal = getPortal(job?.url);
 
@@ -64,6 +82,8 @@ export const jobsRouter = createTRPCRouter({
           .insert(jobOffer)
           .values({
             ...job,
+            status: newStatus,
+            expirationDate: exp,
             portal,
             userId: ctx.user.id,
             companyId,
@@ -125,6 +145,8 @@ export const jobsRouter = createTRPCRouter({
         with: {
           jobCompany: true,
           jobOfferAddress: true,
+          salary: { with: { currency: true } },
+          skills: true,
         },
       })
   ),

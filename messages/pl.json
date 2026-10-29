@@ -69,6 +69,11 @@
       "heading": "Twoje oferty pracy",
       "row": {
         "labels": {
+          "skills": "umiejętności",
+          "salary": "wynagrodzenie",
+          "interviews": "rozmowy rekrutacyjne",
+          "favorite": "ulubione",
+          "feedback": "informacja zwrotna",
           "notes": "notatki",
           "createdAt": "data utworzenia",
           "expired": "wygasła",

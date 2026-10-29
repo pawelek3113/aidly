@@ -1,10 +1,12 @@
 "use client";
+import { isTerminalStatus } from "@/lib/is-terminal-job-status";
 import { cn } from "@/lib/utils";
 import { Job } from "@/trpc/routers/jobs";
 import {
   ArrowSquareOutIcon,
   ClockCountdownIcon,
   HourglassSimpleIcon,
+  StarIcon,
 } from "@phosphor-icons/react";
 import { differenceInCalendarDays, isPast } from "date-fns";
 import { AnimatePresence, motion } from "motion/react";
@@ -16,7 +18,7 @@ import { ToolTip } from "../shared/tooltip";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import {
-  isTerminalStatus,
+  CONTRACT_LABELS_ICONS,
   LEVEL_LABELS_ICONS,
   STATUS_LABELS_ICONS,
   WORK_MODE_LABELS_ICONS,
@@ -42,6 +44,7 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
   const workMode = WORK_MODE_LABELS_ICONS[job.workMode];
   const jobLevel = LEVEL_LABELS_ICONS[job.level];
   const jobStatus = STATUS_LABELS_ICONS[job.status];
+  const jobContract = CONTRACT_LABELS_ICONS[job.contract];
 
   const formattedAddress = [
     job?.jobOfferAddress?.street,
@@ -57,9 +60,10 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
   let expiringIn = null;
   if (job?.expirationDate) {
     const dif = differenceInCalendarDays(job.expirationDate, new Date());
-    if (dif < 7 && dif > 0) {
+    if (dif < 7 && dif >= 0) {
       expiringIn = formatter.relativeTime(job.expirationDate);
     }
+
     hasExpired = isPast(job.expirationDate);
   }
 
@@ -79,44 +83,65 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
       onClick={handleClick}
     >
       <div className="flex w-full flex-row justify-between">
-        <div className="flex flex-col gap-5">
+        <div className="z-5 flex flex-col gap-5">
           <div className="flex flex-col gap-2">
             <div className="flex gap-1">
+              {job.isFavorite && (
+                <Badge
+                  variant="ghost"
+                  noPadding="enabled"
+                  text={t("jobs.offers.row.labels.favorite")}
+                  textClassName="text-yellow-500"
+                  icon={
+                    <StarIcon
+                      weight="fill"
+                      className="shrink-0 text-yellow-500"
+                    />
+                  }
+                />
+              )}
               {hasExpired && (
-                <div className="flex items-center gap-1">
-                  <HourglassSimpleIcon
-                    weight="bold"
-                    className="text-destructive shrink-0"
-                  />
-                  <Label
-                    text={t("jobs.offers.row.labels.expired")}
-                    className="text-destructive"
-                  />
-                </div>
+                <Badge
+                  variant="ghost"
+                  noPadding="enabled"
+                  text={t("jobs.offers.row.labels.expired")}
+                  textClassName="text-destructive"
+                  icon={
+                    <HourglassSimpleIcon
+                      weight="bold"
+                      className="text-destructive shrink-0"
+                    />
+                  }
+                />
               )}
               {expiringIn && (
-                <div className="flex items-center gap-1">
-                  <ClockCountdownIcon
-                    weight="bold"
-                    className="text-muted-foreground shrink-0"
-                  />
-                  <Label
-                    text={t("jobs.offers.row.labels.expiring", {
-                      exp: expiringIn,
-                    })}
-                  />
-                </div>
+                <Badge
+                  variant="ghost"
+                  noPadding="enabled"
+                  text={t("jobs.offers.row.labels.expiring", {
+                    exp: expiringIn,
+                  })}
+                  textClassName="text-muted-foreground"
+                  icon={
+                    <ClockCountdownIcon
+                      weight="bold"
+                      className="text-muted-foreground shrink-0"
+                    />
+                  }
+                />
               )}
             </div>
-            <div className="inline-flex items-center gap-1">
+            <div className="flex flex-col items-start gap-1 md:flex-row md:items-center">
               {!isTerminalStatus(job.status) && (
                 <ToolTip
                   trigger={
                     <Badge
                       icon={jobStatus.icon}
+                      text={t(jobStatus.label)}
                       variant="outline"
                       borderRadius="lg"
                       size="icon_sm"
+                      textClassName="md:hidden"
                     />
                   }
                   content={t(jobStatus.label)}
@@ -127,13 +152,22 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
               >
                 {job.role}
               </p>
-              <Badge
-                text={t(jobLevel.label)}
-                variant="outline"
-                className={jobLevel.badgeClass}
-                borderRadius="md"
-                size="sm"
-              />
+              <div className="flex gap-1">
+                <Badge
+                  text={t(jobLevel.label)}
+                  variant="outline"
+                  className={jobLevel.badgeClass}
+                  borderRadius="md"
+                  size="sm"
+                />
+                <Badge
+                  text={t(jobContract.label)}
+                  variant="outline"
+                  className={jobContract.badgeClass}
+                  borderRadius="md"
+                  size="sm"
+                />
+              </div>
             </div>
             <p className="font-light tracking-wider">{job.jobCompany?.name}</p>
           </div>
@@ -150,13 +184,13 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
         </div>
         {isTerminalStatus(job.status) && (
           <>
-            <div className="pointer-events-none absolute top-1/2 right-6 grid -translate-y-1/2">
-              <div className="col-start-1 row-start-1 size-60 justify-self-end opacity-20">
+            <div className="pointer-events-none absolute top-1/2 right-2 grid -translate-y-1/2 md:right-6">
+              <div className="col-start-1 row-start-1 size-40 justify-self-end opacity-20 sm:size-60">
                 {jobStatus.icon}
               </div>
               <p
                 className={cn(
-                  "col-start-1 row-start-1 self-center text-5xl font-extrabold tracking-tighter whitespace-nowrap uppercase",
+                  "col-start-1 row-start-1 self-center text-end text-3xl font-extrabold tracking-tighter whitespace-nowrap uppercase opacity-60 sm:text-start md:text-5xl",
                   job.status === "hired" && "text-success",
                   job.status === "rejected" && "text-destructive",
                   job.status === "ghosted" && "text-gray-400"
@@ -168,7 +202,7 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
           </>
         )}
         {job.url && (
-          <div className="flex h-fit items-center gap-2">
+          <div className="flex h-fit flex-col items-end gap-2 sm:flex-row sm:items-center">
             <Label text={job.portal ?? ""} />
             <Button
               nativeButton={false}
@@ -198,10 +232,46 @@ export const OfferRow = ({ job, initialExpanded = false }: OfferRowProps) => {
               </p>
             )}
 
-            <Separator />
+            <Separator className="from-border bg-transparent bg-linear-to-r to-transparent to-60%" />
+            {job.skills.length > 0 && (
+              <Field labelText={t("jobs.offers.row.labels.skills")}>
+                <div className="flex flex-row flex-wrap gap-1">
+                  {job.skills.map((s) => (
+                    <Badge
+                      borderRadius="sm"
+                      uppercase={false}
+                      text={s.title}
+                      key={s.id}
+                      variant="outline"
+                      className="w-fit"
+                    />
+                  ))}
+                </div>
+              </Field>
+            )}
+            {job.salary && (
+              <Field labelText={t("jobs.offers.row.labels.salary")}>
+                <p className="w-1/2 leading-tight">
+                  {formatter.number(job.salary.value, {
+                    style: "currency",
+                    currency: job.salary.currency?.currency,
+                  })}
+                </p>
+              </Field>
+            )}
+            {job.interviewCount > 0 && (
+              <Field labelText={t("jobs.offers.row.labels.interviews")}>
+                <p className="w-1/2 leading-tight">{job.interviewCount}</p>
+              </Field>
+            )}
+            {job.feedback && (
+              <Field labelText={t("jobs.offers.row.labels.feedback")}>
+                <p className="w-1/2 leading-tight">{job.feedback}</p>
+              </Field>
+            )}
             {job.notes && (
               <Field labelText={t("jobs.offers.row.labels.notes")}>
-                {<p className="leading-tight">{job.notes}</p>}
+                <p className="w-1/2t leading-tight">{job.notes}</p>
               </Field>
             )}
             <Field labelText={t("jobs.offers.row.labels.createdAt")}>

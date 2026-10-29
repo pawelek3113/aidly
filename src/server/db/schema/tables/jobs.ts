@@ -1,6 +1,5 @@
 import {
   boolean,
-  date,
   integer,
   pgTable,
   primaryKey,
@@ -92,7 +91,9 @@ export const jobOffer = pgTable("job_offer", {
   isFavorite: boolean("is_favorite").notNull().default(false),
 
   feedback: text(),
-  expirationDate: date("expiration_date", { mode: "date" }),
+  expirationDate: timestamp("expiration_date", {
+    withTimezone: true,
+  }),
   image: text(),
 
   userId: text("user_id")
